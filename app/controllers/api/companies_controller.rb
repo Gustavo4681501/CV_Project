@@ -40,7 +40,7 @@ class Api::CompaniesController < ApplicationController
     end
 
     def company_params
-        params.require(:company).permit(:name, :description, :phone_number, :email)
+        params.require(:companies).permit(:name, :description, :phone_number, :email)
     end
 
 

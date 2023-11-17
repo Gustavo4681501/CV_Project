@@ -39,7 +39,7 @@ class Api::AvailableVacanciesController < ApplicationController
     end
 
     def available_vacancy_params
-        params.require(:available_vacancy).permit(:name, :description, :company_id)
+        params.require(:available_vacancies).permit(:name, :description, :company_id)
     end
 
 

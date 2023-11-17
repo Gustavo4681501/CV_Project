@@ -40,7 +40,7 @@ class Api::WorkExperiencesController < ApplicationController
     end
 
     def work_experience_params
-        params.require(:work_experience).permit(:name, :description, :start_date, :finish_date, :user_id)
+        params.require(:work_experiences).permit(:name, :description, :start_date, :finish_date, :user_id)
     end
 
 end

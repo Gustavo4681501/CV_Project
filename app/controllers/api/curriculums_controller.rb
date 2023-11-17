@@ -40,7 +40,7 @@ class Api::CurriculumsController < ApplicationController
     end
 
     def curriculum_params
-        params.require(:curriculum).permit(:user_id)
+        params.require(:curriculums).permit(:user_id)
     end
 
 end

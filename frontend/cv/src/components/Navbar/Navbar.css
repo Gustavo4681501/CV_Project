@@ -5,10 +5,10 @@
 
 }
 
-.PhotoNavbar{
+.logoNavbar{
 
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 55px;
 
 }
 
@@ -17,3 +17,47 @@
     background-color: burlywood;
     color: black;
 }
+
+.app-container {
+    display: flex;
+}
+
+.content {
+    flex: 1;
+    padding: 20px; /* Ancho del sidebar */
+}
+
+
+
+
+
+
+/* ------------------------------- */
+
+
+.app-container {
+    display: flex;
+  }
+  
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    border-right: 1px solid #ddd;
+    transition: all 0.3s ease; /* Agrega una transición suave */
+}
+  
+.sidebar-open {
+    margin-left: 0;
+}
+  
+.sidebar-closed {
+    margin-left: -250px; /* Ancho del sidebar */
+}
+  
+.content {
+    flex: 1;
+    padding: 20px;
+    transition: margin-left 0.3s ease; /* Ajusta la transición según el ancho del sidebar */
+}
+  

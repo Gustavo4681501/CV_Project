@@ -40,6 +40,6 @@ class Api::SocialLinksController < ApplicationController
     end
 
     def social_link_params
-        params.require(:social_link).permit(:url, :user_id)
+        params.require(:social_links).permit(:url, :user_id)
     end
 end

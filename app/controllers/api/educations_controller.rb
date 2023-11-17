@@ -3,7 +3,7 @@ class Api::EducationsController < ApplicationController
     before_action :set_education, only: [:show, :update, :destroy]
 
     def index
-        @educations = Educations.all
+        @educations = Education.all
         render json: @educations
     end
 
@@ -40,7 +40,7 @@ class Api::EducationsController < ApplicationController
     end
 
     def education_params
-        params.require(:education).permit(:name, :institution_name, :location, :start_date, :finish_date, :user_id)
+        params.require(:educations).permit(:name, :institution_name, :location, :start_date, :finish_date, :user_id)
     end
 
 end

@@ -49,5 +49,15 @@ end
 
 
 gem "devise", "~> 4.9"
+gem 'devise-jwt'
+gem 'jsonapi-serializer'
+
+
+gem 'devise_token_auth'
+gem 'omniauth'
+
+
 
 gem 'foreman', github:'ddollar/foreman'
+
+gem 'dotenv-rails', groups: [:development, :test]

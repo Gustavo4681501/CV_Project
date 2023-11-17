@@ -40,7 +40,7 @@ class Api::RequirementsController < ApplicationController
     end
 
     def requirement_params
-        params.require(:requirement).permit(:requirement, :available_vacancy_id)
+        params.require(:requirements).permit(:requirement, :available_vacancy_id)
     end
 
 end

@@ -1,11 +1,16 @@
 import React from 'react'
 import "./Home.css"
-import AddProject from '../../components/Addproject/AddProject'
+import { useParams } from 'react-router-dom';
 
 const Home = () => {
-    return (
-        <AddProject />
-    )
-}
+    let { id } = useParams();
 
-export default Home
+    return (
+        <div>
+            <h1>Página Home</h1>
+            <p>El ID en la URL es: {id}</p>
+        </div>
+    );
+};
+
+export default Home;
