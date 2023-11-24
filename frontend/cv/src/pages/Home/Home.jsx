@@ -1,14 +1,16 @@
-import React from 'react'
-import "./Home.css"
-import { useParams } from 'react-router-dom';
+import React from "react";
+import "./Home.css";
+import { useUser } from "../../components/AccountTypes/UserContext";
+import User from "../../components/AccountTypes/UserComponent";
+
 
 const Home = () => {
-    let { id } = useParams();
+
 
     return (
         <div>
             <h1>Página Home</h1>
-            <p>El ID en la URL es: {id}</p>
+            
         </div>
     );
 };

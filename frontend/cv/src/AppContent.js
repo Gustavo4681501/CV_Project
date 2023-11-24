@@ -1,12 +1,11 @@
-import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useUser } from "./components/AccountTypes/UserContext";
 import NavbarComponent from "./components/Navbar/Navbar";
-import UserAccount from "./pages/UserAccount/UserAccount";
+import UserAccount from "./pages/User/User";
 import AboutUs from "./pages/About_us/About_us";
 import Principal from "./pages/Principal/Principal";
 import Login from "./components/Login/Login";
-import CompanyAccount from "./pages/CompanyAccount/CompanyAccount";
+import Company from "./pages/Company/Company";
 import AddSkill from "./components/AddSkill/AddSkill";
 import AddProject from "./components/Addproject/AddProject";
 import Profile from "./components/Profile/Profile";
@@ -17,18 +16,25 @@ import NotFound from "./components/NotFound/NotFound";
 import ProfilePDF from "./components/ProfilePDF/ProfilePDF";
 import NavbarCompany from "./components/NavbarCompany/NavbarCompany";
 import PostEducation from "./pages/PostEducation/PostEducation";
+import CreateVacancy from "./components/CreateVacancy/CreateVacancy";
 import Home from "./pages/Home/Home";
-import PrivateRoute from "./components/PrivateRoutes/PrivateRoutes";
-
+import CompanyHome from "./components/CompanyHome/CompanyHome";
+import { useCompany } from "./components/AccountTypes/CompanyContext";
+import AddRequirement from "./components/AddRequirement/AddRequirement";
+import ShowVacancies from "./components/ShowVacancies/ShowVacancies";
+import CreateJobVacancy from "./components/CreateJobVacancy/CreateJobVacancy";
+import PlantillaUno from "./components/Plantillas/PlantillaUno";
+import ShowVacancyRequirements from "./components/ShowVacancyRequirements/ShowVacancyRequirements";
 
 const AppContent = () => {
   const { currUser } = useUser();
+  const { currCompany } = useCompany();
 
   return (
     <div>
-      {currUser ? (
+      {/* {currUser ? (
         <div>
-          <p>LOGGED</p>
+          <p>LOGGED USER</p>
           <p>Name: {currUser.name}</p>
           <p>Email: {currUser.email}</p>
         </div>
@@ -36,38 +42,84 @@ const AppContent = () => {
         <p>No user logged in</p>
       )}
 
+      {currCompany ? (
+        <div>
+          <p>LOGGED COMPANY</p>
+          <p>Name: {currCompany.name}</p>
+          <p>Email: {currCompany.email}</p>
+        </div>
+      ) : (
+        <p>No compan logged in</p>
+      )} */}
+
       <Router>
         <Routes>
-          <Route path="/CompanyAccount" element={<CompanyAccount />} />
-          <Route path="/UserAccount" element={<UserAccount />} />
+          <Route path="/Company" element={<Company />} />
+          <Route path="/User" element={<UserAccount />} />
           <Route path="/Login" element={<Login />} />
-          <Route path="/" element={<Principal />} />
+          <Route path="/" element={<Principal />}></Route>
           <Route path="*" element={<NotFound />} />
-
-
 
           <Route path="/" element={<NavbarComponent />}>
             <Route
-              path="/CreateResume"
+              path="User/Profile/:id/CreateResume"
               element={
                 <PDFViewer style={{ width: "100%", height: "90vh" }}>
                   <ProfilePDF />
                 </PDFViewer>
               }
             />
-            <Route path="/Profile" element={<Profile />} />
-            <Route path="/PostEducation" element={<AddProject />} />
+
+            <Route
+              path="User/Profile/:id/CreateResume2"
+              element={
+                <PDFViewer style={{ width: "100%", height: "90vh" }}>
+                  <PlantillaUno />
+                </PDFViewer>
+              }
+            />
+
+            <Route
+              path="User/Profile/:id/PostEducation"
+              element={<AddProject />}
+            />
             <Route path="/Abotus" element={<AboutUs />} />
-            <Route path="/AddWorkExperiences" element={<AddWorkExperience />} />
-            <Route path="/AddSocialLinks" element={<AddSocialLink />} />
-            <Route path="/AddSkills" element={<AddSkill />} />
-            <Route path="/AddEducations" element={<PostEducation />} />
-            <Route path="/home/:id" element={<Home />} />
-          
+            <Route
+              path="User/Profile/:id/AddWorkExperiences"
+              element={<AddWorkExperience />}
+            />
+             <Route path="User/Profile/:id/Home" element={<Home />} />
+            <Route
+              path="User/Profile/:id/AddSocialLinks"
+              element={<AddSocialLink />}
+            />
+            <Route path="User/Profile/:id/AddSkills" element={<AddSkill />} />
+            <Route
+              path="User/Profile/:id/AddProjects"
+              element={<AddProject />}
+            />
+            <Route path="User/Profile/:id/Profile" element={<Profile />} />
+            <Route
+              path="User/Profile/:id/AddEducations"
+              element={<PostEducation />}
+            />
+            <Route path="User/Profile/:id/Vacancies" element={<ShowVacancies />} />
+            <Route path="User/Profile/:id/Vacancies/:id/Requirements" element={<ShowVacancyRequirements />} />
+            <Route path="User/Profile/:id/" element={<Home />} />
+
           </Route>
-        </Routes>
-        <Routes>
-          <Route path="/CompanyHome" element={<NavbarCompany />} />
+          <Route path="/" element={<NavbarCompany />}>
+            <Route path="Company/Profile/:id/Profile" element={<Profile />} />
+            <Route path="Company/Profile/:id" element={<CompanyHome />}></Route>
+
+
+
+            <Route
+              path="Company/Profile/:id/CreateJobVacancy"
+              element={<CreateJobVacancy />}
+            />
+            <Route path="Company/Profile/:id/Home" element={<CompanyHome />} />
+          </Route>
         </Routes>
       </Router>
     </div>

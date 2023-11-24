@@ -5,12 +5,7 @@
 
 }
 
-.logoNavbar{
 
-    width: 70px;
-    height: 55px;
-
-}
 
 #HomeNavbar{
 
@@ -61,3 +56,4 @@
     transition: margin-left 0.3s ease; /* Ajusta la transición según el ancho del sidebar */
 }
   
+

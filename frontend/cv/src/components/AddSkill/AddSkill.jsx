@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import "./AddSkill.css";
+import { useUser } from "../AccountTypes/UserContext";
 
 const AddSkill = () => {
+  const { currUser } = useUser();
   const initialFormData = {
     name: "",
-    user_id: 1,
+    user_id: currUser.id,
   };
 
   const [formData, setFormData] = useState(initialFormData);

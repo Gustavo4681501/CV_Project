@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   CDBSidebar,
   CDBSidebarContent,
@@ -7,20 +6,20 @@ import {
   CDBSidebarMenuItem,
 } from "cdbreact";
 import { NavLink } from "react-router-dom";
+import { useUser } from "../AccountTypes/UserContext";
+
 
 const Sidebar = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { currUser } = useUser();
 
-  const handleSidebarToggle = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+
 
   return (
     <div style={{ display: "flex", height: "100vh" }}>
       <CDBSidebar
         textColor="#fff"
         backgroundColor="#333"
-        className={isSidebarOpen ? "active" : ""}
+
       >
         <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
           <a
@@ -34,28 +33,33 @@ const Sidebar = () => {
 
         <CDBSidebarContent className="sidebar-content">
           <CDBSidebarMenu>
-            <NavLink to="/Profile">
+            <NavLink to={`User/Profile/${currUser.id}/Profile`}>
               <CDBSidebarMenuItem icon="user">Profile</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to="/AddProjects">
+            <NavLink to={`User/Profile/${currUser.id}/AddProjects`}>
               <CDBSidebarMenuItem icon="table">Add projects</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to="/AddSkills">
+            <NavLink to={`User/Profile/${currUser.id}/AddSkills`}>
               <CDBSidebarMenuItem icon="table">Add skills</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to="/PostEducation">
+            <NavLink to={`User/Profile/${currUser.id}/AddEducations`}>
               <CDBSidebarMenuItem icon="table">
                 Add Educations
               </CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to="/AddWorkExperiences">
+            <NavLink to={`User/Profile/${currUser.id}/AddWorkExperiences`}>
               <CDBSidebarMenuItem icon="table">
                 Add work experiences
               </CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to="/AddSocialLinks">
+            <NavLink to={`User/Profile/${currUser.id}/AddSocialLinks`}>
               <CDBSidebarMenuItem icon="table">
                 Add social links
+              </CDBSidebarMenuItem>
+            </NavLink>
+            <NavLink to={`User/Profile/${currUser.id}/Vacancies`}>
+              <CDBSidebarMenuItem icon="table">
+                Vacancies to aply
               </CDBSidebarMenuItem>
             </NavLink>
           </CDBSidebarMenu>

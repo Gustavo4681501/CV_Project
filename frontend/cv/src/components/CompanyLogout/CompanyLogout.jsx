@@ -1,5 +1,7 @@
+import { useNavigate } from "react-router-dom";
 
 const CompanyLogout = ({ setCurrCompany }) => {
+    const navigate = useNavigate();
     const logout = async (setCurrCompany) => {
         try {
             const response = await fetch("http://localhost:3001/companies/logout", {
@@ -20,10 +22,11 @@ const CompanyLogout = ({ setCurrCompany }) => {
     const handleClick = e => {
         e.preventDefault()
         logout(setCurrCompany)
+        navigate('/');
     }
     return (
         <div>
-            <input type="button" value='Logout' onClick={handleClick} />
+            <input type="button" value='Logout' className= "buttonForm" onClick={handleClick} />
         </div>
     )
 }

@@ -7,8 +7,10 @@ import {
   CDBSidebarMenuItem,
 } from "cdbreact";
 import { NavLink } from "react-router-dom";
+import { useCompany } from "../AccountTypes/CompanyContext";
 
 const SidebarCompany = () => {
+  const { currCompany } = useCompany();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleSidebarToggle = () => {
@@ -34,15 +36,13 @@ const SidebarCompany = () => {
 
         <CDBSidebarContent className="sidebar-content">
           <CDBSidebarMenu>
-            <NavLink to="/Profile">
+            <NavLink to={`/Company/Profile/${currCompany.id}`}>
               <CDBSidebarMenuItem icon="user">Profile</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to="/AddVacancy">
-              <CDBSidebarMenuItem icon="table">Add available vacancy</CDBSidebarMenuItem>
+            <NavLink to={`/Company/Profile/${currCompany.id}/CreateJobVacancy`}>
+              <CDBSidebarMenuItem icon="table">Add Job Vacancy</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to="/AddSkills">
-              <CDBSidebarMenuItem icon="table">Add requirement</CDBSidebarMenuItem>
-            </NavLink>
+
           
 
             <NavLink to="/analytics">

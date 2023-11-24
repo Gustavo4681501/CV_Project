@@ -1,36 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { Document, Page, Text } from '@react-pdf/renderer';
-import { useParams } from 'react-router-dom';
+
 
 const GetSkills = () => {
     const [skills, setSkills] = useState([]);
 
     useEffect(() => {
-        const fetchProjects = async () => {
+        const fetchSkills = async () => {
             try {
                 
-                const response = await fetch('http://localhost:3001/api/skills}');
+                const response = await fetch('http://localhost:3001/api/skills');
                 
 
                 if (response.ok) {
-                    const projectsData = await response.json();
-                    setSkills(projectsData);
+                    const skillsData = await response.json();
+                    setSkills(skillsData);
                 } else {
-                    console.error('Error al obtener proyectos:', response.statusText);
+                    console.error('Error al obtener skills:', response.statusText);
                 }
             } catch (error) {
                 console.error('Error de red:', error);
             }
         };
 
-        fetchProjects();
+        fetchSkills();
     }, []);
 
     return (
         <div>
             <ul>
+                {console.log(skills)}
                 {skills.map((skill) => (
                     <p key={skill.id}>{skill.name}</p>
+
                 ))}
             </ul>
         </div>

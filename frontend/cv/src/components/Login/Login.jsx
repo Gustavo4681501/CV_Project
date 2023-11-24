@@ -1,33 +1,29 @@
-import React, { useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import { useRef } from "react";
-import { useNavigate } from "react-router-dom"; // Importa useNavigate
-import { jwtDecode } from "jwt-decode";
+import axios from 'axios'
 
 const Login = ({ setCurrUser, setShow }) => {
   const formRef = useRef();
-  const navigate = useNavigate(); // Declara useNavigate para redirigir
 
   const login = async (userInfo, setCurrUser) => {
     const url = "http://localhost:3001/login";
     try {
-      const response = await fetch(url, {
-        method: "post",
+      const response = await axios.post(url, userInfo, {
         headers: {
-          "content-type": "application/json",
-          accept: "application/json",
+          "Content-Type": "application/json",
+          "Accept": "application/json",
         },
-        body: JSON.stringify(userInfo),
+        withCredentials: true,
       });
-      const data = await response.json();
-      if (!response.ok) throw data.error;
-      localStorage.setItem("token", response.headers.get("Authorization"));
-      setCurrUser(data);
 
-      // Redirige al usuario al 'Home' después de iniciar sesión exitosamente
+      const data = response.data;
+      console.log(response)
+      localStorage.setItem("token", response.headers.authorization);
+      setCurrUser(data);
+      console.log("Usuario autenticado:", data);
 
     } catch (error) {
-      console.log("error", error);
+      console.error("Error:", error);
     }
   };
 
@@ -47,26 +43,7 @@ const Login = ({ setCurrUser, setShow }) => {
     setShow(false);
   };
 
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decoded = jwtDecode(token);
-      // Assuming the decoded token contains the user's ID in a 'sub' property
-      const userId = decoded.sub;
-      // Fetch the user data from your API
-      fetch(`http://localhost:3001/api/users/${userId}`)
-        .then(response => response.json())
-        .then(data => {
-          // Set the current user in your application's state
-          setCurrUser(data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-    }
-  }, [setCurrUser]);
-
+  
   return (
     <div className="d-flex justify-content-center">
       <Form ref={formRef} onSubmit={handleSubmit} className="formContainer">

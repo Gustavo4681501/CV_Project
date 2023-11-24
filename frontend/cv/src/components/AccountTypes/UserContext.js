@@ -1,11 +1,10 @@
-// UserContext.js
 import React, { createContext, useState, useContext } from 'react';
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
     const [currUser, setCurrUser] = useState(null);
-
+    
     return (
         <UserContext.Provider value={{ currUser, setCurrUser }}>
             {children}

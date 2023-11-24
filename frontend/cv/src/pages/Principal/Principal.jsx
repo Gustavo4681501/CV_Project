@@ -8,7 +8,7 @@ const Principal = () => {
     <div id="buttonsLoginContainer">
       <h2 className="PrincipalTitle">Select the type of account</h2>
       <br />
-      <Link to="/CompanyAccount">
+      <Link to="/Company">
         <Button id="PrincipalButton" variant="primary" type="submit">
           <svg xmlns="http://www.w3.org/2000/svg"
             width="40"
@@ -24,7 +24,7 @@ const Principal = () => {
       <br />
       <h3 id="PrincipalText">OR</h3>
       <br />
-      <Link to="/UserAccount">
+      <Link to="/User">
         <Button id="PrincipalButton" variant="primary" type="submit">
           <svg
             xmlns="http://www.w3.org/2000/svg"

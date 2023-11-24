@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
-import User from '../../components/AccountTypes/User'
+
+import UserComponent from '../../components/AccountTypes/UserComponent';
 import { useUser } from '../../components/AccountTypes/UserContext';
 function UserAccount() {
-
     const { currUser, setCurrUser } = useUser();
   return (
-    <User currUser={currUser} setCurrUser={setCurrUser} />
+    <UserComponent currUser={currUser} setCurrUser={setCurrUser} />
   )
 }
 
