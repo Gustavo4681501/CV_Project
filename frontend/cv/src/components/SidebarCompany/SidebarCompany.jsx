@@ -18,7 +18,7 @@ const SidebarCompany = () => {
   };
 
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
+    <div style={{ display: "flex", height: "100vh" }} className="sidebar">
       <CDBSidebar
         textColor="#fff"
         backgroundColor="#333"
@@ -45,9 +45,9 @@ const SidebarCompany = () => {
 
           
 
-            <NavLink to="/analytics">
+            <NavLink to={`/Company/Profile/${currCompany.id}/ShowMyVacancies`}>
               <CDBSidebarMenuItem icon="chart-line">
-                Analytics
+              Show my vacancies
               </CDBSidebarMenuItem>
             </NavLink>
 

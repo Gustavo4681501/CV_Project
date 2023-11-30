@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
+import { useUser } from "../AccountTypes/UserContext";
+import GetWorkExperiences from "../GetWorkExperiences/GetWorkExperiences";
 
 const AddWorkExperience = () => {
+  const { currUser } = useUser();
   const initialFormData = {
     name: "",
     description: "",
     start_date: "",
     finish_date: "",
-    user_id: 1,
+    user_id: currUser.id,
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -45,7 +48,7 @@ const AddWorkExperience = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ work_experiences: formData }),
+        body: JSON.stringify({ work_experience: formData }),
       });
 
       if (!response.ok) {
@@ -121,6 +124,7 @@ const AddWorkExperience = () => {
         <button type="submit" className="buttonForm">
           Add work experience
         </button>
+        <GetWorkExperiences />
       </Form>
     </div>
   );

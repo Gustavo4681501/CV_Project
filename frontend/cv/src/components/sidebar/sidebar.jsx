@@ -8,20 +8,23 @@ import {
 import { NavLink } from "react-router-dom";
 import { useUser } from "../AccountTypes/UserContext";
 
-
-const Sidebar = () => {
+const Sidebar = ({ isOpen, toggleSidebar }) => {
   const { currUser } = useUser();
 
-
-
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
-      <CDBSidebar
-        textColor="#fff"
-        backgroundColor="#333"
-
-      >
-        <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
+    <div style={{ display: "flex", height: "100vh" }} className="sidebar">
+      <CDBSidebar textColor="#fff" backgroundColor="#333">
+        <CDBSidebarHeader
+          prefix={
+            <i
+              className="fa fa-bars fa-large"
+              onClick={(e) => {
+                e.preventDefault();
+                toggleSidebar();
+              }}
+            ></i>
+          }
+        >
           <a
             href="/"
             className="text-decoration-none"
@@ -35,6 +38,9 @@ const Sidebar = () => {
           <CDBSidebarMenu>
             <NavLink to={`User/Profile/${currUser.id}/Profile`}>
               <CDBSidebarMenuItem icon="user">Profile</CDBSidebarMenuItem>
+            </NavLink>
+            <NavLink to={`User/Profile/${currUser.id}/EditProfile`}>
+              <CDBSidebarMenuItem icon="table">Edit Profile</CDBSidebarMenuItem>
             </NavLink>
             <NavLink to={`User/Profile/${currUser.id}/AddProjects`}>
               <CDBSidebarMenuItem icon="table">Add projects</CDBSidebarMenuItem>
@@ -70,4 +76,3 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
-

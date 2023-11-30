@@ -5,7 +5,7 @@ import axios from 'axios'
 const Login = ({ setCurrUser, setShow }) => {
   const formRef = useRef();
 
-  const login = async (userInfo, setCurrUser) => {
+  const login = async (userInfo, setCurrUser) => { 
     const url = "http://localhost:3001/login";
     try {
       const response = await axios.post(url, userInfo, {
@@ -69,7 +69,7 @@ const Login = ({ setCurrUser, setShow }) => {
         <Form.Label className="title">Password:</Form.Label>
         <Form.Control type="password" name="password" placeholder="password" />
         <br />
-        <input type="submit" value="Login" />
+        <input type="submit" value="Login" className="buttonForm" />
         <div>
           Not registered yet,{" "}
           <a href="#signup" onClick={handleClick}>

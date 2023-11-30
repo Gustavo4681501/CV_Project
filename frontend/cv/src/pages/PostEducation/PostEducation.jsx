@@ -1,14 +1,16 @@
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
+import { useUser } from "../../components/AccountTypes/UserContext";
 
 const PostEducation = () => {
+  const { currUser } = useUser();
   const [formData, setFormData] = useState({
     name: "",
     institution_name: "",
     location: "",
     start_date: "",
     finish_date: "",
-    user_id: 1
+    user_id: currUser,
   });
 
   const [isPostSuccess, setIsPostSuccess] = useState(false);
@@ -16,7 +18,7 @@ const PostEducation = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    // Formatear la fecha en el formato "YYYY-MM-DD"
+    // Formatear la fecha "YYYY-MM-DD"
     if (name === "start_date" || name === "finish_date") {
       const formattedDate = new Date(value);
       const year = formattedDate.getFullYear();
@@ -60,7 +62,7 @@ const PostEducation = () => {
         location: "",
         start_date: "",
         finish_date: "",
-        user_id: 1,
+        user_id: currUser,
       });
 
       const data = await response.json();

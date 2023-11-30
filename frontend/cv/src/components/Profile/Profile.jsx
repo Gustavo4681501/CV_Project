@@ -4,52 +4,42 @@ import GetProjects from "../GetProjects/GetProjects";
 import GetSkills from "../GetSkills/GetSkills";
 import GetEducations from "../GetEducation/GetEducation";
 import GetWorkExperiences from "../GetWorkExperiences/GetWorkExperiences";
+import GetSocialLinks from "../GetSocialLinks/GetSocialLinks";
 
 function Profile() {
   return (
-    <div className="ProfileWeb">
-      <div className="profile">
-        <img
-          className="profile-pic"
-          src="https://via.placeholder.com/150"
-          alt="Profile_Picture"
-        />
-        <h1>John Doe</h1>
-        <h2>Full Stack Developer</h2>
-        <div className="social-links"></div>
-      </div>
+    <div>
+    
       <div className="contentProfile d-flex">
         <div className="skills">
-          <h3>Skills</h3>
-          <ul>
-            <li>
+          <h3 className="titulo">Skills</h3>
+          
               <GetSkills />
-            </li>
-          </ul>
+         
         </div>
         <div className="education">
-          <h3>Education</h3>
-          <ul>
-            <li>
+          <h3 className="titulo">Education</h3>
+         
               <GetEducations />
-            </li>
-          </ul>
+      
         </div>
         <div className="work-experience">
-          <h3>Work Experience</h3>
-          <ul>
-            <li>
+          <h3 className="titulo">Work Experience</h3>
+       
               <GetWorkExperiences />
-            </li>
-          </ul>
+        
         </div>
         <div className="projects">
-          <h3>Projects</h3>
-          <ul>
-            <li>
+          <h3 className="titulo">Projects</h3>
+       
               <GetProjects />
-            </li>
-          </ul>
+     
+        </div>
+        <div className="projects">
+          <h3 className="titulo">Social Link</h3>
+     
+              <GetSocialLinks />
+      
         </div>
       </div>
     </div>

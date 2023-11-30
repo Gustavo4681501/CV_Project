@@ -1,4 +1,4 @@
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import SidebarCompany from "../SidebarCompany/SidebarCompany";
 import "./NavbarCompany.css";
@@ -9,16 +9,15 @@ import CompanyLogout from "../CompanyLogout/CompanyLogout";
 
 const NavbarCompany = () => {
     const { currCompany, setCurrCompany } = useCompany();
-
+    const navigate = useNavigate();
     const location = useLocation();
     const companyIdFromURL = location.pathname.split("/")[3];
     const [isLoading, setIsLoading] = useState(true);
-
+    const [sidebarOpen, setSidebarOpen] = useState(true);
     useEffect(() => {
         const timeout = setTimeout(() => {
             setIsLoading(false);
         }, 30000);
-
 
         const fetchCurrentCompany = async () => {
             try {
@@ -51,23 +50,49 @@ const NavbarCompany = () => {
         return () => clearTimeout(timeout);
     }, [setCurrCompany]);
 
-    return (
-        <div className="app-container">
+    const handleSidebarToggle = () => {
+        setSidebarOpen(!sidebarOpen);
+        console.log(!sidebarOpen);
+    };
 
+    const handleBackToMenu = (e) => {
+        e.preventDefault();
+        navigate("/");
+    };
+
+    return (
+        <div
+            className={`app-container ${sidebarOpen ? "sidebar-open" : "sidebar-closed"
+                }`}
+        >
             {isLoading ? (
-                <div className="m-auto">
+                <div className="text-center">
                     <div className="loader"></div>
                 </div>
             ) : (
                 <>
                     {currCompany && currCompany.id.toString() === companyIdFromURL ? (
                         <>
-                            <SidebarCompany />
-                            <div className="content">
-                                <Navbar id="HomeNavbar" bg="dark" data-bs-theme="light">
+                            <SidebarCompany
+                                isOpen={sidebarOpen}
+                                toggleSidebar={handleSidebarToggle}
+                            />
+                            <div
+                                className={`content ${sidebarOpen ? "content-open" : "content-closed"
+                                    }`}
+                            >
+                                <Navbar
+                                    id="HomeNavbar"
+                                    bg="dark"
+                                    data-bs-theme="light"
+                                    className={`${sidebarOpen ? "sidebar-open" : "sidebar-closed"
+                                        }`}
+                                >
                                     <Container>
                                         <Navbar.Brand>
-                                            <Link to={`/Company/Profile/${currCompany.id}/Home`}>Home</Link>
+                                            <Link to={`/Company/Profile/${currCompany.id}/Home`}>
+                                                Home
+                                            </Link>
                                         </Navbar.Brand>
 
                                         <Navbar.Brand>
@@ -77,7 +102,6 @@ const NavbarCompany = () => {
                                                 <></>
                                             )}
                                         </Navbar.Brand>
-                                        <Nav className="me-auto"></Nav>
 
                                         <Link to="/CompanyHome">
                                             <img
@@ -90,17 +114,19 @@ const NavbarCompany = () => {
                                 </Navbar>
 
                                 <br />
-                                <Outlet />
+                                <div className="m-auto">
+                                    <Outlet />
+                                </div>
                             </div>
                         </>
                     ) : (
-                        <div className="m-auto">
+                        <div className="text-center">
                             <h1>Oh no restricted access, Please log in</h1>
+                            <button onClick={handleBackToMenu}>Back to menú</button>
                         </div>
                     )}
                 </>
             )}
-
         </div>
     );
 };

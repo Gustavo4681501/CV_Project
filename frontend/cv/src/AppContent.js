@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useUser } from "./components/AccountTypes/UserContext";
 import NavbarComponent from "./components/Navbar/Navbar";
 import UserAccount from "./pages/User/User";
 import AboutUs from "./pages/About_us/About_us";
@@ -13,22 +12,29 @@ import AddWorkExperience from "./components/AddWorkExperience/AddWorkExperience"
 import AddSocialLink from "./components/AddSocialLink/AddSocialLink";
 import { PDFViewer } from "@react-pdf/renderer";
 import NotFound from "./components/NotFound/NotFound";
-import ProfilePDF from "./components/ProfilePDF/ProfilePDF";
+import ProfilePDF from "./components/Plantillas/PlantillaUno";
 import NavbarCompany from "./components/NavbarCompany/NavbarCompany";
-import PostEducation from "./pages/PostEducation/PostEducation";
-import CreateVacancy from "./components/CreateVacancy/CreateVacancy";
+// import PostEducation from "./pages/PostEducation/PostEducation";
+// import CreateVacancy from "./components/CreateVacancy/CreateVacancy";
 import Home from "./pages/Home/Home";
-import CompanyHome from "./components/CompanyHome/CompanyHome";
-import { useCompany } from "./components/AccountTypes/CompanyContext";
-import AddRequirement from "./components/AddRequirement/AddRequirement";
+import CompanyHome from "./components/CompanyProfile/CompanyProfile";
+// import AddRequirement from "./components/AddRequirement/AddRequirement";
 import ShowVacancies from "./components/ShowVacancies/ShowVacancies";
 import CreateJobVacancy from "./components/CreateJobVacancy/CreateJobVacancy";
 import PlantillaUno from "./components/Plantillas/PlantillaUno";
 import ShowVacancyRequirements from "./components/ShowVacancyRequirements/ShowVacancyRequirements";
+import AddEducation1 from "./components/AddEducation/AddEducation";
+// import { useCompany } from "./components/AccountTypes/CompanyContext";
+// import { useUser } from "./components/AccountTypes/UserContext";
+import ShowMyVacancies from "./components/ShowMyVacancies/ShowMyVacancies";
+import PlantillaDos from "./components/Plantillas/PlantillaDos";
+import PlantillaTres from "./components/Plantillas/PlantillaTres";
+import EditProfile from "./components/EditProfile/EditProfile";
+import CompanyProfile from "./components/CompanyProfile/CompanyProfile";
 
 const AppContent = () => {
-  const { currUser } = useUser();
-  const { currCompany } = useCompany();
+  // const { currUser } = useUser();
+  // const { currCompany } = useCompany();
 
   return (
     <div>
@@ -62,7 +68,7 @@ const AppContent = () => {
 
           <Route path="/" element={<NavbarComponent />}>
             <Route
-              path="User/Profile/:id/CreateResume"
+              path="User/Profile/:id/CreateResume1"
               element={
                 <PDFViewer style={{ width: "100%", height: "90vh" }}>
                   <ProfilePDF />
@@ -80,6 +86,22 @@ const AppContent = () => {
             />
 
             <Route
+              path="User/Profile/:id/CreateResume3"
+              element={
+              <PDFViewer style={{ width: "100%", height: "90vh" }}>
+                  <PlantillaDos />
+                </PDFViewer>}
+            />
+
+             <Route
+              path="User/Profile/:id/CreateResume4"
+              element={ 
+                <PDFViewer style={{ width: "100%", height: "90vh" }}>
+                  <PlantillaTres />
+                </PDFViewer>}
+            />
+
+            <Route
               path="User/Profile/:id/PostEducation"
               element={<AddProject />}
             />
@@ -88,10 +110,15 @@ const AppContent = () => {
               path="User/Profile/:id/AddWorkExperiences"
               element={<AddWorkExperience />}
             />
-             <Route path="User/Profile/:id/Home" element={<Home />} />
+            <Route path="User/Profile/:id/Home" element={<Home />} />
             <Route
               path="User/Profile/:id/AddSocialLinks"
               element={<AddSocialLink />}
+            />
+              <Route path="User/Profile/:id/EditProfile" element={<EditProfile />} />
+            <Route
+              path="User/Profile/:id/AddProjects"
+              element={<AddProject />}
             />
             <Route path="User/Profile/:id/AddSkills" element={<AddSkill />} />
             <Route
@@ -101,23 +128,33 @@ const AppContent = () => {
             <Route path="User/Profile/:id/Profile" element={<Profile />} />
             <Route
               path="User/Profile/:id/AddEducations"
-              element={<PostEducation />}
+              element={<AddEducation1 />}
             />
-            <Route path="User/Profile/:id/Vacancies" element={<ShowVacancies />} />
-            <Route path="User/Profile/:id/Vacancies/:id/Requirements" element={<ShowVacancyRequirements />} />
+            <Route
+              path="User/Profile/:id/Vacancies"
+              element={<ShowVacancies />}
+            />
+            <Route
+              path="User/Profile/:id/Vacancies/:id/Requirements"
+              element={<ShowVacancyRequirements />}
+            />
             <Route path="User/Profile/:id/" element={<Home />} />
-
           </Route>
           <Route path="/" element={<NavbarCompany />}>
             <Route path="Company/Profile/:id/Profile" element={<Profile />} />
-            <Route path="Company/Profile/:id" element={<CompanyHome />}></Route>
-
-
-
             <Route
               path="Company/Profile/:id/CreateJobVacancy"
               element={<CreateJobVacancy />}
             />
+            <Route
+              path="Company/Profile/:id/ShowMyVacancies"
+              element={<ShowMyVacancies />}
+            />
+            <Route
+              path="Company/Profile/:id/ShowMyVacancies/:id/Requirements"
+              element={<ShowVacancyRequirements />}
+            />
+            <Route path="Company/Profile/:id" element={<CompanyProfile />}></Route>
             <Route path="Company/Profile/:id/Home" element={<CompanyHome />} />
           </Route>
         </Routes>

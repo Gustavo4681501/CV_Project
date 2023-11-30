@@ -1,0 +1,25 @@
+/* Estilos para el contenedor de requisitos de vacante */
+.vacancy-requirements {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    background-color: #ccc;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilos para el título 'Vacancy Requirements' */
+.vacancy-requirements h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* Estilos para la lista de requisitos */
+.vacancy-requirements ul {
+    list-style: none;
+    padding: 0;
+}
+
+.vacancy-requirements ul li {
+    margin-bottom: 5px;
+}

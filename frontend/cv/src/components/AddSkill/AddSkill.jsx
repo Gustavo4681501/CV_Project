@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import "./AddSkill.css";
 import { useUser } from "../AccountTypes/UserContext";
+import GetSkills from "../GetSkills/GetSkills";
 
 const AddSkill = () => {
   const { currUser } = useUser();
@@ -30,7 +31,7 @@ const AddSkill = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ skills: formData }),
+        body: JSON.stringify({ skill: formData }),
       });
 
       if (!response.ok) {
@@ -79,7 +80,12 @@ const AddSkill = () => {
         <button type="submit" className="buttonForm">
           Add skill
         </button>
+        <div>
+      <GetSkills />
+      </div>
       </Form>
+      
+      
     </div>
   );
 };

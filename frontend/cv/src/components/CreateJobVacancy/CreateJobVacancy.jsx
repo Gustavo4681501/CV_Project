@@ -49,7 +49,7 @@ function CreateJobVacancy() {
         try {
             const urlCreateVacancy = "http://localhost:3001/api/available_vacancies";
             const responseCreateVacancy = await postData(urlCreateVacancy, {
-                available_vacancies: vacancyData,
+                available_vacancy: vacancyData,
             });
 
             if (responseCreateVacancy) {
@@ -63,7 +63,7 @@ function CreateJobVacancy() {
                         const responseAddRequirement = await postData(
                             "http://localhost:3001/api/requirements",
                             {
-                                requirements: { requirement: req, available_vacancy_id: id },
+                                requirement: { requirement: req, available_vacancy_id: id },
                             }
                         );
 

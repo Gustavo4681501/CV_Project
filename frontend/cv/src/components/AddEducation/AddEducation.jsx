@@ -1,14 +1,17 @@
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
+import { useUser } from "../AccountTypes/UserContext";
+import GetEducations from "../GetEducation/GetEducation";
 
 const AddEducation1 = () => {
+  const { currUser } = useUser();
   const [formData, setFormData] = useState({
     name: "",
     institution_name: "",
     location: "",
     start_date: "",
     finish_date: "",
-    user_id: 1
+    user_id: currUser.id
   });
 
   const [isPostSuccess, setIsPostSuccess] = useState(false);
@@ -45,7 +48,7 @@ const AddEducation1 = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ educations: formData }),
+        body: JSON.stringify({ education: formData }),
       });
 
       if (!response.ok) {
@@ -60,7 +63,7 @@ const AddEducation1 = () => {
         location: "",
         start_date: "",
         finish_date: "",
-        user_id: 1,
+        user_id: currUser.id
       });
 
       const data = await response.json();
@@ -136,6 +139,7 @@ const AddEducation1 = () => {
         <button type="submit" className="buttonForm">
           Add education
         </button>
+      <GetEducations />
       </Form>
     </div>
   );

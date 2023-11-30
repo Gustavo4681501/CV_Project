@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import "./AddSocialLink.css";
+import { useUser } from "../AccountTypes/UserContext";
+import GetSocialLinks from "../GetSocialLinks/GetSocialLinks";
 
 const AddSocialLink = () => {
+  const { currUser } = useUser();
   const initialFormData = {
     url: "",
-    user_id: 1,
+    user_id: currUser.id,
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -28,7 +31,7 @@ const AddSocialLink = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ social_links: formData }),
+        body: JSON.stringify({ social_link: formData }),
       });
 
       if (!response.ok) {
@@ -77,6 +80,7 @@ const AddSocialLink = () => {
         <button type="submit" className="buttonForm">
           Add URL
         </button>
+        <GetSocialLinks/>
       </Form>
     </div>
   );

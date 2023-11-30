@@ -62,7 +62,7 @@ const CompanyLogin = ({ setCurrCompany, setShow }) => {
                 <Form.Label className="title">Password:</Form.Label>
                 <Form.Control type="password" name="password" placeholder="password" />
                 <br />
-                <input type="submit" value="Login" />
+                <input type="submit" value="Login" className="buttonForm"/>
                 <div>
                     Not registered yet,{" "}
                     <a href="#signup" onClick={handleClick}>
