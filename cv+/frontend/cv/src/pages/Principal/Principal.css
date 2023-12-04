@@ -1,0 +1,160 @@
+body {
+    background-image: url("../../../public/image/Email_2.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+Form {
+    width: 500px;
+    height: 500px;
+
+}
+
+#buttonsLoginContainer {
+    display: grid;
+    place-items: center;
+    margin-top: 10%;
+}
+
+.PrincipalTitle {
+    background-color: rgb(255, 138, 4);
+    border-radius: 6px;
+    color: black;
+    box-shadow: rgba(255, 255, 255, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(255, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(255, 255, 255, 0.06) 0px 2px 1px, rgba(255, 255, 255, 0.09) 0px 4px 2px, rgba(255, 255, 255, 0.09) 0px 8px 4px, rgba(255, 255, 255, 0.09) 0px 16px 8px, rgba(255, 255, 255, 0.09) 5px 2px 10px;
+}
+
+
+#PrincipalButton {
+    background-color: rgba(255, 209, 157, 0.608);
+    color: rgb(0, 0, 0);
+    border-color: black;
+
+}
+
+
+#PrincipalButton:hover {
+    box-shadow: rgba(255, 255, 255, 0.25) 0px 54px 55px, rgba(255, 255, 255, 0.12) 0px -12px 30px, rgba(255, 255, 255, 0.12) 0px 4px 6px, rgba(255, 255, 255, 0.17) 0px 12px 13px, rgba(255, 255, 255, 0.09) 0px -3px 5px;
+    background-color: rgba(250, 178, 97, 0.608);
+    transform: scale(1.06);
+    transition: 0.1s;
+}
+
+#PrincipalText {
+
+    color: black;
+}
+
+#PrincipalButtonLogin {
+
+    background-color: rgba(236, 132, 12, 0.608);
+    color: rgb(0, 0, 0);
+    border-color: black;
+
+}
+
+#PrincipalButtonLogin:hover {
+    box-shadow: rgba(255, 255, 255, 0.25) 0px 54px 55px, rgba(255, 255, 255, 0.12) 0px -12px 30px, rgba(255, 255, 255, 0.12) 0px 4px 6px, rgba(255, 255, 255, 0.17) 0px 12px 13px, rgba(255, 255, 255, 0.09) 0px -3px 5px;
+    background-color: rgba(243, 141, 25, 0.608);
+    transform: scale(1.06);
+    transition: 0.5s;
+}
+
+
+/* -------------------FORM-SING-UP------------------------------------ */
+.formContainer {
+    width: 350px;
+    height: auto;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #1a1a1a;
+    color: #fff;
+    border: 1px solid #333;
+}
+
+.title {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    color: #ff9d00;
+}
+
+.title::after {
+    width: 18px;
+    height: 18px;
+    animation: pulse 1s linear infinite;
+}
+
+.title::before,
+.title::after {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    left: 0px;
+    background-color: #ff6a00;
+}
+
+
+@keyframes pulse {
+    from {
+        transform: scale(0.9);
+        opacity: 1;
+    }
+
+    to {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+}
+
+/* ---------------------BUTTON-SIGN-UP----------------------------------------------- */
+
+.buttonForm {
+    --orange: #fd751b;
+    font-size: 15px;
+    padding: 0.7em 2.7em;
+    letter-spacing: 0.06em;
+    position: relative;
+    font-family: inherit;
+    border-radius: 0.6em;
+    overflow: hidden;
+    transition: all 0.3s;
+    line-height: 1.4em;
+    border: 2px solid var(--orange);
+    background: linear-gradient(to right, rgba(253, 114, 27, 0.1) 1%, transparent 40%, transparent 60%, rgba(253, 114, 27, 0.1) 100%);
+    color: var(--orange);
+    box-shadow: inset 0 0 10px rgba(253, 136, 27, 0.68), 0 0 9px 3px rgba(253, 136, 27, 0.68);
+}
+
+.buttonForm:hover {
+    color: #ffcb82;
+    box-shadow: inset 0 0 10px rgba(253, 151, 27, 0.6), 0 0 9px 3px rgba(253, 140, 27, 0.2);
+}
+
+.buttonForm:before {
+    content: "";
+    position: absolute;
+    left: -4em;
+    width: 4em;
+    height: 100%;
+    top: 0;
+    transition: transform .4s ease-in-out;
+    background: linear-gradient(to right, transparent 1%, rgba(253, 148, 27, 0.1) 40%, rgba(253, 174, 27, 0.1) 60%, transparent 100%);
+}
+
+.buttonForm:hover:before {
+    transform: translateX(15em);
+}
+
+
+/* ------------------------------INPUT-FORM-------------------------------------------- */
+.inputPhonenumber::-webkit-outer-spin-button,
+.inputPhonenumber::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+

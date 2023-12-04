@@ -1,0 +1,42 @@
+#HomeNavbar {
+    position: fixed;
+    top: 0;
+    
+    transition: width 0.3s ease;
+
+}
+
+
+.navbar-open {
+    width: calc(40% - 290px);
+}
+
+.navbar-closed {
+    width: calc(40% - 290px);
+}
+
+.sidebar {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    background-color: #fff;
+    transition: left 0.3s ease;
+    z-index: 999;
+}
+
+
+.content {
+    flex: 1;
+    padding: 60px;
+    transition: margin-left 0.3s ease;
+    margin-left: 227px; /* Valor predeterminado cuando el Sidebar está abierto */
+}
+
+.content-open {
+    margin-left: calc(auto - 225px); /* Ajuste relativo al tamaño del Sidebar abierto */
+}
+
+.content-closed {
+    margin-left: 5%; /* Ajuste relativo al Sidebar cerrado */
+}

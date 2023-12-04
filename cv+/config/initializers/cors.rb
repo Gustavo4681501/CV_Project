@@ -5,12 +5,14 @@
 
 # Read more: https://github.com/cyu/rack-cors
 
-# Rails.application.config.middleware.insert_before 0, Rack::Cors do
-#   allow do
-#     origins "example.com"
-#
-#     resource "*",
-#       headers: :any,
-#       methods: [:get, :post, :put, :patch, :delete, :options, :head]
-#   end
-# end
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
+    allow do
+        origins 'http://localhost:3000' # later change to the domain of the frontend app
+        resource '*',
+                headers: ["Authorization"],
+                expose: ["Authorization"],
+                methods: %i[get post put patch delete options head],
+                max_age: 600,
+                credentials: true
+    end
+end

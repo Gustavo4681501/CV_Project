@@ -1,0 +1,70 @@
+/* EditProfile.css */
+
+.profile-container {
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    max-width: 400px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+.profile-header {
+    background-color: #d74f10;
+    color: #fff;
+    padding: 15px;
+    border-radius: 10px 10px 0 0;
+}
+  
+.profile-form {
+    margin-top: 20px;
+}
+  
+formprincipal {
+    display: flex;
+    flex-direction: column;
+}
+  
+  .labelform {
+    margin-bottom: 8px;
+    color: #333;
+  }
+  
+.inputform {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #838383;
+    border-radius: 5px;
+    box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
+}
+  
+.buttonform {
+    background-color: #000000;
+    color: #912222;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+  
+.buttonform:hover {
+    background-color: #ffffff;
+}
+  
+
+/* Agrega estos estilos a tu archivo CSS */
+
+.profile-details {
+    margin-top: 20px;
+}
+  
+.profile-details h1 {
+    margin: 8px 0;
+    font-size: 18px;
+    color: #333;
+}
+  
+.profile-details h1:first-child {
+    margin-top: 0;
+}
+  

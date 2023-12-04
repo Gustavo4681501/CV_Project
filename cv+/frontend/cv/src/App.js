@@ -1,29 +1,16 @@
-import './App.css';
-import Home from './pages/Home/Home';
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import NavbarComponent from './components/Navbar/Navbar';
-import AboutUs from './pages/About_us/About_us';
-import Login from './pages/Login/Login';
+import { UserProvider } from "./components/AccountTypes/UserContext";
+import AppContent from "./AppContent";
+import { CompanyProvider } from "./components/AccountTypes/CompanyContext";
+import "./App.css"
 function App() {
+
   return (
     <>
-    <BrowserRouter>
-    <Routes>
-    <Route path="/" element={<NavbarComponent/>}>
-
-    <Route path='/' element={<Home/>}></Route>
-    <Route path="/AbousUs" element={<AboutUs/>}></Route>
-    <Route path="/Login" element={<Login/>}></Route>
-
-    </Route>
-    
-
-
-
-    </Routes>
-    </BrowserRouter>
-    
-    
+      <UserProvider>
+        <CompanyProvider>
+          <AppContent />
+        </CompanyProvider>
+      </UserProvider>
     </>
   );
 }
