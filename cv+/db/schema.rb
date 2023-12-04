@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_15_150417) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_04_213953) do
   create_table "available_vacancies", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -20,12 +20,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_15_150417) do
     t.index ["company_id"], name: "index_available_vacancies_on_company_id"
   end
 
+  create_table "available_vacancies_users", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "available_vacancy_id"
+    t.bigint "user_id"
+    t.index ["available_vacancy_id", "user_id"], name: "index_available_vacancies_users_on_ids", unique: true
+    t.index ["available_vacancy_id"], name: "index_available_vacancies_users_on_available_vacancy_id"
+    t.index ["user_id"], name: "index_available_vacancies_users_on_user_id"
+  end
+
   create_table "comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "body"
     t.datetime "date"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "commentable_type"
+    t.bigint "commentable_id"
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
@@ -57,14 +68,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_15_150417) do
     t.index ["email"], name: "index_companies_on_email", unique: true
     t.index ["reset_password_token"], name: "index_companies_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_companies_on_unlock_token", unique: true
-  end
-
-  create_table "companies_users", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "company_id"
-    t.bigint "user_id"
-    t.index ["company_id", "user_id"], name: "index_companies_users_on_company_id_and_user_id", unique: true
-    t.index ["company_id"], name: "index_companies_users_on_company_id"
-    t.index ["user_id"], name: "index_companies_users_on_user_id"
   end
 
   create_table "curriculums", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|

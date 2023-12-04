@@ -43,26 +43,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
               <CDBSidebarMenuItem icon="table">Edit Profile</CDBSidebarMenuItem>
             </NavLink>
             <NavLink to={`User/Profile/${currUser.id}/AddProjects`}>
-              <CDBSidebarMenuItem icon="table">Add projects</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="table">Add information</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to={`User/Profile/${currUser.id}/AddSkills`}>
-              <CDBSidebarMenuItem icon="table">Add skills</CDBSidebarMenuItem>
-            </NavLink>
-            <NavLink to={`User/Profile/${currUser.id}/AddEducations`}>
-              <CDBSidebarMenuItem icon="table">
-                Add Educations
-              </CDBSidebarMenuItem>
-            </NavLink>
-            <NavLink to={`User/Profile/${currUser.id}/AddWorkExperiences`}>
-              <CDBSidebarMenuItem icon="table">
-                Add work experiences
-              </CDBSidebarMenuItem>
-            </NavLink>
-            <NavLink to={`User/Profile/${currUser.id}/AddSocialLinks`}>
-              <CDBSidebarMenuItem icon="table">
-                Add social links
-              </CDBSidebarMenuItem>
-            </NavLink>
+          
+           
+            
+            
                <NavLink to={`User/Profile/${currUser.id}/Resumes`}>
               <CDBSidebarMenuItem icon="table">
                 Create resume

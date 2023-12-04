@@ -7,7 +7,7 @@ import {
   StyleSheet,
   Image,
 } from "@react-pdf/renderer";
-
+import { Link } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 
 const styles = StyleSheet.create({
@@ -291,6 +291,7 @@ const ProfilePDF = () => {
   console.log("SOY LINKKK", userLinks);
 
   return (
+    <>
     <Document>
       <Page size="A4" style={styles.page}>
         {/* Información Personal */}
@@ -414,6 +415,7 @@ const ProfilePDF = () => {
         </View>
       </Page>
     </Document>
+    </>
   );
 };
 

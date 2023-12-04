@@ -14,7 +14,7 @@ const styles = {
     margin: 'auto',
     padding: '20px',
     fontFamily: 'Arial, sans-serif',
-    background: '#303030',
+    background: '#00000082',
   },
   formContainer: {
     width: '45%', // Ajusta según tus necesidades
@@ -60,6 +60,9 @@ const styles = {
   letra: {
     color: 'black',
   },
+  title:{
+  color: 'white'
+  }
 };
 
 const AddProject = () => {
@@ -136,11 +139,17 @@ const AddProject = () => {
   };
 
   return (
+    <>
+    <div>
+    <h1>Let's start adding information</h1>
+    <h1>First add your projects</h1>
+    
+    </div>
     <div style={styles.container}>
       <Form onSubmit={handleSubmit} style={styles.formContainer}>
         <center>
           <h1 className="File">📁</h1>
-          <h3>Add project</h3>
+          <h3 style={styles.title}>Add project</h3>
         </center>
         <Form.Group>
           <Form.Label className="title">Name</Form.Label>
@@ -199,6 +208,7 @@ const AddProject = () => {
         </Link>
       </div>
     </div>
+     </>
   );
 };
 

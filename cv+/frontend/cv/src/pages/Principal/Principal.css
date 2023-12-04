@@ -4,11 +4,6 @@ body {
     background-size: cover;
 }
 
-Form {
-    width: 500px;
-    height: 500px;
-
-}
 
 #buttonsLoginContainer {
     display: grid;
@@ -24,7 +19,7 @@ Form {
 }
 
 
-#PrincipalButton {
+#PrincipalBoton {
     background-color: rgba(255, 209, 157, 0.608);
     color: rgb(0, 0, 0);
     border-color: black;

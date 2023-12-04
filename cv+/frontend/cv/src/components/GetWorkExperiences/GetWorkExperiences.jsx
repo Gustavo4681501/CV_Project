@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
+import "./GetWorkExperience.css";
 
 const styles = {
   container: {
@@ -7,7 +8,6 @@ const styles = {
     margin: 'auto',
     padding: '20px',
     fontFamily: 'Arial, sans-serif',
-    background: '#303030',
   },
   workExperienceItem: {
     marginBottom: '20px',
@@ -30,12 +30,32 @@ const styles = {
     boxSizing: 'border-box',
   },
   button: {
-    marginRight: '10px',
+    margin: '5px 0',
     padding: '8px 12px',
     cursor: 'pointer',
     borderRadius: '3px',
     border: '1px solid #ddd',
-    background: '#4CAF50',
+    background: '#c37700',
+    color: '#fff',
+    transition: 'background 0.3s ease',
+  },
+  buttonEliminar: {
+    margin: '5px 0',
+    padding: '8px 12px',
+    cursor: 'pointer',
+    borderRadius: '3px',
+    border: '1px solid #ddd',
+    background: '#a80000',
+    color: '#fff',
+    transition: 'background 0.3s ease',
+  },
+  buttonEdit: {
+    margin: '5px 0',
+    padding: '8px 12px',
+    cursor: 'pointer',
+    borderRadius: '3px',
+    border: '1px solid #ddd',
+    background: '#86bc70',
     color: '#fff',
     transition: 'background 0.3s ease',
   },
@@ -53,6 +73,7 @@ const GetWorkExperiences = () => {
   const [editedWorkExperienceDescription, setEditedWorkExperienceDescription] = useState('');
   const [editedWorkExperienceStartDate, setEditedWorkExperienceStartDate] = useState('');
   const [editedWorkExperienceFinishDate, setEditedWorkExperienceFinishDate] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchWorkExperiences = async () => {
@@ -67,6 +88,8 @@ const GetWorkExperiences = () => {
         }
       } catch (error) {
         console.error("Error de red:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -141,8 +164,12 @@ const GetWorkExperiences = () => {
 
   return (
     <div style={styles.container}>
-      
-        {userWorkExperiences.map((workExperience) => (
+      {isLoading ? (
+         <svg className="svgget" viewBox="25 25 50 50">
+          <circle className="circleget" r="20" cy="50" cx="50"></circle>
+        </svg>
+      ) : (
+        userWorkExperiences.map((workExperience) => (
           <p key={workExperience.id} style={styles.workExperienceItem}>
             {editingWorkExperienceId === workExperience.id ? (
               <>
@@ -178,21 +205,21 @@ const GetWorkExperiences = () => {
               </>
             ) : (
               <>
-                <p style={styles.letra}>Name: {workExperience.name}</p>
-                <p style={styles.letra}>Description: {workExperience.description}</p>
-                <p style={styles.letra}>Start date: {workExperience.start_date}</p>
-                <p style={styles.letra}>Finish date: {workExperience.finish_date}</p>
-                <button onClick={() => handleDeleteWorkExperience(workExperience.id)} style={styles.button}>
-                  Eliminar
-                </button>
-                <button onClick={() => handleEditWorkExperience(workExperience.id)} style={styles.button}>
+                <p style={styles.letra}>Nombre: {workExperience.name}</p>
+                <p style={styles.letra}>Descripción: {workExperience.description}</p>
+                <p style={styles.letra}>Fecha de inicio: {workExperience.start_date}</p>
+                <p style={styles.letra}>Fecha de finalización: {workExperience.finish_date}</p>
+                <button onClick={() => handleEditWorkExperience(workExperience.id)} style={styles.buttonEdit}>
                   Editar
+                </button>
+                <button onClick={() => handleDeleteWorkExperience(workExperience.id)} style={styles.buttonEliminar}>
+                  Eliminar
                 </button>
               </>
             )}
           </p>
-        ))}
-      
+        ))
+      )}
     </div>
   );
 };

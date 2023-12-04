@@ -33,19 +33,6 @@ class Api::CompaniesController < ApplicationController
         @company.destroy
     end
 
-    def add_user_to_company
-        company = Company.find(params[:company_id])
-        user = User.find(params[:user_id])
-
-        company.users << user
-
-        render json: { message: "User added to company successfully" }
-        rescue ActiveRecord::RecordNotFound => e
-            render json: { error: e.message }, status: :not_found
-        rescue StandardError => e
-            render json: { error: e.message }, status: :unprocessable_entity
-    end
-
     private
 
     def set_company

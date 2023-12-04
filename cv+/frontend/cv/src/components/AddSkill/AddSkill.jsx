@@ -10,11 +10,11 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    maxWidth: '900px', // Ajusta según tus necesidades
+ // Ajusta según tus necesidades
     margin: 'auto',
     padding: '20px',
     fontFamily: 'Arial, sans-serif',
-    background: '#303030',
+    background: '#00000082',
   },
   formContainer: {
     width: '45%', // Ajusta según tus necesidades
@@ -44,6 +44,9 @@ const styles = {
     border: '1px solid #ddd',
     transition: 'background 0.3s ease',
   },
+    title:{
+  color: 'white'
+  }
 };
 
 const AddSkill = () => {
@@ -94,12 +97,22 @@ const AddSkill = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <>
     <div>
+    <h1>Add your skills</h1>
+    <h1>¡Choose the ones that describe you best!</h1>
+    </div>
+    <div style={styles.container}>
+       <div style={styles.buttonContainer}>
+        <Link to={`/User/Profile/${currUser.id}/AddProjects`}>
+          <button className="buttonForm">BACK</button>
+        </Link>
+      </div>
+
       <Form onSubmit={handleSubmit} style={styles.formContainer}>
         <center>
           <h1 className="File">🧠</h1>
-          <h3>Add Skill</h3>
+          <h3 style={styles.title}>Add Skill</h3>
         </center>
         <Form.Group className="mb-3">
           <Form.Label className="title">Skill</Form.Label>
@@ -121,22 +134,23 @@ const AddSkill = () => {
           </div>
         )}
 
-        <button type="submit" className="buttonForm" style={styles.button}>
+        <button type="submit" className="buttonForm">
           Add skill
         </button>
       </Form>
-       </div>
+     
 
       <GetSkills style={styles.getSkillsContainer} />
 
       <div style={styles.buttonContainer}>
         <Link to={`/User/Profile/${currUser.id}/AddEducations`}>
-          <button className="buttonForm" style={styles.button}>
+          <button className="buttonForm">
             NEXT
           </button>
         </Link>
       </div>
     </div>
+      </>
   );
 };
 

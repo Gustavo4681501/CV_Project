@@ -1,7 +1,7 @@
 #HomeNavbar {
     position: fixed;
     top: 0;
-    
+    width: 82%; 
     transition: width 0.3s ease;
 
 }

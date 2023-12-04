@@ -47,14 +47,14 @@ class User < ApplicationRecord
                 :omniauthable, :jwt_authenticatable,
                 jwt_revocation_strategy: JwtDenylist
 
-        has_many :comments
+        has_many :comments, as: :commentable
         has_many :curriculums
         has_many :educations
         has_many :projects
         has_many :skills
         has_many :social_links
         has_many :work_experiences
-        has_and_belongs_to_many :companies
+        has_and_belongs_to_many :available_vacancies
 
         enum role: [:regular, :admin]
 

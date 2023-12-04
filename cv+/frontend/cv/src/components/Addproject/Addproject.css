@@ -1,4 +1,56 @@
-.subtext{
-    color: rgba(253, 191, 136, 0.666);
-    font-size: 20px;
+.subtext {
+  color: rgba(253, 191, 136, 0.666);
+  font-size: 20px;
+}
+
+.page {
+  flex-direction: column;
+  padding: 10px;
+}
+
+.header {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.subHeader {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.text {
+  font-size: 10px;
+  margin-bottom: 3px;
+}
+
+.section {
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.columna {
+  width: 48%;
+  background-color: #f6e8dd;
+  min-height: 100%;
+  padding: 8px;
+}
+
+.sectiona {
+  background-color: #d5b9a4;
+  flex-direction: row;
+  justify-content: center;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.divider {
+  border-bottom-width: 1px;
+  border-bottom-color: black;
+  margin-bottom: 5px;
+}
+
+.emojiImage {
+  width: 10px;
+  height: 10px;
 }

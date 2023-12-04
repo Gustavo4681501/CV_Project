@@ -42,7 +42,7 @@ class Company < ApplicationRecord
             jwt_revocation_strategy: JwtDenylist
 
     has_many :available_vacancies
-    has_and_belongs_to_many :users
+
 
     enum role: [:regular, :admin]
 end

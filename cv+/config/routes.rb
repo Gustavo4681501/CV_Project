@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'private/test'
 
 
   devise_for :users, path: '', path_names: {
@@ -22,25 +21,29 @@ Rails.application.routes.draw do
     registrations: 'companies/registrations'
   }
 
-  post '/api/companies/:company_id/add_user/:user_id', to: 'api/companies#add_user_to_company', as: :add_user_to_company
-
-
-
 
   namespace :api do
-    resources :comments
     resources :companies
     resources :curriculums
     resources :educations
     resources :projects
-    resources :users
     resources :requirements
     resources :skills
     resources :social_links
     resources :work_experiences
 
+    resources :users do
+      resources :comments
+    end
+
     resources :available_vacancies do
       resources :requirements
+
+      member do
+        post :apply
+        delete :unapply
+        get :check_application
+      end
     end
   end
 end

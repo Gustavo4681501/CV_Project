@@ -70,15 +70,23 @@ const NavbarComponent = () => {
                 }`}
         >
             {isLoading ? (
-                <div className="text-center">
+                <div>
+                    <center>
                     <div className="loader"></div>
+                    </center>
                 </div>
             ) : (
                 <>
                     {currUser && currUser.id.toString() === userIdFromURL ? (
                         <>
-                            <Sidebar isOpen={sidebarOpen} toggleSidebar={handleSidebarToggle} />
-                            <div className={`content ${sidebarOpen ? "content-open" : "content-closed"}`}>
+                            <Sidebar
+                                isOpen={sidebarOpen}
+                                toggleSidebar={handleSidebarToggle}
+                            />
+                            <div
+                                className={`content ${sidebarOpen ? "content-open" : "content-closed"
+                                    }`}
+                            >
                                 <Navbar
                                     id="HomeNavbar"
                                     bg="dark"
@@ -90,57 +98,19 @@ const NavbarComponent = () => {
                                         <Navbar.Brand>
                                             <Link to={`User/Profile/${currUser.id}/Home`}>Home</Link>
                                         </Navbar.Brand>
-
-                                        <Navbar.Brand>
-                                            <Link to={`User/Profile/${currUser.id}/CreateResume1`}>
-                                                Create resume1
-                                            </Link>
-                                        </Navbar.Brand>
-
-                                        <Navbar.Brand>
-                                            <Link to={`User/Profile/${currUser.id}/CreateResume2`}>
-                                                Create resume2
-                                            </Link>
-                                        </Navbar.Brand>
-
-                                        <Navbar.Brand>
-                                            <Link to={`User/Profile/${currUser.id}/CreateResume3`}>
-                                                Create resume3
-                                            </Link>
-                                        </Navbar.Brand>
-
-                                        <Navbar.Brand>
-                                            <Link to={`User/Profile/${currUser.id}/CreateResume4`}>
-                                                Create resume4
-                                            </Link>
-                                        </Navbar.Brand>
-
-                                        <Navbar.Brand>
-                                            <div>
-                                                <PDFDownloadLink
-                                                    document={<ProfilePDF />}
-                                                    fileName="mi_documento.pdf"
-                                                >
-                                                    {({ loading }) =>
-                                                        loading ? "Loading document..." : "Download resume!"
-                                                    }
-                                                </PDFDownloadLink>
-                                            </div>
-                                        </Navbar.Brand>
-
-                                        <Navbar.Brand>
-                                            {currUser ? <Logout setCurrUser={setCurrUser} /> : <></>}
-                                        </Navbar.Brand>
-
-                                        <Nav className="me-auto"></Nav>
-                                        <Link to="/home">
-                                            <img
-                                                src="/image/cv_logo.png"
-                                                alt="Logo"
-                                                className="logoNavbar"
-                                            ></img>
-                                        </Link>
                                     </Container>
+                                    <Navbar.Brand>
+                                        {currUser ? <Logout setCurrUser={setCurrUser} /> : <></>}
+                                    </Navbar.Brand>
+
+                                    <Nav className="me-auto"></Nav>
+                                    <Link to="/home">
+                                        <img
+                                            src="/image/cv_logo.png"
+                                            alt="Logo"
+                                            className="logoNavbar"
+                                        ></img>
+                                    </Link>
                                 </Navbar>
 
                                 <br />

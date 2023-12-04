@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import "./GetEducation.css"
 
 const styles = {
   container: {
@@ -7,7 +8,6 @@ const styles = {
     margin: 'auto',
     padding: '20px',
     fontFamily: 'Arial, sans-serif',
-    background: '#303030',
   },
   educationItem: {
     marginBottom: '20px',
@@ -23,12 +23,32 @@ const styles = {
     boxSizing: 'border-box',
   },
   button: {
-    marginRight: '10px',
+    margin: '5px 0',
     padding: '8px 12px',
     cursor: 'pointer',
     borderRadius: '3px',
     border: '1px solid #ddd',
-    background: '#4CAF50',
+    background: '#c37700',
+    color: '#fff',
+    transition: 'background 0.3s ease',
+  },
+  buttonEliminar: {
+    margin: '5px 0',
+    padding: '8px 12px',
+    cursor: 'pointer',
+    borderRadius: '3px',
+    border: '1px solid #ddd',
+    background: '#a80000',
+    color: '#fff',
+    transition: 'background 0.3s ease',
+  },
+  buttonEdit: {
+    margin: '5px 0',
+    padding: '8px 12px',
+    cursor: 'pointer',
+    borderRadius: '3px',
+    border: '1px solid #ddd',
+    background: '#86bc70',
     color: '#fff',
     transition: 'background 0.3s ease',
   },
@@ -48,6 +68,7 @@ const GetEducations = () => {
   const [editedEducationLocation, setEditedEducationLocation] = useState('');
   const [editedEducationStartDate, setEditedEducationStartDate] = useState('');
   const [editedEducationFinishDate, setEditedEducationFinishDate] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchEducations = async () => {
@@ -62,6 +83,8 @@ const GetEducations = () => {
         }
       } catch (error) {
         console.error('Error de red:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -142,8 +165,12 @@ const GetEducations = () => {
 
   return (
     <div style={styles.container}>
-      
-        {userEducations.map((education) => (
+      {isLoading ? (
+        <svg className="svgget" viewBox="25 25 50 50">
+          <circle className="circleget" r="20" cy="50" cx="50"></circle>
+        </svg>
+      ) : (
+        userEducations.map((education) => (
           <p key={education.id} style={styles.educationItem}>
             {editingEducationId === education.id ? (
               <>
@@ -160,25 +187,22 @@ const GetEducations = () => {
                 <button onClick={() => setEditingEducationId(null)} style={styles.button}>
                   Cancelar
                 </button>
-                <button onClick={() => handleDeleteEducation(education.id)} style={styles.button}>
-                  Eliminar
-                </button>
               </>
             ) : (
               <>
                 <p style={styles.letra}>Name: {education.name}</p>
                 {/* Resto de la información */}
-                <button onClick={() => handleEditEducation(education.id)} style={styles.button}>
+                <button onClick={() => handleEditEducation(education.id)} style={styles.buttonEdit}>
                   Editar
                 </button>
-                <button onClick={() => handleDeleteEducation(education.id)} style={styles.button}>
+                <button onClick={() => handleDeleteEducation(education.id)} style={styles.buttonEliminar}>
                   Eliminar
                 </button>
               </>
             )}
           </p>
-        ))}
-      
+        ))
+      )}
     </div>
   );
 };

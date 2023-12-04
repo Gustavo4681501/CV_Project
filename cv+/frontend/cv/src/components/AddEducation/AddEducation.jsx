@@ -14,7 +14,7 @@ const styles = {
     margin: 'auto',
     padding: '20px',
     fontFamily: 'Arial, sans-serif',
-    background: '#303030',
+    background: '#00000082',
   },
   formContainer: {
     width: '45%', // Ajusta según tus necesidades
@@ -42,6 +42,9 @@ const styles = {
    
     transition: 'background 0.3s ease',
   },
+    title:{
+  color: 'white'
+  }
 };
 
 const AddEducation1 = () => {
@@ -116,11 +119,21 @@ const AddEducation1 = () => {
   };
 
   return (
+    <>
+    <div>
+    <h1>Add the educations</h1>
+    <h1>¡Add as many as you think are necessary!</h1>
+    </div>
     <div style={styles.container}>
+       <div style={styles.buttonContainer}>
+        <Link to={`/User/Profile/${currUser.id}/AddSkills`}>
+          <button className="buttonForm">BACK</button>
+        </Link>
+      </div>
       <Form onSubmit={handleSubmit} style={styles.formContainer}>
         <center>
           <h1 className="File">📚</h1>
-          <h3>Add Education</h3>
+          <h3 style={styles.title}>Add Education</h3>
         </center>
         <Form.Group>
           <Form.Label className="title">Name</Form.Label>
@@ -186,7 +199,7 @@ const AddEducation1 = () => {
           </div>
         )}
 
-        <button type="submit" className="buttonForm" style={styles.button}>
+        <button type="submit" className="buttonForm">
           Add education
         </button>
       </Form>
@@ -195,12 +208,13 @@ const AddEducation1 = () => {
 
       <div style={styles.buttonContainer}>
         <Link to={`/User/Profile/${currUser.id}/AddWorkExperiences`}>
-          <button className="buttonForm" style={styles.button}>
+          <button className="buttonForm">
             NEXT
           </button>
         </Link>
       </div>
     </div>
+    </>
   );
 };
 

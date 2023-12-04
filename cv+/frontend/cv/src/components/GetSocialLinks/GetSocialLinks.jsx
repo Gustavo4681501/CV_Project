@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
+import "./GetSocialLinks.css"
 
 const styles = {
   container: {
@@ -7,7 +8,6 @@ const styles = {
     margin: 'auto',
     padding: '20px',
     fontFamily: 'Arial, sans-serif',
-    background: '#303030',
   },
   linkItem: {
     marginBottom: '20px',
@@ -23,12 +23,32 @@ const styles = {
     boxSizing: 'border-box',
   },
   button: {
-    marginRight: '10px',
+    margin: '5px 0',
     padding: '8px 12px',
     cursor: 'pointer',
     borderRadius: '3px',
     border: '1px solid #ddd',
-    background: '#4CAF50',
+    background: '#c37700',
+    color: '#fff',
+    transition: 'background 0.3s ease',
+  },
+  buttonEliminar: {
+    margin: '5px 0',
+    padding: '8px 12px',
+    cursor: 'pointer',
+    borderRadius: '3px',
+    border: '1px solid #ddd',
+    background: '#a80000',
+    color: '#fff',
+    transition: 'background 0.3s ease',
+  },
+  buttonEdit: {
+    margin: '5px 0',
+    padding: '8px 12px',
+    cursor: 'pointer',
+    borderRadius: '3px',
+    border: '1px solid #ddd',
+    background: '#86bc70',
     color: '#fff',
     transition: 'background 0.3s ease',
   },
@@ -42,6 +62,7 @@ const GetSocialLinks = () => {
   const userId = parseInt(id, 10);
 
   const [socialLinks, setSocialLinks] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [editingLinkId, setEditingLinkId] = useState(null);
   const [editedLinkUrl, setEditedLinkUrl] = useState('');
 
@@ -58,6 +79,8 @@ const GetSocialLinks = () => {
         }
       } catch (error) {
         console.error("Error de red:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -123,8 +146,12 @@ const GetSocialLinks = () => {
 
   return (
     <div style={styles.container}>
-      
-        {userSocialLinks.map((link) => (
+      {loading ? (
+               <svg className="svgget" viewBox="25 25 50 50">
+          <circle className="circleget" r="20" cy="50" cx="50"></circle>
+        </svg>
+      ) : (
+        userSocialLinks.map((link) => (
           <p key={link.id} style={styles.linkItem}>
             {editingLinkId === link.id ? (
               <>
@@ -144,17 +171,17 @@ const GetSocialLinks = () => {
             ) : (
               <>
                 <p style={styles.letra}>Enlace: {link.url}</p>
-                <button onClick={() => handleDeleteLink(link.id)} style={styles.button}>
-                  Eliminar
-                </button>
-                <button onClick={() => handleEditLink(link.id)} style={styles.button}>
+                <button onClick={() => handleEditLink(link.id)} style={styles.buttonEdit}>
                   Editar
+                </button>
+                <button onClick={() => handleDeleteLink(link.id)} style={styles.buttonEliminar}>
+                  Eliminar
                 </button>
               </>
             )}
           </p>
-        ))}
-     
+        ))
+      )}
     </div>
   );
 };
