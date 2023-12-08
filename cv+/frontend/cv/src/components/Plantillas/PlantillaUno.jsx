@@ -1,34 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { Document, Page, Text, View, StyleSheet, Image } from "@react-pdf/renderer";
 import { jwtDecode } from "jwt-decode";
+import AddEducation1 from "../AddEducation/AddEducation";
 
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#f4f4f4",
     padding: 40,
   },
   header: {
     fontSize: 24,
     marginBottom: 10,
     fontWeight: "bold",
-    color: "#4A90E2",
+    color: "#333333",
   },
   headerA: {
     fontSize: 24,
     marginBottom: 10,
     fontWeight: "bold",
-    color: "#ffffff",
+    color: "#333333",
   },
   subHeader: {
     fontSize: 18,
     marginBottom: 10,
-    color: "#333333",
+    color: "#555555",
   },
   text: {
     fontSize: 12,
     marginBottom: 8,
-    color: "#555555",
+    color: "black",
   },
   section: {
     flexDirection: "row",
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
   },
   sectiona: {
-    backgroundColor: "#4A90E2",
+    backgroundColor: "#7C7979", 
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 20,
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     borderBottomWidth: 1,
-    borderBottomColor: '#dddddd',
+    borderBottomColor: '#cccccc',
     marginBottom: 10,
   },
   emojiImage: {
@@ -70,7 +71,19 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginRight: 10,
   },
+    textloading: {
+    fontSize: 40,
+    marginBottom: 8,
+    color: "black",
+    fontWeight: "bold",
+  },
+    pageloading: {
+    flexDirection: "column",
+    backgroundColor: "#e6e6e6",
+    padding: 40,
+  },
 });
+
 
 const ProfilePDF = () => {
   const [userId, setUserId] = useState();
@@ -78,7 +91,8 @@ const ProfilePDF = () => {
   const [userWorks, setUserWorks] = useState([]);
   const [userProjects, setUserProjects] = useState([]);
   const [userSkills, setUserSkills] = useState([]);
-  const [userLinks, setUserLinks] = useState([]);
+  const [userLinks, setUserLinks] = useState([]);  
+  const [isPdfReady, setIsPdfReady] = useState(false);
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -301,6 +315,7 @@ const ProfilePDF = () => {
             console.log("FILTER USERSSSSsssssss AAAAAAAAAAAAAAAAA", userfilter);
 
           setUsers(userfilter);
+          setIsPdfReady(true);
         } else {
           console.error("Error al obtener users:", response.statusText);
         }
@@ -321,6 +336,8 @@ console.log("SOY SKILL", userSkills);
 console.log("SOY LINKKK", userLinks);
 
   return (
+    <>
+  {isPdfReady ? (
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.sectiona}>
@@ -434,6 +451,16 @@ console.log("SOY LINKKK", userLinks);
         </View>
       </Page>
     </Document>
+    ) : (
+      <Document>
+      <Page size="A4" style={styles.page}>
+      <View>
+          <Text style={styles.headerA}>Loading your resume...</Text>
+      </View>
+      </Page>
+    </Document>
+      )}
+   </>
   );
 };
 

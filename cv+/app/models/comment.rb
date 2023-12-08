@@ -9,19 +9,16 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  commentable_id   :bigint
-#  user_id          :bigint           not null
+#  company_id       :integer
+#  user_id          :bigint
 #
 # Indexes
 #
 #  index_comments_on_commentable  (commentable_type,commentable_id)
-#  index_comments_on_user_id      (user_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (user_id => users.id)
+#  index_comments_on_company_id   (company_id)
 #
 class Comment < ApplicationRecord
     belongs_to :commentable, polymorphic: true
-    belongs_to :user
-
+    belongs_to :user, optional: true
+    belongs_to :company, optional: true
 end

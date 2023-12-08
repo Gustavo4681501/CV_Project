@@ -28,9 +28,9 @@ const ShowMoreUsers = () => {
         <div className="user-profiles text-center">
             <h2>Lista de Usuarios</h2>
             {isLoading ? (
-                <svg viewBox="25 25 50 50">
-                    <circle r="20" cy="50" cx="50"></circle>
-                </svg>
+                <center>
+                    <div className="loader"></div>
+                </center>
             ) : (
                 <div className="profiles">
                     {users.map((user) => (
@@ -40,7 +40,7 @@ const ShowMoreUsers = () => {
                             className="profile-link"
                         >
                             <div className="profile">
-                                <img src={user.photo} alt="Profile" className="profile-image" />
+                                <img src={user.avatar} alt="Profile" className="profile-image" />
                                 <div className="profile-details">
                                     <h3>
                                         {user.name} {user.last_name}

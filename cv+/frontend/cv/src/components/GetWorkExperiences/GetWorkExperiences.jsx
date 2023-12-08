@@ -3,33 +3,36 @@ import { useParams } from 'react-router-dom';
 import "./GetWorkExperience.css";
 
 const styles = {
-  container: {
-    maxWidth: '600px',
+  containerget: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '20px',
+    justifyContent: 'center',
     margin: 'auto',
     padding: '20px',
     fontFamily: 'Arial, sans-serif',
   },
-  workExperienceItem: {
+  workExperienceItemget: {
     marginBottom: '20px',
-    padding: '10px',
-    background: '#929292',
+    padding: '40px',
+    background: '#CCCCCC',
     border: '1px solid #ddd',
     borderRadius: '5px',
   },
-  input: {
+  inputget: {
     margin: '5px 0',
     padding: '8px',
     width: '100%',
     boxSizing: 'border-box',
   },
-  textarea: {
+  textareaget: {
     margin: '5px 0',
     padding: '8px',
     width: '100%',
     minHeight: '80px',
     boxSizing: 'border-box',
   },
-  button: {
+  buttonget: {
     margin: '5px 0',
     padding: '8px 12px',
     cursor: 'pointer',
@@ -39,7 +42,7 @@ const styles = {
     color: '#fff',
     transition: 'background 0.3s ease',
   },
-  buttonEliminar: {
+  buttonEliminarget: {
     margin: '5px 0',
     padding: '8px 12px',
     cursor: 'pointer',
@@ -49,7 +52,7 @@ const styles = {
     color: '#fff',
     transition: 'background 0.3s ease',
   },
-  buttonEdit: {
+  buttonEditget: {
     margin: '5px 0',
     padding: '8px 12px',
     cursor: 'pointer',
@@ -59,7 +62,7 @@ const styles = {
     color: '#fff',
     transition: 'background 0.3s ease',
   },
-  letra: {
+  letraget: {
     color: 'black',
   },
 };
@@ -163,56 +166,56 @@ const GetWorkExperiences = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div style={styles.containerget}>
       {isLoading ? (
          <svg className="svgget" viewBox="25 25 50 50">
           <circle className="circleget" r="20" cy="50" cx="50"></circle>
         </svg>
       ) : (
         userWorkExperiences.map((workExperience) => (
-          <p key={workExperience.id} style={styles.workExperienceItem}>
+          <p key={workExperience.id} style={styles.workExperienceItemget}>
             {editingWorkExperienceId === workExperience.id ? (
               <>
                 <input
                   type="text"
                   value={editedWorkExperienceName}
                   onChange={(e) => setEditedWorkExperienceName(e.target.value)}
-                  style={styles.input}
+                  style={styles.inputget}
                 />
                 <textarea
                   value={editedWorkExperienceDescription}
                   onChange={(e) => setEditedWorkExperienceDescription(e.target.value)}
-                  style={styles.textarea}
+                  style={styles.textareaget}
                 />
                 <input
                   type="date"
                   value={editedWorkExperienceStartDate}
                   onChange={(e) => setEditedWorkExperienceStartDate(e.target.value)}
-                  style={styles.input}
+                  style={styles.inputget}
                 />
                 <input
                   type="date"
                   value={editedWorkExperienceFinishDate}
                   onChange={(e) => setEditedWorkExperienceFinishDate(e.target.value)}
-                  style={styles.input}
+                  style={styles.inputget}
                 />
-                <button onClick={() => handleSaveWorkExperience(workExperience.id)} style={styles.button}>
+                <button onClick={() => handleSaveWorkExperience(workExperience.id)} style={styles.buttonget}>
                   Guardar
                 </button>
-                <button onClick={() => setEditingWorkExperienceId(null)} style={styles.button}>
+                <button onClick={() => setEditingWorkExperienceId(null)} style={styles.buttonget}>
                   Cancelar
                 </button>
               </>
             ) : (
               <>
-                <p style={styles.letra}>Nombre: {workExperience.name}</p>
-                <p style={styles.letra}>Descripción: {workExperience.description}</p>
-                <p style={styles.letra}>Fecha de inicio: {workExperience.start_date}</p>
-                <p style={styles.letra}>Fecha de finalización: {workExperience.finish_date}</p>
-                <button onClick={() => handleEditWorkExperience(workExperience.id)} style={styles.buttonEdit}>
+                <p style={styles.letraget}>Nombre: {workExperience.name}</p>
+                <p style={styles.letraget}>Descripción: {workExperience.description}</p>
+                <p style={styles.letraget}>Fecha de inicio: {workExperience.start_date}</p>
+                <p style={styles.letraget}>Fecha de finalización: {workExperience.finish_date}</p>
+                <button onClick={() => handleEditWorkExperience(workExperience.id)} style={styles.buttonEditget}>
                   Editar
                 </button>
-                <button onClick={() => handleDeleteWorkExperience(workExperience.id)} style={styles.buttonEliminar}>
+                <button onClick={() => handleDeleteWorkExperience(workExperience.id)} style={styles.buttonEliminarget}>
                   Eliminar
                 </button>
               </>

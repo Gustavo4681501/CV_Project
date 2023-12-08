@@ -18,7 +18,6 @@
 #  locked_at              :datetime
 #  name                   :string(255)
 #  phone_number           :integer
-#  photo                  :string(255)
 #  registration_date      :date
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime

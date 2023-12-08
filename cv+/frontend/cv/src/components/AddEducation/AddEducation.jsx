@@ -1,16 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import { useUser } from "../AccountTypes/UserContext";
-import GetEducations from "../GetEducation/GetEducation";
+import { useParams } from "react-router-dom";
 import "./AddEducation.css";
 import { Link } from 'react-router-dom';
+import { IoLibrary } from "react-icons/io5";
 
 const styles = {
+  containerget: {
+    maxWidth: '600px',
+    margin: 'auto',
+    padding: '20px',
+    fontFamily: 'Arial, sans-serif',
+  },
+  educationItemget: {
+    marginBottom: '20px',
+    padding: '10px',
+    background: '#929292',
+    border: '1px solid #ddd',
+    borderRadius: '5px',
+  },
+  inputget: {
+    margin: '5px 0',
+    padding: '8px',
+    width: '100%',
+    boxSizing: 'border-box',
+  },
+  buttonget: {
+    margin: '5px 0',
+    padding: '8px 12px',
+    cursor: 'pointer',
+    borderRadius: '3px',
+    border: '1px solid #ddd',
+    background: '#c37700',
+    color: '#fff',
+    transition: 'background 0.3s ease',
+  },
+  buttonEliminarget: {
+    margin: '5px 0',
+    padding: '8px 12px',
+    cursor: 'pointer',
+    borderRadius: '3px',
+    border: '1px solid #ddd',
+    background: '#a80000',
+    color: '#fff',
+    transition: 'background 0.3s ease',
+  },
+  buttonEditget: {
+    margin: '5px 0',
+    padding: '8px 12px',
+    cursor: 'pointer',
+    borderRadius: '3px',
+    border: '1px solid #ddd',
+    background: '#86bc70',
+    color: '#fff',
+    transition: 'background 0.3s ease',
+  },
+  letraget: {
+    color: 'black',
+  },
   container: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    maxWidth: '900px', // Ajusta según tus necesidades
+    maxWidth: '1100px',  // Ajusta según tus necesidades
     margin: 'auto',
     padding: '20px',
     fontFamily: 'Arial, sans-serif',
@@ -48,6 +101,7 @@ const styles = {
 };
 
 const AddEducation1 = () => {
+
   const { currUser } = useUser();
   const [formData, setFormData] = useState({
     name: "",
@@ -58,10 +112,126 @@ const AddEducation1 = () => {
     user_id: currUser.id
   });
 
+  const [educations, setEducations] = useState([]);
+  const { id } = useParams();
+  const userId = parseInt(id, 10);
+
+  const [editingEducationId, setEditingEducationId] = useState(null);
+  const [editedEducationName, setEditedEducationName] = useState('');
+  const [editedEducationInstitution, setEditedEducationInstitution] = useState('');
+  const [editedEducationLocation, setEditedEducationLocation] = useState('');
+  const [editedEducationStartDate, setEditedEducationStartDate] = useState('');
+  const [editedEducationFinishDate, setEditedEducationFinishDate] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchEducations = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/educations');
+
+        if (response.ok) {
+          const educationsData = await response.json();
+          setEducations(educationsData);
+        } else {
+          console.error('Error al obtener educaciones:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error de red:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchEducations();
+  }, []);
+
+  const userEducations = educations.filter(education => education.user_id === userId);
+
+  const handleEditEducation = (educationId) => {
+    const educationToEdit = userEducations.find(education => education.id === educationId);
+
+    setEditedEducationName(educationToEdit.name);
+    setEditedEducationInstitution(educationToEdit.institution_name);
+    setEditedEducationLocation(educationToEdit.location);
+    setEditedEducationStartDate(educationToEdit.start_date);
+    setEditedEducationFinishDate(educationToEdit.finish_date);
+
+    setEditingEducationId(educationId);
+  };
+
+  const handleSaveEducation = async (educationId) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/educations/${educationId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: editedEducationName,
+          institution_name: editedEducationInstitution,
+          location: editedEducationLocation,
+          start_date: editedEducationStartDate,
+          finish_date: editedEducationFinishDate,
+        }),
+      });
+
+      if (response.ok) {
+       const updatedEducations = educations.map(education => {
+          if (education.id === educationId) {
+            return {
+              ...education,
+              name: editedEducationName,
+              institution_name: editedEducationInstitution,
+              location: editedEducationLocation,
+              start_date: editedEducationStartDate,
+              finish_date: editedEducationFinishDate,
+            };
+          }
+          return education;
+        });
+
+        // Obtener la nueva lista de educaciones después de guardar
+        const updatedResponse = await fetch('http://localhost:3001/api/educations');
+        const updatedEducationsData = await updatedResponse.json();
+
+        setEducations(updatedEducationsData);
+
+        setEditingEducationId(null);
+      } else {
+        throw new Error('Failed to update education');
+      }
+    } catch (error) {
+      console.error('Error updating education:', error);
+    }
+  };
+
+  const handleDeleteEducation = async (educationId) => {
+    const isConfirmed = window.confirm("Are you sure you want to delete?");
+    
+      if (!isConfirmed) {
+        return; // Cancelar la eliminación si el usuario no confirma
+      }
+     try {
+      const response = await fetch(`http://localhost:3001/api/educations/${educationId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        const updatedEducations = educations.filter(education => education.id !== educationId);
+        setEducations(updatedEducations);
+      } else {
+        throw new Error('Failed to delete education');
+      }
+    } catch (error) {
+      console.error('Error deleting education:', error);
+    }
+  };
+ 
+
   const [isPostSuccess, setIsPostSuccess] = useState(false);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+   const { name, value } = e.target;
 
     // Formatear la fecha en el formato "YYYY-MM-DD"
     if (name === "start_date" || name === "finish_date") {
@@ -101,6 +271,11 @@ const AddEducation1 = () => {
 
       setIsPostSuccess(true);
 
+      // Obtener la nueva lista de educaciones después de agregar
+      const updatedResponse = await fetch('http://localhost:3001/api/educations');
+      const updatedEducationsData = await updatedResponse.json();
+      setEducations(updatedEducationsData);
+
       setFormData({
         name: "",
         institution_name: "",
@@ -120,22 +295,21 @@ const AddEducation1 = () => {
 
   return (
     <>
-    <div>
-    <h1>Add the educations</h1>
-    <h1>¡Add as many as you think are necessary!</h1>
-    </div>
-    <div style={styles.container}>
-       <div style={styles.buttonContainer}>
-        <Link to={`/User/Profile/${currUser.id}/AddSkills`}>
-          <button className="buttonForm">BACK</button>
-        </Link>
+      <div className="titulo-container">
+        <h1 className="titulo-texto">Add the educations, ¡Add as many as you think are necessary!</h1>
       </div>
-      <Form onSubmit={handleSubmit} style={styles.formContainer}>
-        <center>
-          <h1 className="File">📚</h1>
-          <h3 style={styles.title}>Add Education</h3>
-        </center>
-        <Form.Group>
+      <div style={styles.container}>
+        <div style={styles.buttonContainer}>
+          <Link to={`/User/Profile/${currUser.id}/AddSkills`}>
+            <button className="buttonForm">BACK</button>
+          </Link>
+        </div>
+        <Form onSubmit={handleSubmit} style={styles.formContainer}>
+          <center>
+            <h1 className="File"><IoLibrary /></h1>
+            <h3 style={styles.title}>Add Education</h3>
+          </center>
+               <Form.Group>
           <Form.Label className="title">Name</Form.Label>
           <h1 className="subtext">Add the name of your education</h1>
           <Form.Control
@@ -180,6 +354,7 @@ const AddEducation1 = () => {
             value={formData.start_date}
             onChange={handleInputChange}
             style={styles.input}
+             max={new Date().toISOString().split("T")[0]} 
           />
 
           <Form.Label className="title">Finish date</Form.Label>
@@ -190,33 +365,101 @@ const AddEducation1 = () => {
             value={formData.finish_date}
             onChange={handleInputChange}
             style={styles.input}
+             max={new Date().toISOString().split("T")[0]} 
           />
         </Form.Group>
 
-        {isPostSuccess && (
-          <div className="alert alert-success" role="alert">
-            Added successfully
-          </div>
-        )}
+          {isPostSuccess && (
+            <div className="alert alert-success" role="alert">
+              Added successfully
+            </div>
+          )}
 
-        <button type="submit" className="buttonForm">
-          Add education
-        </button>
-      </Form>
-
-      <GetEducations style={styles.getEducationsContainer} />
-
-      <div style={styles.buttonContainer}>
-        <Link to={`/User/Profile/${currUser.id}/AddWorkExperiences`}>
-          <button className="buttonForm">
-            NEXT
+          <button type="submit" className="buttonForm">
+            Add education
           </button>
-        </Link>
+        </Form>
+
+        <div style={styles.containerget}>
+          {isLoading ? (
+        <svg className="svgget" viewBox="25 25 50 50">
+          <circle className="circleget" r="20" cy="50" cx="50"></circle>
+        </svg>
+      ) : (
+        userEducations.map((education) => (
+          <p key={education.id} style={styles.educationItemget}>
+            {editingEducationId === education.id ? (
+              <>
+                <input
+                  type="text"
+                  value={editedEducationName}
+                  onChange={(e) => setEditedEducationName(e.target.value)}
+                  style={styles.inputget}
+                />
+                <input
+                  type="text"
+                  value={editedEducationInstitution}
+                  onChange={(e) => setEditedEducationInstitution(e.target.value)}
+                  style={styles.inputget}
+                />
+                <input
+                  type="text"
+                  value={editedEducationLocation}
+                  onChange={(e) => setEditedEducationLocation(e.target.value)}
+                  style={styles.inputget}
+                />
+                <input
+                  type="date"
+                  value={editedEducationStartDate}
+                  onChange={(e) => setEditedEducationStartDate(e.target.value)}
+                  style={styles.inputget}
+                  max={new Date().toISOString().split("T")[0]} 
+                />
+                 <input
+                  type="date"
+                  value={editedEducationFinishDate}
+                  onChange={(e) => setEditedEducationFinishDate(e.target.value)}
+                  style={styles.inputget}
+                  max={new Date().toISOString().split("T")[0]} 
+                />
+                
+                <button onClick={() => handleSaveEducation(education.id)} style={styles.buttonget}>
+                  Guardar
+                </button>
+                <button onClick={() => setEditingEducationId(null)} style={styles.buttonget}>
+                  Cancelar
+                </button>
+              </>
+            ) : (
+              <>
+                <p style={styles.letraget}>Name: {education.name}</p>
+                <p style={styles.letraget}>Institution: {education.institution_name}</p>
+                <p style={styles.letraget}>Location: {education.location}</p>
+                <p style={styles.letraget}>Start date: {education.start_date}</p>
+                <p style={styles.letraget}>Finish date: {education.finish_date}</p>
+                <button onClick={() => handleEditEducation(education.id)} style={styles.buttonEditget}>
+                  Editar
+                </button>
+                <button onClick={() => handleDeleteEducation(education.id)} style={styles.buttonEliminarget}>
+                  Eliminar
+                </button>
+              </>
+            )}
+          </p>
+        ))
+      )}
+        </div>
+
+        <div style={styles.buttonContainer}>
+          <Link to={`/User/Profile/${currUser.id}/AddWorkExperiences`}>
+            <button className="buttonForm">
+              NEXT
+            </button>
+          </Link>
+        </div>
       </div>
-    </div>
     </>
   );
 };
 
 export default AddEducation1;
-

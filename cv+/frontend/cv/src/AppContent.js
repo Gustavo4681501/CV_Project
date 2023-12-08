@@ -34,6 +34,9 @@ import CompanyProfile from "./components/CompanyProfile/CompanyProfile";
 import CreateResume from "./components/CreateResume/CreateResume";
 import ShowMoreUsers from "./components/ShowMoreUsers/ShowMoreUsers";
 import ShowProfileUser from "./components/ShowProfileUser/ShowProfileUser";
+import ShowApplicants from "./components/ShowApplicants/ShowApplicants";
+import MyComments from "./components/MyComments/MyComments";
+import Back from "./components/Back/Back";
 
 const AppContent = () => {
   // const { currUser } = useUser();
@@ -73,35 +76,37 @@ const AppContent = () => {
             <Route
               path="User/Profile/:id/CreateResume1"
               element={
-                <PDFViewer style={{ width: "100%", height: "90vh" }}>
-                  <ProfilePDF />
-                </PDFViewer>
+                <>
+                  <Back />
+                  <PDFViewer style={{ width: "100%", height: "90vh" }}>
+                    <PlantillaUno />
+                  </PDFViewer>
+                </>
               }
             />
 
             <Route
               path="User/Profile/:id/CreateResume2"
               element={
-                <PDFViewer style={{ width: "100%", height: "90vh" }}>
-                  <PlantillaUno />
-                </PDFViewer>
+                <>
+                  <Back />
+                  <PDFViewer style={{ width: "100%", height: "90vh" }}>
+                    <PlantillaDos />
+                  </PDFViewer>
+                </>
               }
             />
 
             <Route
               path="User/Profile/:id/CreateResume3"
               element={
-              <PDFViewer style={{ width: "100%", height: "90vh" }}>
-                  <PlantillaDos />
-                </PDFViewer>}
-            />
-
-             <Route
-              path="User/Profile/:id/CreateResume4"
-              element={ 
-                <PDFViewer style={{ width: "100%", height: "90vh" }}>
-                  <PlantillaTres />
-                </PDFViewer>}
+                <>
+                  <Back />
+                  <PDFViewer style={{ width: "100%", height: "90vh" }}>
+                    <PlantillaTres />
+                  </PDFViewer>
+                </>
+              }
             />
 
             <Route
@@ -118,7 +123,10 @@ const AppContent = () => {
               path="User/Profile/:id/AddSocialLinks"
               element={<AddSocialLink />}
             />
-              <Route path="User/Profile/:id/EditProfile" element={<EditProfile />} />
+            <Route
+              path="User/Profile/:id/Profile"
+              element={<EditProfile />}
+            />
             <Route
               path="User/Profile/:id/AddProjects"
               element={<AddProject />}
@@ -129,7 +137,6 @@ const AppContent = () => {
               path="User/Profile/:id/AddProjects"
               element={<AddProject />}
             />
-            <Route path="User/Profile/:id/Profile" element={<Profile />} />
             <Route
               path="User/Profile/:id/AddEducations"
               element={<AddEducation1 />}
@@ -150,6 +157,12 @@ const AppContent = () => {
               path="User/Profile/:id/ShowMoreUsers/ShowProfileUser/:userId"
               element={<ShowProfileUser />}
             />
+
+            <Route
+              path="User/Profile/:id/MyComments"
+              element={<MyComments />}
+            />
+
             <Route path="User/Profile/:id/" element={<Home />} />
           </Route>
           <Route path="/" element={<NavbarCompany />}>
@@ -166,8 +179,25 @@ const AppContent = () => {
               path="Company/Profile/:id/ShowMyVacancies/:id/Requirements"
               element={<ShowVacancyRequirements />}
             />
-            
-            <Route path="Company/Profile/:id" element={<CompanyProfile />}></Route>
+
+            <Route
+              path="Company/Profile/:id/ShowMyVacancies/:id/Applicants"
+              element={<ShowApplicants />}
+            />
+
+            <Route
+              path="Company/Profile/:id/ShowMoreUsers"
+              element={<ShowMoreUsers />}
+            />
+            <Route
+              path="Company/Profile/:id/ShowMoreUsers/ShowProfileUser/:userId"
+              element={<ShowProfileUser />}
+            />
+
+            <Route
+              path="Company/Profile/:id"
+              element={<CompanyProfile />}
+            ></Route>
             <Route path="Company/Profile/:id/Home" element={<CompanyHome />} />
           </Route>
         </Routes>

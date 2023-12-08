@@ -1,13 +1,18 @@
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Navbar, Nav, Container } from "react-bootstrap";
+
 import Sidebar from "../Sidebar/Sidebar";
 import "./Navbar.css"; // Aquí debes tener tus estilos CSS para el Navbar
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import ProfilePDF from "../Plantillas/PlantillaUno";
+
+
 import { useUser } from "../AccountTypes/UserContext";
 import Logout from "../Logout/Logout";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import { IoMdHome } from "react-icons/io";
+import { MdWorkHistory } from "react-icons/md";
+import { FaUserFriends } from "react-icons/fa";
+import { FaComments } from "react-icons/fa6";
 
 const NavbarComponent = () => {
     const { currUser, setCurrUser } = useUser();
@@ -72,7 +77,7 @@ const NavbarComponent = () => {
             {isLoading ? (
                 <div>
                     <center>
-                    <div className="loader"></div>
+                        <div className="loader"></div>
                     </center>
                 </div>
             ) : (
@@ -89,14 +94,53 @@ const NavbarComponent = () => {
                             >
                                 <Navbar
                                     id="HomeNavbar"
-                                    bg="dark"
                                     data-bs-theme="light"
                                     className={`${sidebarOpen ? "sidebar-open" : "sidebar-closed"
                                         }`}
                                 >
                                     <Container>
                                         <Navbar.Brand>
-                                            <Link to={`User/Profile/${currUser.id}/Home`}>Home</Link>
+                                            <Link
+                                                to={`User/Profile/${currUser.id}/Home`}
+                                                className="emoji-link"
+                                            >
+                                                <span role="img" aria-label="Home">
+                                                    <IoMdHome />
+                                                </span>
+                                                <br />
+                                                Home
+                                            </Link>
+                                            <Link
+                                                to={`User/Profile/${currUser.id}/Vacancies`}
+                                                className="emoji-link"
+                                            >
+                                                <span role="img" aria-label="Vacancies">
+                                                    <MdWorkHistory />
+                                                </span>
+                                                <br />
+                                                Vacancies
+                                            </Link>
+                                            <Link
+                                                to={`User/Profile/${currUser.id}/ShowMoreUsers`}
+                                                className="emoji-link"
+                                            >
+                                                <span role="img" aria-label="Users">
+                                                    <FaUserFriends />
+                                                </span>
+                                                <br />
+                                                Users
+                                            </Link>
+
+                                            <Link
+                                                to={`User/Profile/${currUser.id}/MyComments`}
+                                                className="emoji-link"
+                                            >
+                                                <span role="img" aria-label="Comments">
+                                                    <FaComments />
+                                                </span>
+                                                <br />
+                                                Comments
+                                            </Link>
                                         </Navbar.Brand>
                                     </Container>
                                     <Navbar.Brand>

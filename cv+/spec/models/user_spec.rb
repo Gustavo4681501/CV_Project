@@ -18,7 +18,6 @@
 #  locked_at              :datetime
 #  name                   :string(255)
 #  phone_number           :integer
-#  photo                  :string(255)
 #  registration_date      :date
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
@@ -38,7 +37,6 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #  index_users_on_unlock_token          (unlock_token) UNIQUE
 #
-# spec/models/user_spec.rb
 require 'rails_helper'
 
 RSpec.describe User, type: :model do

@@ -23,7 +23,6 @@ Rails.application.routes.draw do
 
 
   namespace :api do
-    resources :companies
     resources :curriculums
     resources :educations
     resources :projects
@@ -32,17 +31,26 @@ Rails.application.routes.draw do
     resources :social_links
     resources :work_experiences
 
+    resources :companies do
+      member do
+        get :avatar
+      end
+    end
+
     resources :users do
       resources :comments
+      member do
+        get :avatar
+      end
     end
 
     resources :available_vacancies do
       resources :requirements
-
       member do
         post :apply
         delete :unapply
         get :check_application
+        get :show_applicants
       end
     end
   end

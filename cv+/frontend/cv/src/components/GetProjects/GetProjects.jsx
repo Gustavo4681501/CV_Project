@@ -3,33 +3,36 @@ import { useParams } from "react-router-dom";
 import "./GetProjects.css";
 
 const styles = {
-  container: {
-    maxWidth: "600px",
-    margin: "auto",
-    padding: "20px",
-    fontFamily: "Arial, sans-serif",
+  containerget: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '20px',
+    justifyContent: 'center',
+    margin: 'auto',
+    padding: '20px',
+    fontFamily: 'Arial, sans-serif',
   },
-  projectItem: {
+  projectItemget: {
     marginBottom: "20px",
-    padding: "10px",
-    background: "#929292",
+    padding: "40px",
+    background: '#CCCCCC',
     border: "1px solid #ddd",
     borderRadius: "5px",
   },
-  input: {
+  inputget: {
     margin: "5px 0",
     padding: "8px",
     width: "100%",
     boxSizing: "border-box",
   },
-  textarea: {
+  textareaget: {
     margin: "5px 0",
     padding: "8px",
     width: "100%",
     minHeight: "80px",
     boxSizing: "border-box",
   },
-  button: {
+  buttonget: {
     margin: "5px 0",
     padding: "8px 12px",
     cursor: "pointer",
@@ -39,7 +42,7 @@ const styles = {
     color: "#fff",
     transition: "background 0.3s ease",
   },
-  buttonEliminar: {
+  buttonEliminarget: {
     margin: "5px 0",
     padding: "8px 12px",
     cursor: "pointer",
@@ -49,20 +52,20 @@ const styles = {
     color: "#fff",
     transition: "background 0.3s ease",
   },
-  buttonEdit: {
+  buttonEditget: {
     margin: "5px 0",
     padding: "8px 12px",
     cursor: "pointer",
     borderRadius: "3px",
     border: "1px solid #ddd",
-    background: "#86bc70",
+    background: "#D27C41",
     color: "#fff",
     transition: "background 0.3s ease",
   },
-  letra: {
+  letraget: {
     color: "black",
   },
-  img: {
+  imgget: {
     width: "60px",
   },
 };
@@ -159,59 +162,59 @@ const GetProjects = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div style={styles.containerget}>
       {isLoading ? (
         <svg className="svgget" viewBox="25 25 50 50">
           <circle className="circleget" r="20" cy="50" cx="50"></circle>
         </svg>
       ) : (
         userProjects.map((project) => (
-          <p key={project.id} style={styles.projectItem}>
+          <div key={project.id} style={styles.projectItemget}>
             {editingProjectId === project.id ? (
               <>
                 <input
                   type="text"
                   value={editedProjectName}
                   onChange={(e) => setEditedProjectName(e.target.value)}
-                  style={styles.input}
+                  style={styles.inputget}
                 />
                 <textarea
                   value={editedProjectDescription}
                   onChange={(e) => setEditedProjectDescription(e.target.value)}
-                  style={styles.textarea}
+                  style={styles.textareaget}
                 />
                 <button
                   onClick={() => handleSaveProject(project.id)}
-                  style={styles.button}
+                  style={styles.buttonget}
                 >
                   Guardar
                 </button>
                 <button
                   onClick={() => setEditingProjectId(null)}
-                  style={styles.button}
+                  style={styles.buttonget}
                 >
                   Cancelar
                 </button>
               </>
             ) : (
               <>
-                <p style={styles.letra}>Name: {project.name}</p>
-                <p style={styles.letra}>Description: {project.description}</p>
+                <p style={styles.letraget}>Name: {project.name}</p>
+                <p style={styles.letraget}>Description: {project.description}</p>
                 <button
                   onClick={() => handleEditProject(project.id)}
-                  style={styles.buttonEdit}
+                  style={styles.buttonEditget}
                 >
                   Editar
                 </button>
                 <button
                   onClick={() => handleDeleteProject(project.id)}
-                  style={styles.buttonEliminar}
+                  style={styles.buttonEliminarget}
                 >
                   Eliminar
                 </button>
               </>
             )}
-          </p>
+          </div>
         ))
       )}
     </div>

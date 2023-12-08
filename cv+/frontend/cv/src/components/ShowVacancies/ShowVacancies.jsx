@@ -49,12 +49,12 @@ function ShowVacancies() {
 
     return (
         <>
-            <div>
-                <h1>Here you can view the available vacancies and apply to them.</h1>
+            <div  className="titulo-container">
+                <h1 className="titulo-texto">Here you can view the available vacancies and apply to them.</h1>
             </div>
-            <div className="bg-body-secondary d-flex">
-                {isLoading ? ( // Si isLoading es verdadero, se muestra el loader
-                    <div className="loader">..</div>
+            <div className="bg-body-secondary d-flex justify-content-center">
+                {isLoading ? ( 
+                    <div className="loader"></div>
                 ) : (
                     <ul>
                         {vacancies.map((vacancy, index) => (

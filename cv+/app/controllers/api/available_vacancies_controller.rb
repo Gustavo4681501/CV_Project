@@ -65,7 +65,6 @@ class Api::AvailableVacanciesController < ApplicationController
 
     def check_application
         @available_vacancy = AvailableVacancy.find(params[:id])
-        print "-----------------------------------------------------------------------------------------------------------",User.find(params[:user_id])
         @user = User.find(params[:user_id])
 
         if @user && @available_vacancy && @user.available_vacancies.include?(@available_vacancy)
@@ -75,6 +74,12 @@ class Api::AvailableVacanciesController < ApplicationController
         end
     end
 
+    def show_applicants
+        @available_vacancy = AvailableVacancy.find(params[:id])
+        @applicants = @available_vacancy.users
+    
+        render json: @applicants
+    end
 
 
     private

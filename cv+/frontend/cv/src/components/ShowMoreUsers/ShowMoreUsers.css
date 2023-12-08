@@ -1,40 +1,60 @@
+/* ShowMoreUsers.css */
+
 .user-profiles {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background-color: #f5f5f5;
-    
+  padding: 20px;
+
+}
+
+.loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin-top: 20px;
 }
 
 .profiles {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  background-color: rgba(26, 26, 26, 0.632);
+}
+
+.profile-link {
+  text-decoration: none;
+  color: #a2a2a2;
 }
 
 .profile {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 15px;
-    width: 300px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px;
+  background-color: rgba(0, 0, 0, 0.718);
+  width: 200px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.profile:hover {
+  transform: scale(1.05);
 }
 
 .profile-image {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
 }
 
-.profile-details h3 {
-    margin-top: 0;
-    color: #333;
+.profile-details {
+  margin-top: 10px;
+  text-align: center;
 }
 
-.profile-details p {
-    margin: 5px 0;
-    color: #666;
+/* Animation for loader */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

@@ -1,11 +1,12 @@
 import Form from "react-bootstrap/Form";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import axios from 'axios'
 
 const Login = ({ setCurrUser, setShow }) => {
   const formRef = useRef();
+  const [errorMessage, setErrorMessage] = useState(null);
 
-  const login = async (userInfo, setCurrUser) => { 
+  const login = async (userInfo) => { 
     const url = "http://localhost:3001/login";
     try {
       const response = await axios.post(url, userInfo, {
@@ -17,13 +18,14 @@ const Login = ({ setCurrUser, setShow }) => {
       });
 
       const data = response.data;
-      console.log(response)
       localStorage.setItem("token", response.headers.authorization);
       setCurrUser(data);
       console.log("Usuario autenticado:", data);
+      setErrorMessage(null); 
 
     } catch (error) {
       console.error("Error:", error);
+      setErrorMessage("Invalid email or password. Please try again.");
     }
   };
 
@@ -34,7 +36,7 @@ const Login = ({ setCurrUser, setShow }) => {
     const userInfo = {
       user: { email: data.email, password: data.password },
     };
-    login(userInfo, setCurrUser);
+    login(userInfo);
     e.target.reset();
   };
 
@@ -42,7 +44,6 @@ const Login = ({ setCurrUser, setShow }) => {
     e.preventDefault();
     setShow(false);
   };
-
   
   return (
     <div className="d-flex justify-content-center">
@@ -69,6 +70,11 @@ const Login = ({ setCurrUser, setShow }) => {
         <Form.Label className="title">Password:</Form.Label>
         <Form.Control type="password" name="password" placeholder="password" />
         <br />
+        {errorMessage && (
+          <div className="error-message">
+            {errorMessage}
+          </div>
+        )}
         <input type="submit" value="Login" className="buttonForm" />
         <div>
           Not registered yet,{" "}

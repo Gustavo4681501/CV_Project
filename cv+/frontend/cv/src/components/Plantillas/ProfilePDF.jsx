@@ -34,12 +34,12 @@ const styles = StyleSheet.create({
   },
   columna: {
     width: "48%", // Ajusta el ancho según tus preferencias
-    backgroundColor: "#F6E8DD",
+    backgroundColor: "black",
     minHeight: "100%",
     padding: 8, // Ajusta el espacio interno de cada columna
   },
   sectiona: {
-    backgroundColor: "#D5B9A4",
+    backgroundColor: "black",
     flexDirection: "row",
     justifyContent: "center",
     padding: 10, // Ajusta el espacio interno de la sección
@@ -341,7 +341,7 @@ const ProfilePDF = () => {
             <Text style={styles.text}>{"\n"}</Text>
             <Text style={styles.text}>{"\n"}</Text>
             <Text style={styles.text}>{"\n"}</Text>
-            <Text style={styles.header}>Projects</Text>
+            <Text style={styles.header}>Projectsssssssssssssss</Text>
             <View style={styles.divider}></View>
             <View>
               {userProjects.map((project) => (

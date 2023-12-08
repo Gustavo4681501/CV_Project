@@ -3,26 +3,29 @@ import { useParams } from 'react-router-dom';
 import "./GetSocialLinks.css"
 
 const styles = {
-  container: {
-    maxWidth: '600px',
+  containerget: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '20px',
+    justifyContent: 'center',
     margin: 'auto',
     padding: '20px',
     fontFamily: 'Arial, sans-serif',
   },
-  linkItem: {
+  linkItemget: {
     marginBottom: '20px',
     padding: '10px',
-    background: '#929292',
+    background: '#CCCCCC',
     border: '1px solid #ddd',
     borderRadius: '5px',
   },
-  input: {
+  inputget: {
     margin: '5px 0',
     padding: '8px',
     width: '100%',
     boxSizing: 'border-box',
   },
-  button: {
+  buttonget: {
     margin: '5px 0',
     padding: '8px 12px',
     cursor: 'pointer',
@@ -32,7 +35,7 @@ const styles = {
     color: '#fff',
     transition: 'background 0.3s ease',
   },
-  buttonEliminar: {
+  buttonEliminarget: {
     margin: '5px 0',
     padding: '8px 12px',
     cursor: 'pointer',
@@ -42,7 +45,7 @@ const styles = {
     color: '#fff',
     transition: 'background 0.3s ease',
   },
-  buttonEdit: {
+  buttonEditget: {
     margin: '5px 0',
     padding: '8px 12px',
     cursor: 'pointer',
@@ -52,7 +55,7 @@ const styles = {
     color: '#fff',
     transition: 'background 0.3s ease',
   },
-  letra: {
+  letraget: {
     color: 'black',
   },
 };
@@ -145,41 +148,41 @@ const GetSocialLinks = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div style={styles.containerget}>
       {loading ? (
                <svg className="svgget" viewBox="25 25 50 50">
           <circle className="circleget" r="20" cy="50" cx="50"></circle>
         </svg>
       ) : (
         userSocialLinks.map((link) => (
-          <p key={link.id} style={styles.linkItem}>
+          <div key={link.id} style={styles.linkItemget}>
             {editingLinkId === link.id ? (
               <>
                 <input
                   type="text"
                   value={editedLinkUrl}
                   onChange={(e) => setEditedLinkUrl(e.target.value)}
-                  style={styles.input}
+                  style={styles.inputget}
                 />
-                <button onClick={() => handleSaveLink(link.id)} style={styles.button}>
+                <button onClick={() => handleSaveLink(link.id)} style={styles.buttonget}>
                   Guardar
                 </button>
-                <button onClick={() => setEditingLinkId(null)} style={styles.button}>
+                <button onClick={() => setEditingLinkId(null)} style={styles.buttonget}>
                   Cancelar
                 </button>
               </>
             ) : (
               <>
-                <p style={styles.letra}>Enlace: {link.url}</p>
-                <button onClick={() => handleEditLink(link.id)} style={styles.buttonEdit}>
+                <p style={styles.letraget}>Enlace: {link.url}</p>
+                <button onClick={() => handleEditLink(link.id)} style={styles.buttonEditget}>
                   Editar
                 </button>
-                <button onClick={() => handleDeleteLink(link.id)} style={styles.buttonEliminar}>
+                <button onClick={() => handleDeleteLink(link.id)} style={styles.buttonEliminarget}>
                   Eliminar
                 </button>
               </>
             )}
-          </p>
+          </div>
         ))
       )}
     </div>

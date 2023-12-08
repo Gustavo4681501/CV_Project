@@ -18,7 +18,6 @@
 #  locked_at              :datetime
 #  name                   :string(255)
 #  phone_number           :integer
-#  photo                  :string(255)
 #  registration_date      :date
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
@@ -86,4 +85,14 @@
 class UserSerializer
   include JSONAPI::Serializer
   attributes :id, :email, :name, :last_name, :phone_number
+
+  def avatar_url
+    if object.avatar.attached?
+      url_for(object.avatar)
+    else
+      # Puedes proporcionar un avatar predeterminado o devolver nil
+      nil
+    end
+  end
+
 end

@@ -1,8 +1,9 @@
 #HomeNavbar {
-    position: fixed;
+
     top: 0;
-    width: 82%; 
+    width: 100%; 
     transition: width 0.3s ease;
+    background-color: #d45620b6;
 
 }
 
@@ -28,7 +29,9 @@
 
 .content {
     flex: 1;
-    padding: 60px;
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-top: 20px;
     transition: margin-left 0.3s ease;
     margin-left: 227px; /* Valor predeterminado cuando el Sidebar está abierto */
 }
@@ -40,3 +43,17 @@
 .content-closed {
     margin-left: 5%; /* Ajuste relativo al Sidebar cerrado */
 }
+
+.emoji-link {
+  display: inline-block;
+  text-align: center;
+  margin-right: 10px;
+  text-decoration: none;
+  color: black; /* Color del texto, ajusta según sea necesario */
+}
+
+.emoji-link span {
+  font-size: 24px; /* Tamaño del emoji, ajusta según sea necesario */
+  margin-bottom: 5px; /* Espacio entre el emoji y el texto, ajusta según sea necesario */
+}
+

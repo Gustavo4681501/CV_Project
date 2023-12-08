@@ -9,39 +9,35 @@ import GetSocialLinks from "../GetSocialLinks/GetSocialLinks";
 function Profile() {
   return (
     <div>
-    <div>
-      <h1>Here you can view the information you have added to your profile, you can modify the information or delete it.</h1>
-      </div>
       <div className="contentProfile d-flex">
         <div className="skills">
           <h3 className="titulo">Skills</h3>
-          
-              <GetSkills />
-         
+
+          <GetSkills />
+
         </div>
         <div className="education">
           <h3 className="titulo">Education</h3>
-         
-              <GetEducations />
-      
+
+          <GetEducations />
+
         </div>
         <div className="work-experience">
           <h3 className="titulo">Work Experience</h3>
-       
-              <GetWorkExperiences />
-        
+
+          <GetWorkExperiences />
+
         </div>
         <div className="projects">
           <h3 className="titulo">Projects</h3>
-       
-              <GetProjects />
-     
+
+          <GetProjects />
+
         </div>
         <div className="projects">
           <h3 className="titulo">Social Link</h3>
-     
-              <GetSocialLinks />
-      
+
+          <GetSocialLinks />
         </div>
       </div>
     </div>

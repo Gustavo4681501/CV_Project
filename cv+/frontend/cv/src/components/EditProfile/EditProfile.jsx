@@ -1,8 +1,7 @@
-// EditProfile.js
-
 import React, { useState, useEffect } from 'react';
 import { useUser } from '../AccountTypes/UserContext';
 import './EditProfile.css';
+import Profile from '../Profile/Profile';
 
 const EditProfile = () => {
   const { currUser } = useUser();
@@ -10,7 +9,10 @@ const EditProfile = () => {
     name: '',
     last_name: '',
     phone_number: '',
+    avatar: null,
+    avatar_url: '', // Agregar el campo para almacenar la URL del avatar
   });
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -21,6 +23,16 @@ const EditProfile = () => {
         }
         const data = await response.json();
         setUserData(data);
+
+        
+        const avatarResponse = await fetch(`http://localhost:3001/api/users/${currUser.id}/avatar`);
+        if (avatarResponse.ok) {
+          const avatarData = await avatarResponse.json();
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            avatar_url: avatarData.avatar_url || '', // si no hay ruta de avatar se asigna con dos comillas vacias
+          }));
+        }
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -29,42 +41,74 @@ const EditProfile = () => {
     fetchUserData();
   }, [currUser]);
 
+
   const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setUserData((prevUserData) => ({
-      ...prevUserData,
-      [name]: value,
-    }));
+    const { name, type } = event.target;
+
+    if (type === 'file') {
+      const file = event.target.files[0];
+
+      if (file) {
+        if (file.type.startsWith('image/')) {
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            [name]: file,
+            avatar: file,
+          }));
+        } else {
+          alert('Please select a valid image file.');
+          event.target.value = '';
+        }
+      }
+    } else {
+      const { value } = event.target;
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        [name]: value,
+      }));
+    }
   };
 
-  const handleUpdateUser = async () => {
+  const handleSaveUserInfo = async () => {
     try {
+      const formData = new FormData();
+      formData.append('user[name]', userData.name);
+      formData.append('user[last_name]', userData.last_name);
+      formData.append('user[phone_number]', userData.phone_number);
+      if (userData.avatar) {
+        formData.append('user[avatar]', userData.avatar);
+      }
+
       const response = await fetch(`http://localhost:3001/api/users/${currUser.id}`, {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ user: userData }),
+        body: formData,
       });
 
       if (response.ok) {
         const updatedUser = await response.json();
-        console.log('User updated:', updatedUser);
+        console.log('User information updated:', updatedUser);
+        setNotification('User information updated successfully!');
       } else {
-        throw new Error('Failed to update user');
+        throw new Error('Failed to update user information');
       }
     } catch (error) {
-      console.error('Error updating user:', error);
+      console.error('Error updating user information:', error);
     }
   };
 
   return (
+    <>
+    <div className='containerProfile'>
     <div className="profile-container text-center">
       <div className="profile-header-form">
-        <h1 className='titleform'>Edit User Profile</h1>
+        <h1 className="titleform">Edit User Profile</h1>
       </div>
       <div className="profile-form">
-        <form className='formprincipal'>
+        {notification && <p className="notification">{notification}</p>}
+            {userData.avatar_url && (
+              <img className="profile-picture" src={userData.avatar_url} alt="User Profile" />
+            )}
+        <form className="formprincipal">
           <label className="labelform">
             Name:
             <input
@@ -95,19 +139,30 @@ const EditProfile = () => {
               onChange={handleInputChange}
             />
           </label>
-
+          <label className="labelform">
+            Profile Picture:
+            <input
+              className="inputform"
+              type="file"
+              name="photo"
+              onChange={handleInputChange}
+            />
+          </label>
           <br />
-          <button className="buttonform" type="button" onClick={handleUpdateUser}>
-            Save Changes
-          </button>
-        <div className="profile-details">
-      <h1>Name: {userData.name}</h1>
-      <h1>Last name: {userData.last_name}</h1>
-      <h1>Phone: {userData.phone_number}</h1>
-    </div>
-        </form>
+          <div className="profile-details">
+            <button className="buttonform" type="button" onClick={handleSaveUserInfo}>
+              Save User Information
+            </button>
+          </div>
+        </form> <br />
+      </div>
+      <div className='gets'>
+        <Profile />
       </div>
     </div>
+      </div>
+      </>
+
   );
 };
 

@@ -57,3 +57,12 @@ gem 'omniauth'
 gem 'foreman', github:'ddollar/foreman'
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'pry-byebug', '~> 3.10', '>= 3.10.1'
+
+# Use active storage
+gem 'activestorage'
+
+# Use Active Storage variants
+gem "image_processing", "~> 1.2"
+
+# Use active model serializers
+gem 'active_model_serializers', '~> 0.10.13'

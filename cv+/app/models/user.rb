@@ -18,7 +18,6 @@
 #  locked_at              :datetime
 #  name                   :string(255)
 #  phone_number           :integer
-#  photo                  :string(255)
 #  registration_date      :date
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
@@ -56,8 +55,15 @@ class User < ApplicationRecord
         has_many :work_experiences
         has_and_belongs_to_many :available_vacancies
 
+        has_one_attached :avatar
+
+
+        has_many :attachments, as: :record, class_name: "ActiveStorage::Attachment"
+
+        # A través de la relación `has_many :blobs` puedes obtener los objetos Blob relacionados
+        has_many :blobs, through: :attachments, class_name: "ActiveStorage::Blob"
+      
+
         enum role: [:regular, :admin]
 
-        # Include default devise modules. Others available are:
-        # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
 end

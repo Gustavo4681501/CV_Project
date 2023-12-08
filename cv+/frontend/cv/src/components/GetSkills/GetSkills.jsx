@@ -2,26 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 const styles = {
-  container: {
-    maxWidth: '600px',
+  containerget: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '20px',
+    justifyContent: 'center',
     margin: 'auto',
     padding: '20px',
     fontFamily: 'Arial, sans-serif',
   },
-  skillItem: {
+  skillItemget: {
     marginBottom: '20px',
-    padding: '10px',
-    background: '#929292',
-    border: '1px solid #ddd',
+    padding: '50px',
+    background: '#0D477C',
+    border: '2px solid black',
     borderRadius: '5px',
   },
-  input: {
+  inputget: {
     margin: '5px 0',
     padding: '8px',
     width: '100%',
     boxSizing: 'border-box',
   },
-  button: {
+  buttonget: {
     margin: '5px 0',
     padding: '8px 12px',
     cursor: 'pointer',
@@ -31,28 +34,28 @@ const styles = {
     color: '#fff',
     transition: 'background 0.3s ease',
   },
-  buttonEliminar: {
+  buttonEliminarget: {
     margin: '5px 0',
     padding: '8px 12px',
     cursor: 'pointer',
     borderRadius: '3px',
     border: '1px solid #ddd',
-    background: '#a80000',
+    background: '#D98200',
     color: '#fff',
     transition: 'background 0.3s ease',
   },
-  buttonEdit: {
+  buttonEditget: {
     margin: '5px 0',
     padding: '8px 12px',
     cursor: 'pointer',
     borderRadius: '3px',
     border: '1px solid #ddd',
-    background: '#86bc70',
+    background: '#AAAAAA',
     color: '#fff',
     transition: 'background 0.3s ease',
   },
-  letra: {
-    color: 'black',
+  letraget: {
+    color: 'white',
   },
 };
 
@@ -145,44 +148,46 @@ const GetSkills = () => {
   };
 
   return (
-    <div style={styles.container}>
+ 
+    <div style={styles.containerget}>
       {isLoading ? (
-       <svg className="svgget" viewBox="25 25 50 50">
+        <svg className="svgget" viewBox="25 25 50 50">
           <circle className="circleget" r="20" cy="50" cx="50"></circle>
         </svg>
       ) : (
         userSkills.map((skill) => (
-          <p key={skill.id} style={styles.skillItem}>
+          <div key={skill.id} style={styles.skillItemget}>
             {editingSkillId === skill.id ? (
               <>
                 <input
                   type="text"
                   value={editedSkillName}
                   onChange={(e) => setEditedSkillName(e.target.value)}
-                  style={styles.input}
+                  style={styles.inputget}
                 />
-                <button onClick={() => handleSaveSkill(skill.id)} style={styles.button}>
+                <button onClick={() => handleSaveSkill(skill.id)} style={styles.buttonget}>
                   Guardar
                 </button>
-                <button onClick={() => setEditingSkillId(null)} style={styles.button}>
+                <button onClick={() => setEditingSkillId(null)} style={styles.buttonget}>
                   Cancelar
                 </button>
               </>
             ) : (
               <>
-                <p style={styles.letra}>Name: {skill.name}</p>
-                <button onClick={() => handleEditSkill(skill.id)} style={styles.buttonEdit}>
+                <p style={styles.letraget}>Name: {skill.name}</p>
+                <button onClick={() => handleEditSkill(skill.id)} style={styles.buttonEditget}>
                   Editar
                 </button>
-                <button onClick={() => handleDeleteSkill(skill.id)} style={styles.buttonEliminar}>
+                <button onClick={() => handleDeleteSkill(skill.id)} style={styles.buttonEliminarget}>
                   Eliminar
                 </button>
               </>
             )}
-          </p>
+          </div>
         ))
       )}
     </div>
+ 
   );
 };
 

@@ -3,26 +3,29 @@ import { useParams } from 'react-router-dom';
 import "./GetEducation.css"
 
 const styles = {
-  container: {
-    maxWidth: '600px',
+  containerget: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '20px',
+    justifyContent: 'center',
     margin: 'auto',
     padding: '20px',
     fontFamily: 'Arial, sans-serif',
   },
-  educationItem: {
+  educationItemget: {
     marginBottom: '20px',
-    padding: '10px',
-    background: '#929292',
+    padding: '40px',
+    background: '#CCCCCC',
     border: '1px solid #ddd',
     borderRadius: '5px',
   },
-  input: {
+  inputget: {
     margin: '5px 0',
     padding: '8px',
     width: '100%',
     boxSizing: 'border-box',
   },
-  button: {
+  buttonget: {
     margin: '5px 0',
     padding: '8px 12px',
     cursor: 'pointer',
@@ -32,7 +35,7 @@ const styles = {
     color: '#fff',
     transition: 'background 0.3s ease',
   },
-  buttonEliminar: {
+  buttonEliminarget: {
     margin: '5px 0',
     padding: '8px 12px',
     cursor: 'pointer',
@@ -42,7 +45,7 @@ const styles = {
     color: '#fff',
     transition: 'background 0.3s ease',
   },
-  buttonEdit: {
+  buttonEditget: {
     margin: '5px 0',
     padding: '8px 12px',
     cursor: 'pointer',
@@ -52,7 +55,7 @@ const styles = {
     color: '#fff',
     transition: 'background 0.3s ease',
   },
-  letra: {
+  letraget: {
     color: 'black',
   },
 };
@@ -164,43 +167,43 @@ const GetEducations = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div style={styles.containerget}>
       {isLoading ? (
         <svg className="svgget" viewBox="25 25 50 50">
           <circle className="circleget" r="20" cy="50" cx="50"></circle>
         </svg>
       ) : (
         userEducations.map((education) => (
-          <p key={education.id} style={styles.educationItem}>
+          <div key={education.id} style={styles.educationItemget}>
             {editingEducationId === education.id ? (
               <>
                 <input
                   type="text"
                   value={editedEducationName}
                   onChange={(e) => setEditedEducationName(e.target.value)}
-                  style={styles.input}
+                  style={styles.inputget}
                 />
                 {/* Resto de los inputs */}
-                <button onClick={() => handleSaveEducation(education.id)} style={styles.button}>
+                <button onClick={() => handleSaveEducation(education.id)} style={styles.buttonget}>
                   Guardar
                 </button>
-                <button onClick={() => setEditingEducationId(null)} style={styles.button}>
+                <button onClick={() => setEditingEducationId(null)} style={styles.buttonget}>
                   Cancelar
                 </button>
               </>
             ) : (
               <>
-                <p style={styles.letra}>Name: {education.name}</p>
+                <p style={styles.letraget}>Name: {education.name}</p>
                 {/* Resto de la información */}
-                <button onClick={() => handleEditEducation(education.id)} style={styles.buttonEdit}>
+                <button onClick={() => handleEditEducation(education.id)} style={styles.buttonEditget}>
                   Editar
                 </button>
-                <button onClick={() => handleDeleteEducation(education.id)} style={styles.buttonEliminar}>
+                <button onClick={() => handleDeleteEducation(education.id)} style={styles.buttonEliminarget}>
                   Eliminar
                 </button>
               </>
             )}
-          </p>
+          </div>
         ))
       )}
     </div>

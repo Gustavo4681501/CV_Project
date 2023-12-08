@@ -13,6 +13,7 @@ function ShowVacancyRequirements() {
     const { currCompany } = useCompany();
     const { currUser } = useUser();
     const [applied, setApplied] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchRequirements = async () => {
@@ -29,8 +30,11 @@ function ShowVacancyRequirements() {
                 }
             } catch (error) {
                 console.error("Error fetching requirements:", error);
+            } finally {
+                setIsLoading(false);
             }
         };
+
         fetchRequirements();
     }, [vacancyId]);
 
@@ -141,9 +145,9 @@ function ShowVacancyRequirements() {
         const fetchApplicationStatus = async () => {
             try {
                 const response = await fetch(
-                    `http://localhost:3001/api/available_vacancies/${vacancyId.id}/check_application`
+                    `http://localhost:3001/api/available_vacancies/${vacancyId.id}/check_application?user_id=${currUser.id}`
                 );
-
+    
                 if (response.ok) {
                     setApplied(true);
                 } else if (response.status === 404) {
@@ -158,16 +162,16 @@ function ShowVacancyRequirements() {
                 console.error("Error obteniendo estado de aplicación:", error);
             }
         };
-
+    
         fetchApplicationStatus();
-    }, [vacancyId]);
-
+    }, [vacancyId.id]);
+    
     const handleApply = async () => {
         try {
             const requestBody = {
                 user_id: currUser.id,
             };
-
+    
             const response = await fetch(
                 `http://localhost:3001/api/available_vacancies/${vacancyId.id}/apply`,
                 {
@@ -178,7 +182,7 @@ function ShowVacancyRequirements() {
                     body: JSON.stringify(requestBody),
                 }
             );
-
+    
             if (response.ok) {
                 setApplied(true);
                 console.log("Successfully applied for the vacancy");
@@ -189,31 +193,42 @@ function ShowVacancyRequirements() {
             console.error("Error applying for the vacancy:", error);
         }
     };
-
+    
     const handleUnapply = async () => {
         try {
             const response = await fetch(
-                `http://localhost:3001/api/available_vacancies/${vacancyId.id}/unapply/${currUser.id}`,
+                `http://localhost:3001/api/available_vacancies/${vacancyId.id}/unapply`,
                 {
                     method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ user_id: currUser.id }),
                 }
             );
-
+    
             if (response.ok) {
                 setApplied(false);
-                console.log("Se ha desaplicado exitosamente de la vacante");
+                console.log("Successfully unapplied from the vacancy");
             } else {
-                throw new Error("No se pudo desaplicar de la vacante");
+                throw new Error("Failed to unapply from the vacancy");
             }
         } catch (error) {
-            console.error("Error al desaplicar de la vacante:", error);
+            console.error("Error unapplying from the vacancy:", error);
         }
     };
+    
 
     return (
         <div className="vacancy-requirements">
-            <h2>Vacancy Requirements</h2>
+    <h2>Vacancy Requirements</h2>
 
+    {isLoading ? (
+        <div className="d-flex justify-content-center">
+            <div className="loader"></div>
+        </div>
+    ) : (
+        <>
             <div>
                 {currCompany ? (
                     <>
@@ -275,13 +290,16 @@ function ShowVacancyRequirements() {
             </ul>
 
             {currUser ? (
-                <button onClick={applied ? handleUnapply : handleApply}>
+                <button onClick={applied ? handleUnapply : handleApply} className="">
                     {applied ? "Desaplicar" : "Aplicar"}
                 </button>
             ) : (
                 <></>
             )}
-        </div>
+        </>
+    )}
+</div>
+
     );
 }
 

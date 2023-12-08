@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./ShowProfileUser.css";
 import { useUser } from "../AccountTypes/UserContext";
+import { useCompany } from "../AccountTypes/CompanyContext";
 
 const ShowProfileUser = () => {
     const [user, setUser] = useState({});
@@ -9,14 +10,11 @@ const ShowProfileUser = () => {
     const [commentBody, setCommentBody] = useState("");
     const { userId } = useParams();
     const { currUser } = useUser();
-
-
+    const { currCompany } = useCompany();
 
     const fetchUserDetails = async () => {
         try {
-            const response = await fetch(
-                `http://localhost:3001/api/users/${userId}`
-            );
+            const response = await fetch(`http://localhost:3001/api/users/${userId}`);
             if (!response.ok) {
                 throw new Error("Network response was not ok");
             }
@@ -26,8 +24,6 @@ const ShowProfileUser = () => {
             console.error("Hubo un problema con la petición Fetch:", error);
         }
     };
-
-
 
     const fetchComments = async () => {
         try {
@@ -47,6 +43,20 @@ const ShowProfileUser = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            const currentDate = new Date();
+            let commentData = {
+                comment: {
+                    body: commentBody,
+                    date: currentDate.toLocaleString(),
+                },
+            };
+
+            if (currUser) {
+                commentData.comment.user_id = currUser.id;
+            } else if (currCompany) {
+                commentData.comment.company_id = currCompany.id;
+            }
+
             const response = await fetch(
                 `http://localhost:3001/api/users/${userId}/comments`,
                 {
@@ -54,15 +64,10 @@ const ShowProfileUser = () => {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({
-                        comment: {
-                            body: commentBody,
-                            user_id: currUser.id,
-                        },
-                    }),
+                    body: JSON.stringify(commentData),
                 }
             );
-
+            console.log(commentData);
             if (!response.ok) {
                 throw new Error("Network response was not ok");
             }
@@ -74,12 +79,11 @@ const ShowProfileUser = () => {
         }
     };
 
-
     useEffect(() => {
         fetchComments();
         fetchUserDetails();
     }, [userId]);
-
+    console.log(comments)
     return (
         <center>
             <div className="resume-container">
@@ -158,7 +162,16 @@ const ShowProfileUser = () => {
                     <ul>
                         {comments.map((comment) => (
                             <li key={comment.id}>
-                                <strong>{comment.user ? comment.user.name : "Unknown User"}</strong>: {comment.body}
+                                <strong>
+                                    {comment.user ? (
+                                        <span>{comment.user.name}</span>
+                                    ) : comment.company ? (
+                                        <span>{comment.company.name}</span>
+                                    ) : (
+                                        <span>Unknown</span>
+                                    )}
+                                </strong>
+                                : {comment.body}
                             </li>
                         ))}
                     </ul>
