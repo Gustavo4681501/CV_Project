@@ -1,0 +1,34 @@
+
+
+.comments-container {
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+.comments-heading {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+.comments-list {
+    list-style: none;
+    padding: 0;
+}
+
+.comment-item {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+    /* Agregar una transición para cambiar el color de fondo */
+}
+
+.comment-item:hover {
+    background-color: #f9f9f9;
+    /* Cambiar el color de fondo al pasar el cursor */
+}

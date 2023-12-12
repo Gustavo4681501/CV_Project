@@ -40,7 +40,7 @@ class Api::EducationsController < ApplicationController
     end
 
     def education_params
-        params.require(:educations).permit(:name, :institution_name, :location, :start_date, :finish_date, :user_id)
+        params.require(:education).permit(:name, :institution_name, :location, :start_date, :finish_date, :user_id)
     end
 
 end

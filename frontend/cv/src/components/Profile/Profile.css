@@ -16,22 +16,8 @@ body {
     object-fit: cover;
 }
 
-.contentProfile {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 20px;
-}
 
-.skills,
-.education,
-.work-experience,
-.projects {
-    padding: 20px;
-    background-color: #5f5f5f;
-    border-radius: 5px;
-    
-}
+
 
 .social-links {
     margin-top: 20px;
@@ -48,5 +34,37 @@ body {
 }
 
 .titulo{
-    margin-left: 40%;
+    text-align: center;
+    
+    font-size: 70px;
+    color: rgb(2, 90, 206);
+    font-family: monospace;
+    color: linear-gradient(0deg, rgba(41,176,227,1) 38%, rgba(29,120,135,1) 100%);
+}
+
+
+
+.skillsContent{
+border-radius: 2px ;
+background-color: #000000b5 ;
+}
+
+.educationContent{
+
+background-color:rgba(0, 0, 0, 0.245)  ;
+
+}
+
+.workContent{
+    background-color: #000000b5  ;
+}
+
+.projectsContent{
+
+    background-color: rgba(0, 0, 0, 0.245)   ;
+}
+
+.socialLinkContent{
+
+    background-color:   #000000b5;
 }

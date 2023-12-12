@@ -6,40 +6,35 @@ import GetEducations from "../GetEducation/GetEducation";
 import GetWorkExperiences from "../GetWorkExperiences/GetWorkExperiences";
 import GetSocialLinks from "../GetSocialLinks/GetSocialLinks";
 
-function Profile() {
+function Profile({ userId }) {
   return (
     <div>
-    
-      <div className="contentProfile d-flex">
-        <div className="skills">
+      <div className="contentProfile">
+        <div className="skillsContent">
           <h3 className="titulo">Skills</h3>
           
-              <GetSkills />
-         
+          <GetSkills userId={userId} />
+      
         </div>
-        <div className="education">
+        <div className="educationContent">
           <h3 className="titulo">Education</h3>
-         
-              <GetEducations />
-      
+
+          <GetEducations userId={userId} />
         </div>
-        <div className="work-experience">
+        <div className="workContent">
           <h3 className="titulo">Work Experience</h3>
-       
-              <GetWorkExperiences />
-        
+
+          <GetWorkExperiences userId={userId} />
         </div>
-        <div className="projects">
+        <div className="projectsContent">
           <h3 className="titulo">Projects</h3>
-       
-              <GetProjects />
-     
+
+          <GetProjects userId={userId} />
         </div>
-        <div className="projects">
+        <div className="socialLinkContent">
           <h3 className="titulo">Social Link</h3>
-     
-              <GetSocialLinks />
-      
+
+          <GetSocialLinks userId={userId} />
         </div>
       </div>
     </div>

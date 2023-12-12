@@ -1,78 +1,48 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import './GetSocialLinks.css';
+import { useUser } from '../AccountTypes/UserContext';
 
-const styles = {
-  container: {
-    maxWidth: '600px',
-    margin: 'auto',
-    padding: '20px',
-    fontFamily: 'Arial, sans-serif',
-    background: '#303030',
-  },
-  linkItem: {
-    marginBottom: '20px',
-    padding: '10px',
-    background: '#929292',
-    border: '1px solid #ddd',
-    borderRadius: '5px',
-  },
-  input: {
-    margin: '5px 0',
-    padding: '8px',
-    width: '100%',
-    boxSizing: 'border-box',
-  },
-  button: {
-    marginRight: '10px',
-    padding: '8px 12px',
-    cursor: 'pointer',
-    borderRadius: '3px',
-    border: '1px solid #ddd',
-    background: '#4CAF50',
-    color: '#fff',
-    transition: 'background 0.3s ease',
-  },
-  letra: {
-    color: 'black',
-  },
-};
+const GetSocialLinks = ({ userId }) => {
 
-const GetSocialLinks = () => {
-  const { id } = useParams();
-  const userId = parseInt(id, 10);
+  const { currUser } = useUser()
+
 
   const [socialLinks, setSocialLinks] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [editingLinkId, setEditingLinkId] = useState(null);
   const [editedLinkUrl, setEditedLinkUrl] = useState('');
 
   useEffect(() => {
     const fetchSocialLinks = async () => {
       try {
-        const response = await fetch("http://localhost:3001/api/social_links");
+        const response = await fetch('http://localhost:3001/api/social_links');
 
         if (response.ok) {
           const socialLinksData = await response.json();
           setSocialLinks(socialLinksData);
         } else {
-          console.error("Error al obtener enlaces sociales:", response.statusText);
+          console.error('Error al obtener enlaces sociales:', response.statusText);
         }
       } catch (error) {
-        console.error("Error de red:", error);
+        console.error('Error de red:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchSocialLinks();
   }, []);
+  
+  const id = userId? userId : currUser.id ;
+  const userSocialLinks = socialLinks.filter(link => link.user_id.toString() === id.toString());
 
-  const userSocialLinks = socialLinks.filter(link => link.user_id === userId);
-
-  const handleEditLink = (id) => {
+  const handleEditLink = id => {
     const linkToEdit = socialLinks.find(link => link.id === id);
     setEditingLinkId(id);
     setEditedLinkUrl(linkToEdit.url);
   };
 
-  const handleSaveLink = async (id) => {
+  const handleSaveLink = async id => {
     try {
       const response = await fetch(`http://localhost:3001/api/social_links/${id}`, {
         method: 'PATCH',
@@ -104,7 +74,7 @@ const GetSocialLinks = () => {
     }
   };
 
-  const handleDeleteLink = async (id) => {
+  const handleDeleteLink = async id => {
     try {
       const response = await fetch(`http://localhost:3001/api/social_links/${id}`, {
         method: 'DELETE',
@@ -122,39 +92,47 @@ const GetSocialLinks = () => {
   };
 
   return (
-    <div style={styles.container}>
-      
-        {userSocialLinks.map((link) => (
-          <p key={link.id} style={styles.linkItem}>
-            {editingLinkId === link.id ? (
+    <div className="containergets">
+      {loading ? (
+        <div className="loader"></div>
+      ) : (
+        userSocialLinks.map(link => (
+          <div key={link.id} className="Itemget">
+            <p className="letraget">Enlace: {link.url}</p>
+            {id.toString() === currUser.id.toString() ? (
               <>
-                <input
-                  type="text"
-                  value={editedLinkUrl}
-                  onChange={(e) => setEditedLinkUrl(e.target.value)}
-                  style={styles.input}
-                />
-                <button onClick={() => handleSaveLink(link.id)} style={styles.button}>
-                  Guardar
-                </button>
-                <button onClick={() => setEditingLinkId(null)} style={styles.button}>
-                  Cancelar
-                </button>
+                {editingLinkId === link.id ? (
+                  <>
+                    <input
+                      type="text"
+                      value={editedLinkUrl}
+                      onChange={e => setEditedLinkUrl(e.target.value)}
+                      className="inputget"
+                    />
+                    <button onClick={() => handleSaveLink(link.id)} className="buttonget">
+                      Guardar
+                    </button>
+                    <button onClick={() => setEditingLinkId(null)} className="buttonget">
+                      Cancelar
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={() => handleEditLink(link.id)} className="buttonEditget">
+                      Editar
+                    </button>
+                    <button onClick={() => handleDeleteLink(link.id)} className="buttonEliminarget">
+                      Eliminar
+                    </button>
+                  </>
+                )}
               </>
             ) : (
-              <>
-                <p style={styles.letra}>Enlace: {link.url}</p>
-                <button onClick={() => handleDeleteLink(link.id)} style={styles.button}>
-                  Eliminar
-                </button>
-                <button onClick={() => handleEditLink(link.id)} style={styles.button}>
-                  Editar
-                </button>
-              </>
+              <></>
             )}
-          </p>
-        ))}
-     
+          </div>
+        ))
+      )}
     </div>
   );
 };

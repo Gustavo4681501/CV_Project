@@ -1,17 +1,30 @@
 class Api::CommentsController < ApplicationController
     before_action :set_comment, only: [:show, :update, :destroy]
+    before_action :set_resource, only: [:index, :create]
 
     def index
-        @comments = Comment.all
-        render json: @comments
+        comments = @user.comments.includes(:user, :company)
+        render json: comments, include: {
+            user: { only: [:id, :name] },
+            company: { only: [:id, :name] }
+        }
     end
 
     def show
-        render json: @comment
+        render json: @comment, include: :user
     end
 
     def create
-        @comment =  Comment.new(comment_params)
+        if params[:user_id]
+            @user = User.find(params[:user_id])
+            @comment = @user.comments.build(comment_params)
+        elsif params[:company_id]
+            @company = Company.find(params[:company_id])
+            @comment = @company.comments.build(comment_params)
+        else
+            render json: { error: "No user_id or company_id provided" }, status: :unprocessable_entity
+            return
+        end
 
         if @comment.save
             render json: @comment, status: :created
@@ -38,8 +51,17 @@ class Api::CommentsController < ApplicationController
         @comment = Comment.find(params[:id])
     end
 
-    def comment_params
-        params.require(:comments).permit(:body, :date, :user_id)
+    def set_resource
+        if params[:user_id]
+            @user = User.find(params[:user_id])
+        elsif params[:company_id]
+            @company = Company.find(params[:company_id])
+        else
+            render json: { error: "No user_id or company_id provided" }, status: :unprocessable_entity
+        end
     end
 
+    def comment_params
+        params.require(:comment).permit(:body, :date, :user_id, :company_id)
+    end
 end

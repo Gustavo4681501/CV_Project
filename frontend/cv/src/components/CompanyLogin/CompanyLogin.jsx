@@ -1,9 +1,10 @@
 import Form from "react-bootstrap/Form";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
 
 const CompanyLogin = ({ setCurrCompany, setShow }) => {
     const formRef = useRef();
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const login = async (userInfo, setCurrCompany) => {
         const url = "http://localhost:3001/companies/login";
@@ -20,9 +21,11 @@ const CompanyLogin = ({ setCurrCompany, setShow }) => {
             console.log(response);
             localStorage.setItem("token", response.headers.authorization);
             setCurrCompany(data);
+            setErrorMessage(null)
             console.log("Usuario autenticado:", data);
         } catch (error) {
             console.error("Error:", error);
+            setErrorMessage("Invalid email or password. Please try again.")
         }
     };
 
@@ -42,6 +45,7 @@ const CompanyLogin = ({ setCurrCompany, setShow }) => {
     };
 
     return (
+        <>
         <div className="d-flex justify-content-center">
             <Form ref={formRef} onSubmit={handleSubmit} className="formContainer">
                 <center>
@@ -62,6 +66,11 @@ const CompanyLogin = ({ setCurrCompany, setShow }) => {
                 <Form.Label className="title">Password:</Form.Label>
                 <Form.Control type="password" name="password" placeholder="password" />
                 <br />
+                {errorMessage && (
+          <div className="error-message">
+            {errorMessage}
+          </div>
+          )}
                 <input type="submit" value="Login" className="buttonForm"/>
                 <div>
                     Not registered yet,{" "}
@@ -72,6 +81,7 @@ const CompanyLogin = ({ setCurrCompany, setShow }) => {
             </Form>
             <br />
         </div>
+         </>
     );
 };
 export default CompanyLogin;

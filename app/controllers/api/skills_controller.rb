@@ -39,7 +39,7 @@ class Api::SkillsController < ApplicationController
     end
 
     def skill_params
-        params.require(:skills).permit(:name, :user_id)
+        params.require(:skill).permit(:name, :user_id)
     end
 
 end

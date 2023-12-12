@@ -1,53 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import './GetEducation.css';
+import { useUser } from '../AccountTypes/UserContext';
 
-const styles = {
-  container: {
-    maxWidth: '600px',
-    margin: 'auto',
-    padding: '20px',
-    fontFamily: 'Arial, sans-serif',
-    background: '#303030',
-  },
-  educationItem: {
-    marginBottom: '20px',
-    padding: '10px',
-    background: '#929292',
-    border: '1px solid #ddd',
-    borderRadius: '5px',
-  },
-  input: {
-    margin: '5px 0',
-    padding: '8px',
-    width: '100%',
-    boxSizing: 'border-box',
-  },
-  button: {
-    marginRight: '10px',
-    padding: '8px 12px',
-    cursor: 'pointer',
-    borderRadius: '3px',
-    border: '1px solid #ddd',
-    background: '#4CAF50',
-    color: '#fff',
-    transition: 'background 0.3s ease',
-  },
-  letra: {
-    color: 'black',
-  },
-};
+const GetEducations = ({userId}) => {
+  const { currUser } = useUser()
 
-const GetEducations = () => {
   const [educations, setEducations] = useState([]);
-  const { id } = useParams();
-  const userId = parseInt(id, 10);
-
   const [editingEducationId, setEditingEducationId] = useState(null);
   const [editedEducationName, setEditedEducationName] = useState('');
   const [editedEducationInstitution, setEditedEducationInstitution] = useState('');
   const [editedEducationLocation, setEditedEducationLocation] = useState('');
   const [editedEducationStartDate, setEditedEducationStartDate] = useState('');
   const [editedEducationFinishDate, setEditedEducationFinishDate] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchEducations = async () => {
@@ -62,13 +27,17 @@ const GetEducations = () => {
         }
       } catch (error) {
         console.error('Error de red:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchEducations();
   }, []);
 
-  const userEducations = educations.filter(education => education.user_id === userId);
+
+  const id = userId? userId : currUser.id;
+  const userEducations = educations.filter(education => education.user_id.toString() === id.toString());
 
   const handleEditEducation = (educationId) => {
     const educationToEdit = userEducations.find(education => education.id === educationId);
@@ -141,44 +110,76 @@ const GetEducations = () => {
   };
 
   return (
-    <div style={styles.container}>
-      
-        {userEducations.map((education) => (
-          <p key={education.id} style={styles.educationItem}>
-            {editingEducationId === education.id ? (
+    <div className="containergets">
+      {isLoading ? (
+        <div className="loader"></div>
+      ) : (
+        userEducations.map((education) => (
+          <div key={education.id} className="Itemget">
+            <p className="letraget">Name: {education.name}</p>
+            <p className="letraget">Institution: {education.institution_name}</p>
+            <p className="letraget">Location: {education.location}</p>
+            <p className="letraget">Start date:: {education.start_date}</p>
+            <p className="letraget">Finish date: {education.finish_date}</p>
+            {id.toString() === currUser.id.toString() ? (
               <>
-                <input
-                  type="text"
-                  value={editedEducationName}
-                  onChange={(e) => setEditedEducationName(e.target.value)}
-                  style={styles.input}
-                />
-                {/* Resto de los inputs */}
-                <button onClick={() => handleSaveEducation(education.id)} style={styles.button}>
-                  Guardar
-                </button>
-                <button onClick={() => setEditingEducationId(null)} style={styles.button}>
-                  Cancelar
-                </button>
-                <button onClick={() => handleDeleteEducation(education.id)} style={styles.button}>
-                  Eliminar
-                </button>
+                {editingEducationId === education.id ? (
+                  <>
+                    <input
+                      type="text"
+                      value={editedEducationName}
+                      onChange={(e) => setEditedEducationName(e.target.value)}
+                      className="inputget"
+                    />
+                    <input
+                      type="text"
+                      value={editedEducationInstitution}
+                      onChange={(e) => setEditedEducationInstitution(e.target.value)}
+                      className="inputget"
+                    />
+                    <input
+                      type="text"
+                      value={editedEducationLocation}
+                      onChange={(e) => setEditedEducationLocation(e.target.value)}
+                      className="inputget"
+                    />
+                    <input
+                      type="date"
+                      value={editedEducationStartDate}
+                      onChange={(e) => setEditedEducationStartDate(e.target.value)}
+                      className="inputget"
+                    />
+                    <input
+                      type="date"
+                      value={editedEducationFinishDate}
+                      onChange={(e) => setEditedEducationFinishDate(e.target.value)}
+                      className="inputget"
+                    />
+    
+                    <button onClick={() => handleSaveEducation(education.id)} className="buttonget">
+                      Guardar
+                    </button>
+                    <button onClick={() => setEditingEducationId(null)} className="buttonget">
+                      Cancelar
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={() => handleEditEducation(education.id)} className="buttonEditget">
+                      Editar
+                    </button>
+                    <button onClick={() => handleDeleteEducation(education.id)} className="buttonEliminarget">
+                      Eliminar
+                    </button>
+                  </>
+                )}
               </>
             ) : (
-              <>
-                <p style={styles.letra}>Name: {education.name}</p>
-                {/* Resto de la información */}
-                <button onClick={() => handleEditEducation(education.id)} style={styles.button}>
-                  Editar
-                </button>
-                <button onClick={() => handleDeleteEducation(education.id)} style={styles.button}>
-                  Eliminar
-                </button>
-              </>
+              <></>
             )}
-          </p>
-        ))}
-      
+          </div>
+        ))
+      )}
     </div>
   );
 };

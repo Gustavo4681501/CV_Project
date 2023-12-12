@@ -18,4 +18,5 @@
 #
 class Requirement < ApplicationRecord
     belongs_to :available_vacancy
+
 end

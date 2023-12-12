@@ -1,0 +1,219 @@
+.subtext {
+  color: rgba(227, 252, 255, 0.666);
+  font-size: 20px;
+}
+
+.page {
+  flex-direction: column;
+  padding: 10px;
+}
+
+.header {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.subHeader {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.text {
+  font-size: 10px;
+  margin-bottom: 3px;
+}
+
+.section {
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.columna {
+  width: 48%;
+  background-color: #f6e8dd;
+  min-height: 100%;
+  padding: 8px;
+}
+
+.sectiona {
+  background-color: #d5b9a4;
+  flex-direction: row;
+  justify-content: center;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.divider {
+  border-bottom-width: 1px;
+  border-bottom-color: black;
+  margin-bottom: 5px;
+}
+
+.emojiImage {
+  width: 10px;
+  height: 10px;
+}
+.titulo-container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.titulo-texto {
+  font-size: 50px;
+  color: #ffffffa7;
+  background-color: rgba(32, 64, 105, 0.655);
+}
+
+.File {
+  color: #1f7ccd;
+}
+/* //////////// */
+
+/* Estilos generales */
+
+.formContainer,
+.getProjectsContainer {
+  width: 600px;
+  background-color: #000000;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.projectItem {
+  margin-bottom: 20px;
+  padding: 10px;
+  background: #929292;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.input,
+.textarea {
+  margin: 5px 0;
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input {
+  margin: 5px 0;
+}
+
+.textarea {
+  min-height: 80px;
+}
+
+.button {
+  margin: 5px 0;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+  background: #4caf50;
+  color: #fff;
+  transition: background 0.3s ease;
+}
+
+.letra {
+  color: black;
+}
+
+.titlea {
+  color: white;
+}
+
+/* Estilos adicionales */
+.containerget {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  max-height: 700px;
+  overflow: auto;
+}
+
+.projectItemget {
+  margin-bottom: 20px;
+  padding: 10px;
+  background: #929292;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.inputget,
+.textareaget {
+  margin: 5px 0;
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.textareaget {
+  min-height: 80px;
+}
+
+.buttonget {
+  margin: 5px 0;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+  background: #c37700;
+  color: #fff;
+  transition: background 0.3s ease;
+}
+
+.buttonEliminarget {
+  margin: 5px 0;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+  background: #e3e3e3;
+  color: #fff;
+  transition: background 0.3s ease;
+}
+
+.buttonEditget {
+  margin: 5px 0;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+  background: #000000;
+  color: #fff;
+  transition: background 0.3s ease;
+}
+
+.letraget {
+  color: black;
+}
+
+.imgget {
+  width: 60px;
+}
+
+.containeradds {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #00000082;
+  
+}
+
+.Itemadd {
+  margin-bottom: 20px;
+  padding: 50px;
+  background: #1f7ccdc8;
+  border: 2px solid rgb(0, 183, 255);
+  border-radius: 5px;
+}

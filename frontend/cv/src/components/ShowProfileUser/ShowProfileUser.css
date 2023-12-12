@@ -1,0 +1,88 @@
+.resume-container {
+    background-color: #ccc;
+    padding: 10px;
+    width: 85%;
+}
+
+.info-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.left-column {
+    margin: auto;
+    width: 25%;
+}
+
+header img {
+    width: 300px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.right-column {
+    margin: auto;
+    width: 50%;
+}
+
+/* Estilos para las secciones individuales */
+
+
+
+
+
+.comment-section textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+
+}
+
+.comment-section button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+
+.comments-section {
+    margin-top: 20px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.comments-section h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.comments-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.comments-section li {
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comments-section strong {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.comments-section li p {
+    margin: 0;
+}

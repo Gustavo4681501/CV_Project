@@ -1,58 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
+import "./GetWorkExperience.css";
+import { useUser } from '../AccountTypes/UserContext';
 
-const styles = {
-  container: {
-    maxWidth: '600px',
-    margin: 'auto',
-    padding: '20px',
-    fontFamily: 'Arial, sans-serif',
-    background: '#303030',
-  },
-  workExperienceItem: {
-    marginBottom: '20px',
-    padding: '10px',
-    background: '#929292',
-    border: '1px solid #ddd',
-    borderRadius: '5px',
-  },
-  input: {
-    margin: '5px 0',
-    padding: '8px',
-    width: '100%',
-    boxSizing: 'border-box',
-  },
-  textarea: {
-    margin: '5px 0',
-    padding: '8px',
-    width: '100%',
-    minHeight: '80px',
-    boxSizing: 'border-box',
-  },
-  button: {
-    marginRight: '10px',
-    padding: '8px 12px',
-    cursor: 'pointer',
-    borderRadius: '3px',
-    border: '1px solid #ddd',
-    background: '#4CAF50',
-    color: '#fff',
-    transition: 'background 0.3s ease',
-  },
-  letra: {
-    color: 'black',
-  },
-};
+const GetWorkExperiences = ({ userId }) => {
 
-const GetWorkExperiences = () => {
+  const { currUser } = useUser()
+
   const [workExperiences, setWorkExperiences] = useState([]);
-  const { id } = useParams();
-  const userId = parseInt(id, 10);
+
   const [editingWorkExperienceId, setEditingWorkExperienceId] = useState(null);
   const [editedWorkExperienceName, setEditedWorkExperienceName] = useState('');
   const [editedWorkExperienceDescription, setEditedWorkExperienceDescription] = useState('');
   const [editedWorkExperienceStartDate, setEditedWorkExperienceStartDate] = useState('');
   const [editedWorkExperienceFinishDate, setEditedWorkExperienceFinishDate] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchWorkExperiences = async () => {
@@ -67,13 +29,16 @@ const GetWorkExperiences = () => {
         }
       } catch (error) {
         console.error("Error de red:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchWorkExperiences();
   }, []);
 
-  const userWorkExperiences = workExperiences.filter(work => work.user_id === userId);
+  const id = userId ? userId : currUser.id
+  const userWorkExperiences = workExperiences.filter(work => work.user_id.toString() === id.toString());
 
   const handleEditWorkExperience = (id) => {
     const workExperienceToEdit = workExperiences.find(work => work.id === id);
@@ -140,59 +105,61 @@ const GetWorkExperiences = () => {
   };
 
   return (
-    <div style={styles.container}>
-      
-        {userWorkExperiences.map((workExperience) => (
-          <p key={workExperience.id} style={styles.workExperienceItem}>
+    <div className="containergets">
+      {isLoading ? (
+        <div className="loader"></div>
+      ) : (
+        userWorkExperiences.map((workExperience) => (
+          <div key={workExperience.id} className="Itemget">
+            <p className="letraget">Nombre: {workExperience.name}</p>
+            <p className="letraget">Descripción: {workExperience.description}</p>
+            <p className="letraget">Fecha de inicio: {workExperience.start_date}</p>
+            <p className="letraget">Fecha de finalización: {workExperience.finish_date}</p>
             {editingWorkExperienceId === workExperience.id ? (
               <>
                 <input
                   type="text"
                   value={editedWorkExperienceName}
                   onChange={(e) => setEditedWorkExperienceName(e.target.value)}
-                  style={styles.input}
+                  className="inputget"
                 />
                 <textarea
                   value={editedWorkExperienceDescription}
                   onChange={(e) => setEditedWorkExperienceDescription(e.target.value)}
-                  style={styles.textarea}
+                  className="textareaget"
                 />
                 <input
                   type="date"
                   value={editedWorkExperienceStartDate}
                   onChange={(e) => setEditedWorkExperienceStartDate(e.target.value)}
-                  style={styles.input}
+                  className="inputget"
                 />
                 <input
                   type="date"
                   value={editedWorkExperienceFinishDate}
                   onChange={(e) => setEditedWorkExperienceFinishDate(e.target.value)}
-                  style={styles.input}
+                  className="inputget"
                 />
-                <button onClick={() => handleSaveWorkExperience(workExperience.id)} style={styles.button}>
+                <button onClick={() => handleSaveWorkExperience(workExperience.id)} className="buttonget">
                   Guardar
                 </button>
-                <button onClick={() => setEditingWorkExperienceId(null)} style={styles.button}>
+                <button onClick={() => setEditingWorkExperienceId(null)} className="buttonget">
                   Cancelar
                 </button>
               </>
             ) : (
               <>
-                <p style={styles.letra}>Name: {workExperience.name}</p>
-                <p style={styles.letra}>Description: {workExperience.description}</p>
-                <p style={styles.letra}>Start date: {workExperience.start_date}</p>
-                <p style={styles.letra}>Finish date: {workExperience.finish_date}</p>
-                <button onClick={() => handleDeleteWorkExperience(workExperience.id)} style={styles.button}>
-                  Eliminar
-                </button>
-                <button onClick={() => handleEditWorkExperience(workExperience.id)} style={styles.button}>
+                <button onClick={() => handleEditWorkExperience(workExperience.id)} className="buttonEditget">
                   Editar
+                </button>
+                <button onClick={() => handleDeleteWorkExperience(workExperience.id)} className="buttonEliminarget">
+                  Eliminar
                 </button>
               </>
             )}
-          </p>
-        ))}
-      
+          </div>
+        ))
+      )}
     </div>
   );
 };

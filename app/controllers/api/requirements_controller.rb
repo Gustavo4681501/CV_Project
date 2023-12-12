@@ -3,12 +3,8 @@ class Api::RequirementsController < ApplicationController
     before_action :set_requirement, only: [:show, :update, :destroy]
 
     def index
-        @requirements = Requirement.all
+        @requirements = AvailableVacancy.find(params[:available_vacancy_id]).requirements
         render json: @requirements
-    end
-
-    def show
-        render json: @requirement
     end
 
     def create
@@ -40,7 +36,7 @@ class Api::RequirementsController < ApplicationController
     end
 
     def requirement_params
-        params.require(:requirements).permit(:requirement, :available_vacancy_id)
+        params.require(:requirement).permit(:requirement, :available_vacancy_id)
     end
 
 end

@@ -7,10 +7,15 @@ const Home = () => {
 
 
     return (
-        <div>
-            <h1>Página Homeeeee</h1>
-            
+        <div className="App">
+
+  
+        <div className="Profile">
+          <img className="Profile-pic" src="https://via.placeholder.com/150" alt="User Profile" />
+          <h1 className="Profile-name">John Doe</h1>
+          <p className="Profile-bio">This is my bio. Here is a bit about me and my life. It can be long or short depending on how much I want to write.</p>
         </div>
+      </div>
     );
 };
 

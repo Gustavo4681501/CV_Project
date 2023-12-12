@@ -39,35 +39,30 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             <NavLink to={`User/Profile/${currUser.id}/Profile`}>
               <CDBSidebarMenuItem icon="user">Profile</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to={`User/Profile/${currUser.id}/EditProfile`}>
-              <CDBSidebarMenuItem icon="table">Edit Profile</CDBSidebarMenuItem>
-            </NavLink>
             <NavLink to={`User/Profile/${currUser.id}/AddProjects`}>
-              <CDBSidebarMenuItem icon="table">Add projects</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="table">Add information</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to={`User/Profile/${currUser.id}/AddSkills`}>
-              <CDBSidebarMenuItem icon="table">Add skills</CDBSidebarMenuItem>
-            </NavLink>
-            <NavLink to={`User/Profile/${currUser.id}/AddEducations`}>
+
+
+
+
+            <NavLink to={`User/Profile/${currUser.id}/Resumes`}>
               <CDBSidebarMenuItem icon="table">
-                Add Educations
+                Create resume
               </CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to={`User/Profile/${currUser.id}/AddWorkExperiences`}>
-              <CDBSidebarMenuItem icon="table">
-                Add work experiences
-              </CDBSidebarMenuItem>
-            </NavLink>
-            <NavLink to={`User/Profile/${currUser.id}/AddSocialLinks`}>
-              <CDBSidebarMenuItem icon="table">
-                Add social links
-              </CDBSidebarMenuItem>
-            </NavLink>
-            <NavLink to={`User/Profile/${currUser.id}/Vacancies`}>
+            {/* <NavLink to={`User/Profile/${currUser.id}/Vacancies`}>
               <CDBSidebarMenuItem icon="table">
                 Vacancies to aply
               </CDBSidebarMenuItem>
             </NavLink>
+
+            <NavLink to={`User/Profile/${currUser.id}/ShowMoreUsers`}>
+              <CDBSidebarMenuItem icon="table">
+                Show more users
+              </CDBSidebarMenuItem>
+            </NavLink> */}
+            
           </CDBSidebarMenu>
         </CDBSidebarContent>
       </CDBSidebar>

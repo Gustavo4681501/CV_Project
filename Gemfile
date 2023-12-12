@@ -39,6 +39,7 @@ gem "rack-cors"
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem 'rspec-rails'
 end
 
 group :development do
@@ -46,18 +47,22 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 end
-
+gem 'factory_bot_rails'
 
 gem "devise", "~> 4.9"
 gem 'devise-jwt'
 gem 'jsonapi-serializer'
-
-
 gem 'devise_token_auth'
 gem 'omniauth'
-
-
-
 gem 'foreman', github:'ddollar/foreman'
-
 gem 'dotenv-rails', groups: [:development, :test]
+gem 'pry-byebug', '~> 3.10', '>= 3.10.1'
+
+# Use active storage
+gem 'activestorage'
+
+# Use Active Storage variants
+gem "image_processing", "~> 1.2"
+
+# Use active model serializers
+gem 'active_model_serializers', '~> 0.10.13'

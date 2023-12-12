@@ -1,87 +1,49 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 
-const styles = {
-  container: {
-    maxWidth: '600px',
-    margin: 'auto',
-    padding: '20px',
-    fontFamily: 'Arial, sans-serif',
-    background: '#303030',
-  },
-  projectItem: {
-    marginBottom: '20px',
-    padding: '10px',
-    background: '#929292',
-    border: '1px solid #ddd',
-    borderRadius: '5px',
-  },
-  input: {
-    margin: '5px 0',
-    padding: '8px',
-    width: '100%',
-    boxSizing: 'border-box',
-  },
-  textarea: {
-    margin: '5px 0',
-    padding: '8px',
-    width: '100%',
-    minHeight: '80px',
-    boxSizing: 'border-box',
-  },
-  button: {
-    margin: '5px 0',
-    padding: '8px 12px',
-    cursor: 'pointer',
-    borderRadius: '3px',
-    border: '1px solid #ddd',
-    background: '#4CAF50',
-    color: '#fff',
-    transition: 'background 0.3s ease',
-  },
-  letra: {
-    color: 'black',
-  },
-};
+import './GetProjects.css';
+import '../GetsCss/GetsCss.css'
+import { useUser } from '../AccountTypes/UserContext';
 
-const GetProjects = () => {
-  const { id } = useParams();
-  const userId = parseInt(id, 10);
-
+const GetProjects = ( {userId} ) => {
+  const { currUser } = useUser();
   const [projects, setProjects] = useState([]);
   const [editingProjectId, setEditingProjectId] = useState(null);
   const [editedProjectName, setEditedProjectName] = useState('');
   const [editedProjectDescription, setEditedProjectDescription] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch("http://localhost:3001/api/projects");
+        const response = await fetch('http://localhost:3001/api/projects');
 
         if (response.ok) {
           const projectsData = await response.json();
           setProjects(projectsData);
         } else {
-          console.error("Error al obtener proyectos:", response.statusText);
+          console.error('Error al obtener proyectos:', response.statusText);
         }
       } catch (error) {
-        console.error("Error de red:", error);
+        console.error('Error de red:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchProjects();
   }, []);
 
-  const userProjects = projects.filter(project => project.user_id === userId);
+  const id = userId? userId : currUser.id ;
+  const userProjects = projects.filter(project => project.user_id.toString() === id.toString());
 
-  const handleEditProject = (id) => {
+  const handleEditProject = id => {
     const projectToEdit = projects.find(project => project.id === id);
     setEditingProjectId(id);
     setEditedProjectName(projectToEdit.name);
     setEditedProjectDescription(projectToEdit.description);
   };
 
-  const handleSaveProject = async (id) => {
+  const handleSaveProject = async id => {
     try {
       const response = await fetch(`http://localhost:3001/api/projects/${id}`, {
         method: 'PATCH',
@@ -115,7 +77,7 @@ const GetProjects = () => {
     }
   };
 
-  const handleDeleteProject = async (id) => {
+  const handleDeleteProject = async id => {
     try {
       const response = await fetch(`http://localhost:3001/api/projects/${id}`, {
         method: 'DELETE',
@@ -133,45 +95,67 @@ const GetProjects = () => {
   };
 
   return (
-    <div style={styles.container}>
-      
-        {userProjects.map((project) => (
-          <p key={project.id} style={styles.projectItem}>
+    <div className="containergets">
+
+      {isLoading ? (
+        <div className="loader"></div>
+        ) : (
+        userProjects.map(project => (
+          <div key={project.id} className="Itemget">
+  <p className="letraget">Name: {project.name}</p>
+  <p className="letraget">Description: {project.description}</p>
+  {id.toString() === currUser.id.toString() ? (
+        <>
             {editingProjectId === project.id ? (
               <>
                 <input
                   type="text"
                   value={editedProjectName}
-                  onChange={(e) => setEditedProjectName(e.target.value)}
-                  style={styles.input}
+                  onChange={e => setEditedProjectName(e.target.value)}
+                  className="inputget"
                 />
-                <textarea
+                <input
                   value={editedProjectDescription}
-                  onChange={(e) => setEditedProjectDescription(e.target.value)}
-                  style={styles.textarea}
+                  onChange={e => setEditedProjectDescription(e.target.value)}
+                  className="inputget"
                 />
-                <button onClick={() => handleSaveProject(project.id)} style={styles.button}>
+                <button
+                  onClick={() => handleSaveProject(project.id)}
+                  className="buttonget"
+                >
                   Guardar
                 </button>
-                <button onClick={() => setEditingProjectId(null)} style={styles.button}>
+                <button
+                  onClick={() => setEditingProjectId(null)}
+                  className="buttonget"
+                >
                   Cancelar
                 </button>
               </>
             ) : (
               <>
-                <p style={styles.letra}>Name: {project.name}</p>
-                <p style={styles.letra}>Description: {project.description}</p>
-                <button onClick={() => handleDeleteProject(project.id)} style={styles.button}>
-                  Eliminar
-                </button>
-                <button onClick={() => handleEditProject(project.id)} style={styles.button}>
+                <button
+                  onClick={() => handleEditProject(project.id)}
+                  className="buttonEditget"
+                >
                   Editar
+                </button>
+                <button
+                  onClick={() => handleDeleteProject(project.id)}
+                  className="buttonEliminarget"
+                >
+                  Eliminar
                 </button>
               </>
             )}
-          </p>
-        ))}
-      
+
+        </>
+      ) : (
+        <></>
+      )}
+          </div>
+        ))
+      )}
     </div>
   );
 };

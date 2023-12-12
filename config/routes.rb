@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'private/test'
 
 
   devise_for :users, path: '', path_names: {
@@ -22,23 +21,39 @@ Rails.application.routes.draw do
     registrations: 'companies/registrations'
   }
 
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
-
 
   namespace :api do
-    resources :available_vacancies
-    resources :comments
-    resources :companies
     resources :curriculums
     resources :educations
     resources :projects
-    resources :users
     resources :requirements
     resources :skills
     resources :social_links
     resources :work_experiences
+
+    resources :companies do
+      member do
+        get :avatar
+        delete :destroy_avatar
+      end
+    end
+
+    resources :users do
+      resources :comments
+      member do
+        get :avatar
+        delete :destroy_avatar
+      end
+    end
+
+    resources :available_vacancies do
+      resources :requirements
+      member do
+        post :apply
+        delete :unapply
+        get :check_application
+        get :show_applicants
+      end
+    end
   end
 end

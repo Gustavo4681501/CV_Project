@@ -4,6 +4,7 @@ import "./ShowVacancies.css";
 
 function ShowVacancies() {
     const [vacancies, setVacancies] = useState([]);
+    const [isLoading, setIsLoading] = useState(true); // Estado para controlar la carga
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -15,7 +16,6 @@ function ShowVacancies() {
 
                 if (response.ok) {
                     const vacanciesData = await response.json();
-                    // Iterar sobre cada vacante y hacer una solicitud para obtener el nombre de la empresa
                     const updatedVacancies = await Promise.all(
                         vacanciesData.map(async (vacancy) => {
                             const companyResponse = await fetch(
@@ -24,7 +24,7 @@ function ShowVacancies() {
                             const companyData = await companyResponse.json();
                             return {
                                 ...vacancy,
-                                companyName: companyData.name // Agregar el nombre de la empresa a la vacante
+                                companyName: companyData.name 
                             };
                         })
                     );
@@ -34,6 +34,9 @@ function ShowVacancies() {
                 }
             } catch (error) {
                 console.error("Error de red:", error);
+            } finally {
+                // Una vez finalizada la búsqueda, cambiar el estado isLoading a false
+                setIsLoading(false);
             }
         };
 
@@ -45,22 +48,31 @@ function ShowVacancies() {
     };
 
     return (
-        <div className="bg-body-secondary d-flex">
-            <ul>
-                {vacancies.map((vacancy, index) => (
-                    <div className="d-flex justify-content-center m-4" key={index}>
-                        <div
-                            className="justify-content-center job-item text-center"
-                            onClick={() => handleRedirectionToRequirements(vacancy.id)}
-                        >
-                            <h4>Company: <b>{vacancy.companyName}</b></h4> 
-                            <h5>Vacancy name: <b>{vacancy.name}</b></h5>
-                            <p>Vacancy description: <b>{vacancy.description}</b></p>
-                        </div>
-                    </div>
-                ))}
-            </ul>
-        </div>
+        <>
+            <div  className="titulo-container">
+                <h1 className="titulo-texto">Here you can view the available vacancies and apply to them.</h1>
+            </div>
+            <div className="bg-body-secondary d-flex justify-content-center">
+                {isLoading ? ( 
+                    <div className="loader"></div>
+                ) : (
+                    <ul>
+                        {vacancies.map((vacancy, index) => (
+                            <div className="d-flex justify-content-center m-4" key={index}>
+                                <div
+                                    className="justify-content-center job-item text-center"
+                                    onClick={() => handleRedirectionToRequirements(vacancy.id)}
+                                >
+                                    <h4>Company: <b>{vacancy.companyName}</b></h4> 
+                                    <h5>Vacancy name: <b>{vacancy.name}</b></h5>
+                                    <p>Vacancy description: <b>{vacancy.description}</b></p>
+                                </div>
+                            </div>
+                        ))}
+                    </ul>
+                )}
+            </div>
+        </>
     );
 }
 

@@ -43,6 +43,17 @@ const styles = StyleSheet.create({
     height: 14,
     marginRight: 5,
   },
+    textloading: {
+    fontSize: 40,
+    marginBottom: 8,
+    color: "black",
+    fontWeight: "bold",
+  },
+    pageloading: {
+    flexDirection: "column",
+    backgroundColor: "#e6e6e6",
+    padding: 40,
+  },
 });
 
 const PlantillaDos = () => {
@@ -52,6 +63,7 @@ const PlantillaDos = () => {
   const [userProjects, setUserProjects] = useState([]);
   const [userSkills, setUserSkills] = useState([]);
   const [userLinks, setUserLinks] = useState([]);
+    const [isPdfReady, setIsPdfReady] = useState(false);
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -278,6 +290,7 @@ const PlantillaDos = () => {
             console.log("FILTER USERSSSSsssssss AAAAAAAAAAAAAAAAA", userfilter);
 
           setUsers(userfilter);
+          setIsPdfReady(true);
         } else {
           console.error("Error al obtener users:", response.statusText);
         }
@@ -292,6 +305,8 @@ console.log("LOSSSS USERSSSSSSSSSSSSSSSSSSSSSS", users);
 
 
   return (
+   <>
+  {isPdfReady ? (
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
@@ -385,6 +400,16 @@ console.log("LOSSSS USERSSSSSSSSSSSSSSSSSSSSSS", users);
         </View>
       </Page>
     </Document>
+     ) : (
+      <Document>
+      <Page size="A4" style={styles.page}>
+      <View>
+          <Text style={styles.subHeader}>Loading your resume...</Text>
+      </View>
+      </Page>
+    </Document>
+      )}
+   </>
   );
 };
 

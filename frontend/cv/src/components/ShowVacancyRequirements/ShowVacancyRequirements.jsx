@@ -4,7 +4,6 @@ import "./ShowVacancyRequirements.css";
 import { useCompany } from "../AccountTypes/CompanyContext";
 import { useUser } from "../AccountTypes/UserContext";
 
-
 function ShowVacancyRequirements() {
     const [requirements, setRequirements] = useState([]);
     const [editedRequirement, setEditedRequirement] = useState("");
@@ -13,7 +12,9 @@ function ShowVacancyRequirements() {
     const vacancyId = useParams();
     const { currCompany } = useCompany();
     const { currUser } = useUser();
-    const [companyId, setCompanyId] = useState(null);
+    const [applied, setApplied] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
         const fetchRequirements = async () => {
             try {
@@ -29,8 +30,11 @@ function ShowVacancyRequirements() {
                 }
             } catch (error) {
                 console.error("Error fetching requirements:", error);
+            } finally {
+                setIsLoading(false);
             }
         };
+
         fetchRequirements();
     }, [vacancyId]);
 
@@ -56,26 +60,27 @@ function ShowVacancyRequirements() {
         }
     };
 
-
-
     const handleUpdateRequirement = async (requirementId) => {
         try {
             const requestBody = {
                 requirement: editedRequirement,
-                available_vacancy_id: vacancyId
+                available_vacancy_id: vacancyId,
             };
 
-            const response = await fetch(`http://localhost:3001/api/available_vacancies/${vacancyId}/requirements/${requirementId}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ requirement: requestBody }),
-            });
+            const response = await fetch(
+                `http://localhost:3001/api/available_vacancies/${vacancyId}/requirements/${requirementId}`,
+                {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ requirement: requestBody }),
+                }
+            );
 
             if (response.ok) {
                 const updatedRequirement = await response.json();
-                const updatedRequirements = requirements.map(req => {
+                const updatedRequirements = requirements.map((req) => {
                     if (req.id === requirementId) {
                         return updatedRequirement;
                     }
@@ -91,16 +96,17 @@ function ShowVacancyRequirements() {
             console.error("Error updating requirement:", error);
         }
     };
-    
+
     useEffect(() => {
         if (editingId !== null) {
-            const selectedRequirement = requirements.find(req => req.id === editingId);
+            const selectedRequirement = requirements.find(
+                (req) => req.id === editingId
+            );
             setEditedRequirement(selectedRequirement.requirement);
         } else {
             setEditedRequirement("");
         }
     }, [editingId, requirements]);
-    
 
     const handleAddRequirement = async () => {
         try {
@@ -136,37 +142,38 @@ function ShowVacancyRequirements() {
     };
 
     useEffect(() => {
-        const fetchCompanyFromVacancy = async () => {
+        const fetchApplicationStatus = async () => {
             try {
                 const response = await fetch(
-                    `http://localhost:3001/api/available_vacancies/${vacancyId.id}`
+                    `http://localhost:3001/api/available_vacancies/${vacancyId.id}/check_application?user_id=${currUser.id}`
                 );
-
+    
                 if (response.ok) {
-                    const data = await response.json();
-                    const companyIdFromVacancy = data.company_id;
-                    setCompanyId(companyIdFromVacancy);
+                    setApplied(true);
+                } else if (response.status === 404) {
+                    setApplied(false);
                 } else {
-                    throw new Error("Failed to fetch vacancy details");
+                    console.error(
+                        "Error obteniendo estado de aplicación:",
+                        response.statusText
+                    );
                 }
             } catch (error) {
-                console.error("Error fetching vacancy details:", error);
+                console.error("Error obteniendo estado de aplicación:", error);
             }
         };
-
-        fetchCompanyFromVacancy();
-    }, [vacancyId]);
-
+    
+        fetchApplicationStatus();
+    }, [vacancyId.id]);
+    
     const handleApply = async () => {
         try {
             const requestBody = {
-                company_id: companyId,
                 user_id: currUser.id,
             };
-            console.log(requestBody)
-
+    
             const response = await fetch(
-                `http://localhost:3001/api/companies/${companyId}/add_user/${currUser.id}`,
+                `http://localhost:3001/api/available_vacancies/${vacancyId.id}/apply`,
                 {
                     method: "POST",
                     headers: {
@@ -175,10 +182,10 @@ function ShowVacancyRequirements() {
                     body: JSON.stringify(requestBody),
                 }
             );
-
+    
             if (response.ok) {
-
-                console.log("Relación creada con éxito");
+                setApplied(true);
+                console.log("Successfully applied for the vacancy");
             } else {
                 throw new Error("Failed to apply for the vacancy");
             }
@@ -187,91 +194,112 @@ function ShowVacancyRequirements() {
         }
     };
     
+    const handleUnapply = async () => {
+        try {
+            const response = await fetch(
+                `http://localhost:3001/api/available_vacancies/${vacancyId.id}/unapply`,
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ user_id: currUser.id }),
+                }
+            );
+    
+            if (response.ok) {
+                setApplied(false);
+                console.log("Successfully unapplied from the vacancy");
+            } else {
+                throw new Error("Failed to unapply from the vacancy");
+            }
+        } catch (error) {
+            console.error("Error unapplying from the vacancy:", error);
+        }
+    };
+    
+
     return (
         <div className="vacancy-requirements">
-        <h2>Vacancy Requirements</h2>
+    <h2>Vacancy Requirements</h2>
 
-        <div>
-            {currCompany ? (
-                <>
-                    <input
-                        type="text"
-                        value={newRequirement}
-                        onChange={(e) => setNewRequirement(e.target.value)}
-                    />
-                    <button onClick={handleAddRequirement}>Añadir</button>
-                </>
+    {isLoading ? (
+        <div className="d-flex justify-content-center">
+            <div className="loader"></div>
+        </div>
+    ) : (
+        <>
+            <div>
+                {currCompany ? (
+                    <>
+                        <input
+                            type="text"
+                            value={newRequirement}
+                            onChange={(e) => setNewRequirement(e.target.value)}
+                        />
+                        <button onClick={handleAddRequirement}>Añadir</button>
+                    </>
+                ) : (
+                    <></>
+                )}
+            </div>
+
+            <ul>
+                {requirements.map((requirement, index) => (
+                    <li key={index}>
+                        {editingId === requirement.id ? (
+                            <>
+                                {currCompany ? (
+                                    <>
+                                        <input
+                                            type="text"
+                                            value={editedRequirement}
+                                            onChange={(e) => setEditedRequirement(e.target.value)}
+                                        />
+                                        <button
+                                            onClick={() => handleUpdateRequirement(requirement.id)}
+                                        >
+                                            Guardar
+                                        </button>
+                                    </>
+                                ) : (
+                                    <h1>Por favor, inicia sesión.</h1>
+                                )}
+                            </>
+                        ) : (
+                            <>
+                                {currCompany ? (
+                                    <>
+                                        <button
+                                            onClick={() => handleDeleteRequirement(requirement.id)}
+                                        >
+                                            Eliminar
+                                        </button>
+                                        <button onClick={() => setEditingId(requirement.id)}>
+                                            Editar
+                                        </button>
+                                    </>
+                                ) : (
+                                    <></>
+                                )}
+                                {requirement.requirement}
+                            </>
+                        )}
+                    </li>
+                ))}
+            </ul>
+
+            {currUser ? (
+                <button onClick={applied ? handleUnapply : handleApply} className="">
+                    {applied ? "Desaplicar" : "Aplicar"}
+                </button>
             ) : (
                 <></>
             )}
-        </div>
+        </>
+    )}
+</div>
 
-        <ul>
-            {requirements.map((requirement, index) => (
-                <li key={index}>
-                    {editingId === requirement.id ? (
-                        <>
-                            {currCompany ? (
-                                <>
-                                    <input
-                                        type="text"
-                                        value={editedRequirement}
-                                        onChange={(e) =>
-                                            setEditedRequirement(
-                                                e.target.value
-                                            )
-                                        }
-                                    />
-                                    <button
-                                        onClick={() =>
-                                            handleUpdateRequirement(
-                                                requirement.id
-                                            )
-                                        }
-                                    >
-                                        Guardar
-                                    </button>
-                                </>
-                            ) : (
-                                <h1>Por favor, inicia sesión.</h1>
-                            )}
-                        </>
-                    ) : (
-                        <>
-                            {currCompany ? (
-                                <>
-                                    <button
-                                        onClick={() =>
-                                            handleDeleteRequirement(
-                                                requirement.id
-                                            )
-                                        }
-                                    >
-                                        Eliminar
-                                    </button>
-                                    <button
-                                        onClick={() =>
-                                            setEditingId(requirement.id)
-                                        }
-                                    >
-                                        Editar
-                                    </button>
-                                </>
-                            ) : (
-                                <></>
-                            )}
-                    {requirement.requirement}
-                        </>
-                    )}
-                </li>
-            ))}
-        </ul>
-        {currUser ? (
-            <button onClick={handleApply}>Apply</button>
-        ) : (
-            <></>
-        )}
-    </div>
     );
 }
 

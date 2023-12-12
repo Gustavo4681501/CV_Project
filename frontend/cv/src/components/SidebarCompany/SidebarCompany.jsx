@@ -51,9 +51,11 @@ const SidebarCompany = () => {
               </CDBSidebarMenuItem>
             </NavLink>
 
-            <NavLink to="*">
+           
+
+            <NavLink to={`Company/Profile/${currCompany.id}/ShowMoreUsers`}>
               <CDBSidebarMenuItem icon="exclamation-circle">
-                404 page
+                Show more users
               </CDBSidebarMenuItem>
             </NavLink>
           </CDBSidebarMenu>
