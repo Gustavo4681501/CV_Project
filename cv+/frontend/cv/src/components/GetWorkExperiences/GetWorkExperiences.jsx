@@ -1,76 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import "./GetWorkExperience.css";
+import { useUser } from '../AccountTypes/UserContext';
 
-const styles = {
-  containerget: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '20px',
-    justifyContent: 'center',
-    margin: 'auto',
-    padding: '20px',
-    fontFamily: 'Arial, sans-serif',
-  },
-  workExperienceItemget: {
-    marginBottom: '20px',
-    padding: '40px',
-    background: '#CCCCCC',
-    border: '1px solid #ddd',
-    borderRadius: '5px',
-  },
-  inputget: {
-    margin: '5px 0',
-    padding: '8px',
-    width: '100%',
-    boxSizing: 'border-box',
-  },
-  textareaget: {
-    margin: '5px 0',
-    padding: '8px',
-    width: '100%',
-    minHeight: '80px',
-    boxSizing: 'border-box',
-  },
-  buttonget: {
-    margin: '5px 0',
-    padding: '8px 12px',
-    cursor: 'pointer',
-    borderRadius: '3px',
-    border: '1px solid #ddd',
-    background: '#c37700',
-    color: '#fff',
-    transition: 'background 0.3s ease',
-  },
-  buttonEliminarget: {
-    margin: '5px 0',
-    padding: '8px 12px',
-    cursor: 'pointer',
-    borderRadius: '3px',
-    border: '1px solid #ddd',
-    background: '#a80000',
-    color: '#fff',
-    transition: 'background 0.3s ease',
-  },
-  buttonEditget: {
-    margin: '5px 0',
-    padding: '8px 12px',
-    cursor: 'pointer',
-    borderRadius: '3px',
-    border: '1px solid #ddd',
-    background: '#86bc70',
-    color: '#fff',
-    transition: 'background 0.3s ease',
-  },
-  letraget: {
-    color: 'black',
-  },
-};
+const GetWorkExperiences = ({ userId }) => {
 
-const GetWorkExperiences = () => {
+  const { currUser } = useUser()
+
   const [workExperiences, setWorkExperiences] = useState([]);
-  const { id } = useParams();
-  const userId = parseInt(id, 10);
+
   const [editingWorkExperienceId, setEditingWorkExperienceId] = useState(null);
   const [editedWorkExperienceName, setEditedWorkExperienceName] = useState('');
   const [editedWorkExperienceDescription, setEditedWorkExperienceDescription] = useState('');
@@ -99,7 +37,8 @@ const GetWorkExperiences = () => {
     fetchWorkExperiences();
   }, []);
 
-  const userWorkExperiences = workExperiences.filter(work => work.user_id === userId);
+  const id = userId ? userId : currUser.id
+  const userWorkExperiences = workExperiences.filter(work => work.user_id.toString() === id.toString());
 
   const handleEditWorkExperience = (id) => {
     const workExperienceToEdit = workExperiences.find(work => work.id === id);
@@ -166,61 +105,59 @@ const GetWorkExperiences = () => {
   };
 
   return (
-    <div style={styles.containerget}>
+    <div className="containergets">
       {isLoading ? (
-         <svg className="svgget" viewBox="25 25 50 50">
-          <circle className="circleget" r="20" cy="50" cx="50"></circle>
-        </svg>
+        <div className="loader"></div>
       ) : (
         userWorkExperiences.map((workExperience) => (
-          <p key={workExperience.id} style={styles.workExperienceItemget}>
+          <div key={workExperience.id} className="Itemget">
+            <p className="letraget">Nombre: {workExperience.name}</p>
+            <p className="letraget">Descripción: {workExperience.description}</p>
+            <p className="letraget">Fecha de inicio: {workExperience.start_date}</p>
+            <p className="letraget">Fecha de finalización: {workExperience.finish_date}</p>
             {editingWorkExperienceId === workExperience.id ? (
               <>
                 <input
                   type="text"
                   value={editedWorkExperienceName}
                   onChange={(e) => setEditedWorkExperienceName(e.target.value)}
-                  style={styles.inputget}
+                  className="inputget"
                 />
                 <textarea
                   value={editedWorkExperienceDescription}
                   onChange={(e) => setEditedWorkExperienceDescription(e.target.value)}
-                  style={styles.textareaget}
+                  className="textareaget"
                 />
                 <input
                   type="date"
                   value={editedWorkExperienceStartDate}
                   onChange={(e) => setEditedWorkExperienceStartDate(e.target.value)}
-                  style={styles.inputget}
+                  className="inputget"
                 />
                 <input
                   type="date"
                   value={editedWorkExperienceFinishDate}
                   onChange={(e) => setEditedWorkExperienceFinishDate(e.target.value)}
-                  style={styles.inputget}
+                  className="inputget"
                 />
-                <button onClick={() => handleSaveWorkExperience(workExperience.id)} style={styles.buttonget}>
+                <button onClick={() => handleSaveWorkExperience(workExperience.id)} className="buttonget">
                   Guardar
                 </button>
-                <button onClick={() => setEditingWorkExperienceId(null)} style={styles.buttonget}>
+                <button onClick={() => setEditingWorkExperienceId(null)} className="buttonget">
                   Cancelar
                 </button>
               </>
             ) : (
               <>
-                <p style={styles.letraget}>Nombre: {workExperience.name}</p>
-                <p style={styles.letraget}>Descripción: {workExperience.description}</p>
-                <p style={styles.letraget}>Fecha de inicio: {workExperience.start_date}</p>
-                <p style={styles.letraget}>Fecha de finalización: {workExperience.finish_date}</p>
-                <button onClick={() => handleEditWorkExperience(workExperience.id)} style={styles.buttonEditget}>
+                <button onClick={() => handleEditWorkExperience(workExperience.id)} className="buttonEditget">
                   Editar
                 </button>
-                <button onClick={() => handleDeleteWorkExperience(workExperience.id)} style={styles.buttonEliminarget}>
+                <button onClick={() => handleDeleteWorkExperience(workExperience.id)} className="buttonEliminarget">
                   Eliminar
                 </button>
               </>
             )}
-          </p>
+          </div>
         ))
       )}
     </div>

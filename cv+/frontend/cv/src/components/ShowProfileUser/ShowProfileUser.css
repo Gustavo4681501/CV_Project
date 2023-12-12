@@ -26,17 +26,7 @@ header img {
 }
 
 /* Estilos para las secciones individuales */
-.skills,
-.social-links,
-.education,
-.projects,
-.work-experience {
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    background-color: rgba(121, 121, 121, 0.578);
-    border-radius: 5px;
-}
+
 
 
 

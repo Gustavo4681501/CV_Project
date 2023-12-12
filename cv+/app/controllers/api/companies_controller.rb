@@ -17,6 +17,19 @@ class Api::CompaniesController < ApplicationController
         render json: { avatar_url: avatar_info }
     end
 
+    def destroy_avatar
+        @company = Company.find(params[:id])
+        if @company.avatar.attached?
+          @company.avatar.purge
+          render json: { message: 'Company avatar deleted successfully' }
+        else
+          render json: { error: 'No avatar attached to the company' }, status: :unprocessable_entity
+        end
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Company not found' }, status: :not_found
+      end
+
+
     def create
         @company = Company.new(company_params)
 

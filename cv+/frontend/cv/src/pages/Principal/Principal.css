@@ -1,5 +1,5 @@
 body {
-    background-image: url("../../../public/image/Email_2.jpg");
+    background-image: url("/public/image/24.jpg");
     background-attachment: fixed;
     background-size: cover;
 }
@@ -8,24 +8,31 @@ body {
 #buttonsLoginContainer {
     display: grid;
     place-items: center;
-    margin-top: 10%;
+    margin-top: 5%;
 }
 
+
+
+
 .PrincipalTitle {
-    background-color: rgb(255, 138, 4);
+    background-color: #e3e4e5;
     border-radius: 6px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     color: black;
     box-shadow: rgba(255, 255, 255, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(255, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(255, 255, 255, 0.06) 0px 2px 1px, rgba(255, 255, 255, 0.09) 0px 4px 2px, rgba(255, 255, 255, 0.09) 0px 8px 4px, rgba(255, 255, 255, 0.09) 0px 16px 8px, rgba(255, 255, 255, 0.09) 5px 2px 10px;
 }
 
 
 #PrincipalBoton {
-    background-color: rgba(255, 209, 157, 0.608);
+    background-color: #e3e4e5 ;
     color: rgb(0, 0, 0);
     border-color: black;
+    width: 250px;
+    height: 150px;
+    font-size: 22px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 
 }
-
 
 #PrincipalButton:hover {
     box-shadow: rgba(255, 255, 255, 0.25) 0px 54px 55px, rgba(255, 255, 255, 0.12) 0px -12px 30px, rgba(255, 255, 255, 0.12) 0px 4px 6px, rgba(255, 255, 255, 0.17) 0px 12px 13px, rgba(255, 255, 255, 0.09) 0px -3px 5px;
@@ -35,13 +42,11 @@ body {
 }
 
 #PrincipalText {
-
-    color: black;
+    color: #e3e4e5 ;
 }
 
 #PrincipalButtonLogin {
-
-    background-color: rgba(236, 132, 12, 0.608);
+    background-color: rgba(12, 72, 236, 0.608);
     color: rgb(0, 0, 0);
     border-color: black;
 
@@ -74,7 +79,7 @@ body {
     display: flex;
     align-items: center;
     padding-left: 30px;
-    color: #ff9d00;
+    color: #1f7ccd;
 }
 
 .title::after {
@@ -91,7 +96,7 @@ body {
     width: 16px;
     border-radius: 50%;
     left: 0px;
-    background-color: #ff6a00;
+    background-color: #1f7ccd;
 }
 
 
@@ -106,11 +111,10 @@ body {
         opacity: 0;
     }
 }
-
 /* ---------------------BUTTON-SIGN-UP----------------------------------------------- */
 
 .buttonForm {
-    --orange: #fd751b;
+    --orange: #00708b;
     font-size: 15px;
     padding: 0.7em 2.7em;
     letter-spacing: 0.06em;
@@ -120,16 +124,17 @@ body {
     overflow: hidden;
     transition: all 0.3s;
     line-height: 1.4em;
-    border: 2px solid var(--orange);
-    background: linear-gradient(to right, rgba(253, 114, 27, 0.1) 1%, transparent 40%, transparent 60%, rgba(253, 114, 27, 0.1) 100%);
-    color: var(--orange);
-    box-shadow: inset 0 0 10px rgba(253, 136, 27, 0.68), 0 0 9px 3px rgba(253, 136, 27, 0.68);
+    border: 2px solid var(--white);
+    background: linear-gradient(to right, rgba(253, 114, 27, 0.1) 1%, transparent 40%, transparent 60%, rgba(64, 0, 124, 0.1) 100%);
+    color: var(--white);
+    box-shadow: inset 0 0 10px rgba(136, 27, 253, 0.68), 0 0 9px 3px rgba(0, 0, 0, 0.68);
+    margin: 10px;
 }
 
 
 .buttonForm:hover {
-    color: #ffcb82;
-    box-shadow: inset 0 0 10px rgba(253, 151, 27, 0.6), 0 0 9px 3px rgba(253, 140, 27, 0.2);
+    color: #26006c;
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6), 0 0 9px 3px rgba(147, 53, 255, 0.2);
 }
 
 .buttonForm:before {
@@ -140,7 +145,7 @@ body {
     height: 100%;
     top: 0;
     transition: transform .4s ease-in-out;
-    background: linear-gradient(to right, transparent 1%, rgba(253, 148, 27, 0.1) 40%, rgba(253, 174, 27, 0.1) 60%, transparent 100%);
+    background: linear-gradient(to right, transparent 1%, rgba(27, 204, 253, 0.1) 40%, rgba(253, 174, 27, 0.1) 60%, transparent 100%);
 }
 
 .buttonForm:hover:before {

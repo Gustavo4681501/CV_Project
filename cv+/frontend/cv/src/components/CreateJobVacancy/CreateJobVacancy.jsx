@@ -55,10 +55,7 @@ function CreateJobVacancy() {
             if (responseCreateVacancy) {
                 const { id } = responseCreateVacancy;
 
-                if (
-                    requirementData.requirements &&
-                    requirementData.requirements.length > 0
-                ) {
+                if (requirementData.requirements && requirementData.requirements.length > 0) {
                     for (const req of requirementData.requirements) {
                         const responseAddRequirement = await postData(
                             "http://localhost:3001/api/requirements",

@@ -5,99 +5,7 @@ import { useUser } from "../AccountTypes/UserContext";
 import { Link, useParams } from "react-router-dom";
 import { IoShareSocialSharp } from "react-icons/io5";
 
-const styles = {
-  containerget: {
-    maxWidth: "600px",
-    margin: "auto",
-    padding: "20px",
-    fontFamily: "Arial, sans-serif",
-  },
-  linkItemget: {
-    marginBottom: "20px",
-    padding: "10px",
-    background: "#929292",
-    border: "1px solid #ddd",
-    borderRadius: "5px",
-  },
-  inputget: {
-    margin: "5px 0",
-    padding: "8px",
-    width: "100%",
-    boxSizing: "border-box",
-  },
-  buttonget: {
-    margin: "5px 0",
-    padding: "8px 12px",
-    cursor: "pointer",
-    borderRadius: "3px",
-    border: "1px solid #ddd",
-    background: "#c37700",
-    color: "#fff",
-    transition: "background 0.3s ease",
-  },
-  buttonEliminarget: {
-    margin: "5px 0",
-    padding: "8px 12px",
-    cursor: "pointer",
-    borderRadius: "3px",
-    border: "1px solid #ddd",
-    background: "#a80000",
-    color: "#fff",
-    transition: "background 0.3s ease",
-  },
-  buttonEditget: {
-    margin: "5px 0",
-    padding: "8px 12px",
-    cursor: "pointer",
-    borderRadius: "3px",
-    border: "1px solid #ddd",
-    background: "#86bc70",
-    color: "#fff",
-    transition: "background 0.3s ease",
-  },
-  letraget: {
-    color: "black",
-  },
-  container: {
-    display: "flex",
-    maxWidth: "1100px",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    margin: "auto",
-    padding: "20px",
-    fontFamily: "Arial, sans-serif",
-    background: "#00000082",
-  },
-  formContainer: {
-    width: "45%",
-  },
-  buttonContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-end",
-    marginTop: "20px",
-  },
-  letra: {
-    color: "black",
-  },
-  input: {
-    margin: "5px 0",
-    padding: "8px",
-    width: "100%",
-    boxSizing: "border-box",
-  },
-  button: {
-    margin: "5px 0",
-    padding: "8px 12px",
-    cursor: "pointer",
-    borderRadius: "3px",
-    border: "1px solid #ddd",
-    transition: "background 0.3s ease",
-  },
-  title: {
-    color: "white",
-  },
-};
+
 
 const AddSocialLink = () => {
   const { currUser } = useUser();
@@ -259,16 +167,16 @@ const AddSocialLink = () => {
           ¡Add your social links so that companies can view you!
         </h1>
       </div>
-      <div style={styles.container}>
-        <div style={styles.buttonContainer}>
+      <div className="containeradds">
+        <div className="buttonContainer">
           <Link to={`/User/Profile/${currUser.id}/AddWorkExperiences`}>
             <button className="buttonForm">BACK</button>
           </Link>
         </div>
-        <Form onSubmit={handleSubmit} style={styles.formContainer}>
+        <Form onSubmit={handleSubmit} className="formContainer">
           <center>
             <h1 className="File"><IoShareSocialSharp /></h1>
-            <h3 style={styles.title}>Add social link</h3>
+            <h3 className="titlea">Add social link</h3>
           </center>
           <Form.Group>
             <Form.Label className="title">URL</Form.Label>
@@ -280,7 +188,8 @@ const AddSocialLink = () => {
               required
               value={formData.url}
               onChange={handleInputChange}
-              style={styles.input}
+              className="input"
+            
             />
           </Form.Group>
 
@@ -297,48 +206,51 @@ const AddSocialLink = () => {
           </button>
         </Form>
 
-        <div style={styles.buttonContainer}>
-          <div style={styles.containerget}>
+        <div className="buttonContainer">
+          <div className="containerget">
             {loading ? (
-              <svg className="svgget" viewBox="25 25 50 50">
-                <circle className="circleget" r="20" cy="50" cx="50"></circle>
-              </svg>
+              <div className="loader"></div>
             ) : (
               userSocialLinks.map((link) => (
-                <p key={link.id} style={styles.linkItemget}>
+                <p key={link.id} className="Itemadd">
                   {editingLinkId === link.id ? (
                     <>
                       <input
                         type="text"
                         value={editedLinkUrl}
                         onChange={(e) => setEditedLinkUrl(e.target.value)}
-                        style={styles.inputget}
+                        className="inputget"
+                      
                       />
                       <button
                         onClick={() => handleSaveLink(link.id)}
-                        style={styles.buttonget}
+                        className="buttonget"
+                      
                       >
                         Guardar
                       </button>
                       <button
                         onClick={() => setEditingLinkId(null)}
-                        style={styles.buttonget}
+                        className="buttonget"
+                      
                       >
                         Cancelar
                       </button>
                     </>
                   ) : (
                     <>
-                      <p style={styles.letraget}>Enlace: {link.url}</p>
+                      <p className="letraget">Enlace: {link.url}</p>
                       <button
                         onClick={() => handleEditLink(link.id)}
-                        style={styles.buttonEditget}
+                        className="buttonEditget"
+                      
                       >
                         Editar
                       </button>
                       <button
                         onClick={() => handleDeleteLink(link.id)}
-                        style={styles.buttonEliminarget}
+                        className="buttonEliminarget"
+                       
                       >
                         Eliminar
                       </button>
@@ -350,7 +262,7 @@ const AddSocialLink = () => {
           </div>
         </div>
 
-        <div style={styles.buttonContainer}>
+        <div className="buttonContainer">
           <Link to={`/User/Profile/${currUser.id}/Resumes`}>
             <button className="buttonForm">VIEW RESUMES</button>
           </Link>

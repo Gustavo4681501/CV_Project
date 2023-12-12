@@ -7,103 +7,6 @@ import GetSkills from "../GetSkills/GetSkills";
 import { Link } from 'react-router-dom';
 import { GiBrain } from "react-icons/gi";
 
-const styles = {
-  containerget: {
-   maxWidth: '600px',
-   margin: 'auto',
-   padding: '20px',
-   fontFamily: 'Arial, sans-serif',
- },
- skillItemget: {
-   marginBottom: '20px',
-   padding: '10px',
-   background: '#929292',
-   border: '1px solid #ddd',
-   borderRadius: '5px',
- },
- inputget: {
-   margin: '5px 0',
-   padding: '8px',
-   width: '100%',
-   boxSizing: 'border-box',
- },
- buttonget: {
-   margin: '5px 0',
-   padding: '8px 12px',
-   cursor: 'pointer',
-   borderRadius: '3px',
-   border: '1px solid #ddd',
-   background: '#c37700',
-   color: '#fff',
-   transition: 'background 0.3s ease',
- },
- buttonEliminarget: {
-   margin: '5px 0',
-   padding: '8px 12px',
-   cursor: 'pointer',
-   borderRadius: '3px',
-   border: '1px solid #ddd',
-   background: '#a80000',
-   color: '#fff',
-   transition: 'background 0.3s ease',
- },
- buttonEditget: {
-   margin: '5px 0',
-   padding: '8px 12px',
-   cursor: 'pointer',
-   borderRadius: '3px',
-   border: '1px solid #ddd',
-   background: '#86bc70',
-   color: '#fff',
-   transition: 'background 0.3s ease',
- },
- letraget: {
-   color: 'black',
- },
- container: {
-   display: 'flex',
-   maxWidth: '1100px', 
-   justifyContent: 'space-between',
-   alignItems: 'flex-start',
-// Ajusta según tus necesidades
-   margin: 'auto',
-   padding: '20px',
-   fontFamily: 'Arial, sans-serif',
-   background: '#00000082',
- },
- formContainer: {
-   width: '45%', // Ajusta según tus necesidades
- },
- getSkillsContainer: {
-   width: '45%', // Ajusta según tus necesidades
- },
- buttonContainer: {
-   display: 'flex',
-   justifyContent: 'center',
-   marginTop: '20px', // Ajusta según tus necesidades
- },
- letra: {
-   color: 'black',
- },
- input: {
-   margin: '5px 0',
-   padding: '8px',
-   width: '100%',
-   boxSizing: 'border-box',
- },
- button: {
-   margin: '5px 0',
-   padding: '8px 12px',
-   cursor: 'pointer',
-   borderRadius: '3px',
-   border: '1px solid #ddd',
-   transition: 'background 0.3s ease',
- },
-   title:{
- color: 'white'
- }
-};
-
 const AddSkill = () => {
   const [skills, setSkills] = useState([]);
   const { id } = useParams();
@@ -176,11 +79,11 @@ const AddSkill = () => {
   };
 
   const handleDeleteSkill = async (skillId) => {
-  const isConfirmed = window.confirm("Are you sure you want to delete?");
-    
-      if (!isConfirmed) {
-        return; // Cancelar la eliminación si el usuario no confirma
-      }
+    const isConfirmed = window.confirm("Are you sure you want to delete?");
+
+    if (!isConfirmed) {
+      return; // Cancelar la eliminación si el usuario no confirma
+    }
     try {
       const response = await fetch(`http://localhost:3001/api/skills/${skillId}`, {
         method: 'DELETE',
@@ -235,10 +138,10 @@ const AddSkill = () => {
       const data = await response.json();
       console.log("Skill agregado con éxito:", data);
 
-      // Actualizar la lista de habilidades después del éxito
+      
       setSkills([...skills, data]);
 
-      // Limpiar los campos después del éxito
+      
       setFormData(initialFormData);
     } catch (error) {
       console.error("Error al realizar la solicitud POST:", error);
@@ -251,17 +154,17 @@ const AddSkill = () => {
       <div className="titulo-container">
         <h1 className="titulo-texto">Add your skills, ¡Choose the ones that describe you best!</h1>
       </div>
-      <div style={styles.container}>
-        <div style={styles.buttonContainer}>
+      <div className="containeradds">
+        <div className="buttonContainer">
           <Link to={`/User/Profile/${currUser.id}/AddProjects`}>
             <button className="buttonForm">BACK</button>
           </Link>
         </div>
 
-        <Form onSubmit={handleSubmit} style={styles.formContainer}>
+        <Form onSubmit={handleSubmit} className="formContainer">
           <center>
             <h1 className="File"><GiBrain /></h1>
-            <h3 style={styles.title}>Add Skill</h3>
+            <h3 className="titlea">Add Skill</h3>
           </center>
           <Form.Group className="mb-3">
             <Form.Label className="title">Skill</Form.Label>
@@ -273,7 +176,8 @@ const AddSkill = () => {
               required
               value={formData.name}
               onChange={handleInputChange}
-              style={styles.input}
+              className="input"
+            
             />
           </Form.Group>
 
@@ -288,36 +192,35 @@ const AddSkill = () => {
           </button>
         </Form>
 
-        <div style={styles.containerget}>
+        <div className="containerget">
           {isLoading ? (
-            <svg className="svgget" viewBox="25 25 50 50">
-              <circle className="circleget" r="20" cy="50" cx="50"></circle>
-            </svg>
+            <div className="loader"></div>
           ) : (
             userSkills.map((skill) => (
-              <p key={skill.id} style={styles.skillItemget}>
+              <p key={skill.id} className="Itemadd">
                 {editingSkillId === skill.id ? (
                   <>
                     <input
                       type="text"
                       value={editedSkillName}
                       onChange={(e) => setEditedSkillName(e.target.value)}
-                      style={styles.inputget}
+                      className="inputget"
+                
                     />
-                    <button onClick={() => handleSaveSkill(skill.id)} style={styles.buttonget}>
+                    <button onClick={() => handleSaveSkill(skill.id)} className="buttonget">
                       Guardar
                     </button>
-                    <button onClick={() => setEditingSkillId(null)} style={styles.buttonget}>
+                    <button onClick={() => setEditingSkillId(null)} className="buttonget">
                       Cancelar
                     </button>
                   </>
                 ) : (
                   <>
-                    <p style={styles.letraget}>Name: {skill.name}</p>
-                    <button onClick={() => handleEditSkill(skill.id)} style={styles.buttonEditget}>
+                    <p className="letraget" >Name: {skill.name}</p>
+                    <button onClick={() => handleEditSkill(skill.id)} className="buttonEditget">
                       Editar
                     </button>
-                    <button onClick={() => handleDeleteSkill(skill.id)} style={styles.buttonEliminarget}>
+                    <button onClick={() => handleDeleteSkill(skill.id)} className="buttonEliminarget">
                       Eliminar
                     </button>
                   </>
@@ -327,7 +230,7 @@ const AddSkill = () => {
           )}
         </div>
 
-        <div style={styles.buttonContainer}>
+        <div className="buttonContainer">
           <Link to={`/User/Profile/${currUser.id}/AddEducations`}>
             <button className="buttonForm">
               NEXT

@@ -37,7 +37,7 @@ const Signup = ({ setCurrUser, setShow }) => {
         setShow(true)
     }
     return (
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center p-5">
             <Form ref={formRef} onSubmit={handleSubmit} className="formContainer">
                 <center>
                 <svg

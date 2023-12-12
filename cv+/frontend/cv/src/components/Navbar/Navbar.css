@@ -3,7 +3,7 @@
     top: 0;
     width: 100%; 
     transition: width 0.3s ease;
-    background-color: #d45620b6;
+    background-color: #e3e4e5;
 
 }
 
@@ -32,6 +32,7 @@
     padding-left: 60px;
     padding-right: 60px;
     padding-top: 20px;
+    width: 90%;
     transition: margin-left 0.3s ease;
     margin-left: 227px; /* Valor predeterminado cuando el Sidebar está abierto */
 }

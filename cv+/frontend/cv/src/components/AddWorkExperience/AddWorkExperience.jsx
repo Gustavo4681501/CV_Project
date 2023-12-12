@@ -5,110 +5,7 @@ import "./AddWorkExperiences.css";
 import { Link, useParams } from "react-router-dom";
 import { GrUserWorker } from "react-icons/gr";
 
-const styles = {
-  containerget: {
-    maxWidth: "600px",
-    margin: "auto",
-    padding: "20px",
-    fontFamily: "Arial, sans-serif",
-  },
-  workExperienceItemget: {
-    marginBottom: "20px",
-    padding: "10px",
-    background: "#929292",
-    border: "1px solid #ddd",
-    borderRadius: "5px",
-  },
-  inputget: {
-    margin: "5px 0",
-    padding: "8px",
-    width: "100%",
-    boxSizing: "border-box",
-  },
-  textareaget: {
-    margin: "5px 0",
-    padding: "8px",
-    width: "100%",
-    minHeight: "80px",
-    boxSizing: "border-box",
-  },
-  buttonget: {
-    margin: "5px 0",
-    padding: "8px 12px",
-    cursor: "pointer",
-    borderRadius: "3px",
-    border: "1px solid #ddd",
-    background: "#c37700",
-    color: "#fff",
-    transition: "background 0.3s ease",
-  },
-  buttonEliminarget: {
-    margin: "5px 0",
-    padding: "8px 12px",
-    cursor: "pointer",
-    borderRadius: "3px",
-    border: "1px solid #ddd",
-    background: "#a80000",
-    color: "#fff",
-    transition: "background 0.3s ease",
-  },
-  buttonEditget: {
-    margin: "5px 0",
-    padding: "8px 12px",
-    cursor: "pointer",
-    borderRadius: "3px",
-    border: "1px solid #ddd",
-    background: "#86bc70",
-    color: "#fff",
-    transition: "background 0.3s ease",
-  },
-  letraget: {
-    color: "black",
-  },
 
-  container: {
-    display: "flex",
-    maxWidth: "1100px",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    margin: "auto",
-    padding: "20px",
-    fontFamily: "Arial, sans-serif",
-    background: "#00000082",
-  },
-  formContainer: {
-    width: "45%",
-  },
-  getWorksContainer: {
-    width: "45%",
-  },
-  buttonContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-end",
-    marginTop: "20px",
-  },
-  letra: {
-    color: "black",
-  },
-  input: {
-    margin: "5px 0",
-    padding: "8px",
-    width: "100%",
-    boxSizing: "border-box",
-  },
-  button: {
-    margin: "5px 0",
-    padding: "8px 12px",
-    cursor: "pointer",
-    borderRadius: "3px",
-    border: "1px solid #ddd",
-    transition: "background 0.3s ease",
-  },
-  title: {
-    color: "white",
-  },
-};
 
 const AddWorkExperience = () => {
   const { currUser } = useUser();
@@ -191,18 +88,6 @@ const AddWorkExperience = () => {
       );
 
       if (response.ok) {
-        const updatedWorkExperiences = workExperiences.map((work) => {
-          if (work.id === id) {
-            return {
-              ...work,
-              name: editedWorkExperienceName,
-              description: editedWorkExperienceDescription,
-              start_date: editedWorkExperienceStartDate,
-              finish_date: editedWorkExperienceFinishDate,
-            };
-          }
-          return work;
-        });
         const updatedResponse = await fetch(
           "http://localhost:3001/api/work_experiences"
         );
@@ -272,7 +157,10 @@ const AddWorkExperience = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    if (new Date(formData.finish_date) < new Date(formData.start_date)) {
+      alert('La fecha de finalización no puede ser anterior a la fecha de inicio');
+      return;
+    }
     try {
       const response = await fetch(
         "http://localhost:3001/api/work_experiences",
@@ -315,16 +203,16 @@ const AddWorkExperience = () => {
           ¡Add all your work experiences so companies can see your performance!
         </h1>
       </div>
-      <div style={styles.container}>
-        <div style={styles.buttonContainer}>
+      <div className="containeradds">
+        <div className="buttonContainer">
           <Link to={`/User/Profile/${currUser.id}/AddEducations`}>
             <button className="buttonForm">BACK</button>
           </Link>
         </div>
-        <Form onSubmit={handleSubmit} style={styles.formContainer}>
+        <Form onSubmit={handleSubmit} className="formContainer">
           <center>
             <h1 className="File"><GrUserWorker /></h1>
-            <h3 style={styles.title}>Add work experience</h3>
+            <h3 className="titlea">Add work experience</h3>
           </center>
           <Form.Group>
             <Form.Label className="title">Work name</Form.Label>
@@ -336,7 +224,8 @@ const AddWorkExperience = () => {
               required
               value={formData.name}
               onChange={handleInputChange}
-              style={styles.input}
+              className="input"
+        
             />
 
             <Form.Label className="title">Description</Form.Label>
@@ -348,7 +237,8 @@ const AddWorkExperience = () => {
               required
               value={formData.description}
               onChange={handleInputChange}
-              style={styles.input}
+              className="input"
+            
             />
 
             <Form.Label className="title">Start date</Form.Label>
@@ -358,7 +248,7 @@ const AddWorkExperience = () => {
               required
               value={formData.start_date}
               onChange={handleInputChange}
-              style={styles.input}
+              className="input"
               max={new Date().toISOString().split("T")[0]}
             />
 
@@ -369,7 +259,8 @@ const AddWorkExperience = () => {
               required
               value={formData.finish_date}
               onChange={handleInputChange}
-              style={styles.input}
+              className="input"
+              
               max={new Date().toISOString().split("T")[0]}
             />
           </Form.Group>
@@ -387,15 +278,13 @@ const AddWorkExperience = () => {
           </button>
         </Form>
 
-        <div style={styles.getWorksContainer}>
-          <div style={styles.containerget}>
+        <div className="getWorksContainer">
+          <div className="containerget">
             {isLoading ? (
-              <svg className="svgget" viewBox="25 25 50 50">
-                <circle className="circleget" r="20" cy="50" cx="50"></circle>
-              </svg>
+              <div className="loader"></div>
             ) : (
               userWorkExperiences.map((workExperience) => (
-                <p key={workExperience.id} style={styles.workExperienceItemget}>
+                <p key={workExperience.id} className="Itemadd">
                   {editingWorkExperienceId === workExperience.id ? (
                     <>
                       <input
@@ -404,14 +293,16 @@ const AddWorkExperience = () => {
                         onChange={(e) =>
                           setEditedWorkExperienceName(e.target.value)
                         }
-                        style={styles.inputget}
+                        className="inputget"
+                       
                       />
                       <textarea
                         value={editedWorkExperienceDescription}
                         onChange={(e) =>
                           setEditedWorkExperienceDescription(e.target.value)
                         }
-                        style={styles.textareaget}
+                        className="textareaget"
+                      
                       />
                       <input
                         type="date"
@@ -419,7 +310,8 @@ const AddWorkExperience = () => {
                         onChange={(e) =>
                           setEditedWorkExperienceStartDate(e.target.value)
                         }
-                        style={styles.inputget}
+                        className="inputget"
+                       
                       />
                       <input
                         type="date"
@@ -427,42 +319,46 @@ const AddWorkExperience = () => {
                         onChange={(e) =>
                           setEditedWorkExperienceFinishDate(e.target.value)
                         }
-                        style={styles.inputget}
+                        className="inputget"
+                      
                       />
                       <button
                         onClick={() =>
                           handleSaveWorkExperience(workExperience.id)
                         }
-                        style={styles.buttonget}
+                        className="buttonget"
+                       
                       >
                         Guardar
                       </button>
                       <button
                         onClick={() => setEditingWorkExperienceId(null)}
-                        style={styles.buttonget}
+                         className="buttonget"
+                       
                       >
                         Cancelar
                       </button>
                     </>
                   ) : (
                     <>
-                      <p style={styles.letraget}>
+                      <p className="letraget">
                         Nombre: {workExperience.name}
                       </p>
-                      <p style={styles.letraget}>
+                      <p className="letraget">
                         Descripción: {workExperience.description}
                       </p>
-                      <p style={styles.letraget}>
+                      <p className="letraget">
                         Fecha de inicio: {workExperience.start_date}
                       </p>
-                      <p style={styles.letraget}>
+                      <p className="letraget">
                         Fecha de finalización: {workExperience.finish_date}
                       </p>
                       <button
                         onClick={() =>
                           handleEditWorkExperience(workExperience.id)
                         }
-                        style={styles.buttonEditget}
+                        className="buttonEditget"
+                       
                       >
                         Editar
                       </button>
@@ -470,7 +366,8 @@ const AddWorkExperience = () => {
                         onClick={() =>
                           handleDeleteWorkExperience(workExperience.id)
                         }
-                        style={styles.buttonEliminarget}
+                        className="buttonEliminarget"
+                       
                       >
                         Eliminar
                       </button>
@@ -482,7 +379,7 @@ const AddWorkExperience = () => {
           </div>
         </div>
 
-        <div style={styles.buttonContainer}>
+        <div className="buttonContainer">
           <Link to={`/User/Profile/${currUser.id}/AddSocialLinks`}>
             <button className="buttonForm">NEXT</button>
           </Link>

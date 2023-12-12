@@ -34,6 +34,7 @@ Rails.application.routes.draw do
     resources :companies do
       member do
         get :avatar
+        delete :destroy_avatar
       end
     end
 
@@ -41,6 +42,7 @@ Rails.application.routes.draw do
       resources :comments
       member do
         get :avatar
+        delete :destroy_avatar
       end
     end
 

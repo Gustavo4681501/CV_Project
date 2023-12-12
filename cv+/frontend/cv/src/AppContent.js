@@ -23,7 +23,7 @@ import ShowVacancies from "./components/ShowVacancies/ShowVacancies";
 import CreateJobVacancy from "./components/CreateJobVacancy/CreateJobVacancy";
 import PlantillaUno from "./components/Plantillas/PlantillaUno";
 import ShowVacancyRequirements from "./components/ShowVacancyRequirements/ShowVacancyRequirements";
-import AddEducation1 from "./components/AddEducation/AddEducation";
+import AddEducation from "./components/AddEducation/AddEducation";
 // import { useCompany } from "./components/AccountTypes/CompanyContext";
 // import { useUser } from "./components/AccountTypes/UserContext";
 import ShowMyVacancies from "./components/ShowMyVacancies/ShowMyVacancies";
@@ -139,7 +139,7 @@ const AppContent = () => {
             />
             <Route
               path="User/Profile/:id/AddEducations"
-              element={<AddEducation1 />}
+              element={<AddEducation />}
             />
             <Route
               path="User/Profile/:id/Vacancies"

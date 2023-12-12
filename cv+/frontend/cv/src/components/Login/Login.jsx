@@ -46,7 +46,7 @@ const Login = ({ setCurrUser, setShow }) => {
   };
   
   return (
-    <div className="d-flex justify-content-center">
+    <div className="d-flex justify-content-center p-5">
       <Form ref={formRef} onSubmit={handleSubmit} className="formContainer">
         <center>
           <svg
@@ -76,6 +76,7 @@ const Login = ({ setCurrUser, setShow }) => {
           </div>
         )}
         <input type="submit" value="Login" className="buttonForm" />
+        
         <div>
           Not registered yet,{" "}
           <a href="#signup" onClick={handleClick}>

@@ -17,6 +17,18 @@ class Api::UsersController < ApplicationController
         render json: { avatar_url: avatar_info }
     end
 
+    def destroy_avatar
+        @user = User.find(params[:id])
+        if @user.avatar.attached?
+            @user.avatar.purge
+            render json: { message: 'User avatar deleted successfully' }
+        else
+            render json: { error: 'No avatar attached to the user' }, status: :unprocessable_entity
+        end
+        rescue ActiveRecord::RecordNotFound
+            render json: { error: 'User not found' }, status: :not_found
+    end
+
     def create
         @user = User.new(user_params)
 

@@ -11,8 +11,8 @@ const Principal = () => {
       <Link to="/Company">
         <Button id="PrincipalBoton" variant="primary" type="submit">
           <svg xmlns="http://www.w3.org/2000/svg"
-            width="40"
-            height="40" 
+            width="65"
+            height="65" 
             fill="currentColor"
             className="bi bi-buildings-fill"
             viewBox="0 0 16 16">
@@ -28,8 +28,8 @@ const Principal = () => {
         <Button id="PrincipalBoton" variant="primary" type="submit">
           <svg 
             xmlns="http://www.w3.org/2000/svg"
-            width="40"
-            height="40"
+            width="65"
+            height="65"
             fill="currentColor"
             className="bi bi-person-circle"
             viewBox="0 0 16 16"

@@ -2,10 +2,10 @@
 
 .profile-container {
     padding: 20px;
-    border: 1px solid #ddd;
-
+    border: 1px solid rgb(81, 171, 255);
+    background-color: #0000007b;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.749);
 }
 
 .profile-header {
@@ -73,7 +73,7 @@ formprincipal {
     height: 200px;
 }
 
-.profile-picture{
+.profile-picture {
     width: 200px;
     height: 200px;
     border-radius: 100%;
@@ -82,20 +82,61 @@ formprincipal {
     object-fit: cover;
 }
 
-.gets{
-    
-width: 100%;
+.gets {
+
+    width: 100%;
 }
 
-.containerProfile{
-width: 100%;
+.containerProfile {
+    width: 100%;
 }
 
-.buttonProfile{
-   
+.buttonProfile {
+
     font-size: 25px;
 }
 
-.iconEdit{
+.iconEdit {
     color: rgb(255, 255, 255);
+}
+
+/* ----------------------------Loader de la foto de perfil--------------------------------------------------- */
+.loader-foto {
+    width: 215px;
+    height: 215px;
+    display: block;
+    margin: auto;
+    position: relative;
+    background: #FFF;
+    box-sizing: border-box;
+    border-radius: 50%;
+}
+
+.loader-foto::after {
+    content: '';
+    width: calc(100% - 30px);
+    height: calc(100% - 30px);
+    border-radius: 50%;
+    top: 15px;
+    left: 15px;
+    position: absolute;
+    background-image: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5) 50%, transparent 100%),
+        radial-gradient(circle 50px, #DDD 100%, transparent 0),
+        linear-gradient(#DDD 16px, transparent 0),
+        linear-gradient(#DDD 24px, transparent 0);
+    background-repeat: no-repeat;
+    background-size: 75px 175px, 100% 100px, 80% 16px, 80% 16px;
+    background-position: -185px 0, center 10px, center 125px, center 155px;
+    box-sizing: border-box;
+    animation: animloader 1s linear infinite;
+}
+
+@keyframes animloader {
+    to {
+        background-position: 185px 0, center 10px, center 125px, center 155px;
+    }
+}
+
+.buttonProfilesave{
+    background-color: #912222;
 }
