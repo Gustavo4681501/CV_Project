@@ -18,7 +18,6 @@
 #  locked_at              :datetime
 #  name                   :string(255)
 #  phone_number           :integer
-#  registration_date      :date
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string(255)
@@ -46,24 +45,17 @@ class User < ApplicationRecord
                 :omniauthable, :jwt_authenticatable,
                 jwt_revocation_strategy: JwtDenylist
 
-        has_many :comments, as: :commentable
-        has_many :curriculums
-        has_many :educations
-        has_many :projects
-        has_many :skills
-        has_many :social_links
-        has_many :work_experiences
-        has_and_belongs_to_many :available_vacancies
+        has_many :comments, as: :commentable, dependent: :destroy
+        has_many :curriculums, dependent: :destroy
+        has_many :educations, dependent: :destroy
+        has_many :projects, dependent: :destroy
+        has_many :skills, dependent: :destroy
+        has_many :social_links, dependent: :destroy
+        has_many :work_experiences, dependent: :destroy
+        has_and_belongs_to_many :available_vacancies, dependent: :destroy
 
-        has_one_attached :avatar
-
-
-        has_many :attachments, as: :record, class_name: "ActiveStorage::Attachment"
-
-        # A través de la relación `has_many :blobs` puedes obtener los objetos Blob relacionados
+        has_many :attachments, as: :record, class_name: "ActiveStorage::Attachment", dependent: :destroy
         has_many :blobs, through: :attachments, class_name: "ActiveStorage::Blob"
-      
 
-        enum role: [:regular, :admin]
-
+        validates :name,:email, :last_name, :encrypted_password, :jti, :created_at, :updated_at, :jti, :sign_in_count, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip, :last_sign_in_at, :last_sign_in_ip, :failed_attempts, :sign_in_count, presence: true
 end

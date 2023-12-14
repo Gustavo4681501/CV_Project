@@ -6,15 +6,12 @@ import { useCompany } from "../AccountTypes/CompanyContext";
 import EditProfile from "../EditProfile/EditProfile";
 
 const ShowProfileUser = () => {
-    
     const [comments, setComments] = useState([]);
     const [commentBody, setCommentBody] = useState("");
     const { userId } = useParams();
     const { currUser } = useUser();
     const { currCompany } = useCompany();
-    
- 
-    
+    console.log("SOY EL USERID DE LA RUTA EN ShowProfileUser", userId);
 
     const fetchComments = async () => {
         try {
@@ -74,11 +71,11 @@ const ShowProfileUser = () => {
         fetchComments();
     }, [userId]);
 
-    console.log(userId)
+    console.log(userId);
     return (
         <center>
             {userId && <EditProfile userId={userId} />}
-            
+
             <div className="comment-section">
                 <h2>Write a Comment</h2>
                 <form onSubmit={handleSubmit}>

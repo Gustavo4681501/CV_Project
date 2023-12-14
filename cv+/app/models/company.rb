@@ -49,5 +49,5 @@ class Company < ApplicationRecord
 
 
     has_one_attached :avatar
-
+    validates :id, :name, :email, :encrypted_password, :encrypted_password, :created_at, :updated_at, :jti, :sign_in_count, :current_sign_in_at, :current_sign_in_ip, :last_sign_in_at, :last_sign_in_ip, :failed_attempts, presence: true
 end

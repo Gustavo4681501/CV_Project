@@ -19,7 +19,7 @@
 }
 
 .text {
-  font-size: 10px;
+  font-size: 13px;
   margin-bottom: 3px;
 }
 
@@ -216,4 +216,60 @@
   background: #1f7ccdc8;
   border: 2px solid rgb(0, 183, 255);
   border-radius: 5px;
+}
+
+
+
+/* //////////////////////////////////// */
+
+.buttonFormNext {
+  text-decoration: none;
+  position: relative;
+  border: none;
+  font-size: 14px;
+  font-family: inherit;
+  color: #fff;
+  width: 9em;
+  height: 3em;
+  margin: 10px;
+  line-height: 2em;
+  text-align: center;
+  background: linear-gradient(90deg,#03a9f4,#f441a5,#ffeb3b,#03a9f4);
+  background-size: 300%;
+  border-radius: 30px;
+  z-index: 1;
+}
+
+
+
+@keyframes ani {
+  0% {
+    background-position: 0%;
+  }
+
+  100% {
+    background-position: 400%;
+  }
+}
+
+.buttonFormNext:before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  z-index: -1;
+  background: linear-gradient(90deg,#03a9f4,#f441a5,#ffeb3b,#03a9f4);
+  background-size: 400%;
+  border-radius: 35px;
+  transition: 1s;
+}
+
+.buttonFormNext:hover::before {
+  filter: blur(20px);
+}
+
+.buttonFormNext:active {
+  background: linear-gradient(32deg,#03a9f4,#f441a5,#ffeb3b,#03a9f4);
 }

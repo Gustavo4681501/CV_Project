@@ -286,7 +286,7 @@ const AddProject = () => {
 
         <div className="buttonContainer">
           <Link to={`/User/Profile/${currUser.id}/AddSkills`}>
-            <button className="buttonForm">NEXT</button>
+            <button className="buttonFormNext">NEXT</button>
           </Link>
         </div>
       </div>

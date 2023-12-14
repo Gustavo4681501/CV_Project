@@ -1,6 +1,5 @@
 .logoNavbar {
-  width: 70px;
-  height: 55px;
+  width: 85px;
 }
 .loader {
   width: 48px;
@@ -8,7 +7,7 @@
   display: inline-block;
   position: relative;
   border: 3px solid;
-  border-color: #de3500 #0000 #fff #0000;
+  border-color: #de00d3 #0000 #fff #0000;
   border-radius: 50%;
   box-sizing: border-box;
   animation: 1s rotate linear infinite;
@@ -25,7 +24,7 @@
 }
 
 .loader:after {
-  border-color: #de3500 #0000 #0000 #0000;
+  border-color: #de00d3 #0000 #0000 #0000;
   transform: translate(32px, 3px) rotate(-35deg);
 }
 

@@ -34,11 +34,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           </a>
         </CDBSidebarHeader>
 
-        <CDBSidebarContent className="sidebar-content">
+        <CDBSidebarContent >
           <CDBSidebarMenu>
-            <NavLink to={`User/Profile/${currUser.id}/Profile`}>
-              <CDBSidebarMenuItem icon="user">Profile</CDBSidebarMenuItem>
-            </NavLink>
+        
             <NavLink to={`User/Profile/${currUser.id}/AddProjects`}>
               <CDBSidebarMenuItem icon="table">Add information</CDBSidebarMenuItem>
             </NavLink>

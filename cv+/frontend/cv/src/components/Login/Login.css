@@ -1,0 +1,38 @@
+.LoginUser {
+    --orange: #ffffff;
+    font-size: 15px;
+    padding: 0.7em 2.7em;
+    letter-spacing: 0.06em;
+    position: relative;
+    font-family: inherit;
+    border-radius: 0.6em;
+    overflow: hidden;
+    transition: all 0.3s;
+    line-height: 1.4em;
+    border: 2px solid var(--white);
+    background: linear-gradient(to right, rgba(35, 42, 175, 0.68) 1%, transparent 10%, transparent 80%, rgba(35, 42, 175, 0.68) 100%);
+    color: var(--white);
+    box-shadow: inset 0 0 10px rgb(178, 183, 255), 0 0 9px 3px rgba(35, 42, 175, 0.68);
+    margin: 10px;
+}
+
+
+.LoginUser:hover {
+    color: #ffffff;
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6), 0 0 9px 3px rgba(147, 53, 255, 0.2);
+}
+
+.LoginUser:before {
+    content: "";
+    position: absolute;
+    left: -4em;
+    width: 4em;
+    height: 100%;
+    top: 0;
+    transition: transform .4s ease-in-out;
+    background: linear-gradient(to right, transparent 1%, rgba(27, 204, 253, 0.1) 40%, rgba(253, 174, 27, 0.1) 60%, transparent 100%);
+}
+
+.LoginUser:hover:before {
+    transform: translateX(15em);
+}

@@ -126,7 +126,7 @@ const AddEducation = () => {
     const isConfirmed = window.confirm("Are you sure you want to delete?");
 
     if (!isConfirmed) {
-      return; // Cancelar la eliminación si el usuario no confirma
+      return;
     }
     try {
       const response = await fetch(
@@ -233,7 +233,7 @@ const AddEducation = () => {
       <div className="containeradds">
         <div className="buttonContainer">
           <Link to={`/User/Profile/${currUser.id}/AddSkills`}>
-            <button className="buttonForm">BACK</button>
+            <button className="buttonFormNext">BACK</button>
           </Link>
         </div>
         <Form onSubmit={handleSubmit} className="formContainer">
@@ -410,7 +410,7 @@ const AddEducation = () => {
 
         <div className="buttonContainer">
           <Link to={`/User/Profile/${currUser.id}/AddWorkExperiences`}>
-            <button className="buttonForm">NEXT</button>
+            <button className="buttonFormNext">NEXT</button>
           </Link>
         </div>
       </div>

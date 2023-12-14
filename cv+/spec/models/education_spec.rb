@@ -20,9 +20,18 @@
 #
 #  fk_rails_...  (user_id => users.id)
 #
+require 'rails_helper'
 
-class Education < ApplicationRecord
-    belongs_to :user
+RSpec.describe Education, type: :model do
+  describe 'associations' do
+    it { should belong_to(:user) }
+  end
 
-    validates :name, :institution_name, :start_date, :finish_date, :location, presence: true
+  describe 'validations' do
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:institution_name) }
+    it { should validate_presence_of(:start_date) }
+    it { should validate_presence_of(:finish_date) }
+    it { should validate_presence_of(:location) }
+  end
 end

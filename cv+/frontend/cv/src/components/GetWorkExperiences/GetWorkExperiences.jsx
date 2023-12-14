@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import "./GetWorkExperience.css";
 import { useUser } from '../AccountTypes/UserContext';
+import { useCompany } from "../AccountTypes/CompanyContext";
 
 const GetWorkExperiences = ({ userId }) => {
 
   const { currUser } = useUser()
-
+  const { currCompany } = useCompany()
   const [workExperiences, setWorkExperiences] = useState([]);
 
   const [editingWorkExperienceId, setEditingWorkExperienceId] = useState(null);
@@ -115,48 +116,57 @@ const GetWorkExperiences = ({ userId }) => {
             <p className="letraget">Descripción: {workExperience.description}</p>
             <p className="letraget">Fecha de inicio: {workExperience.start_date}</p>
             <p className="letraget">Fecha de finalización: {workExperience.finish_date}</p>
-            {editingWorkExperienceId === workExperience.id ? (
+
+            {currCompany? id.toString() === "":id.toString() === currUser.id.toString()?  (
               <>
-                <input
-                  type="text"
-                  value={editedWorkExperienceName}
-                  onChange={(e) => setEditedWorkExperienceName(e.target.value)}
-                  className="inputget"
-                />
-                <textarea
-                  value={editedWorkExperienceDescription}
-                  onChange={(e) => setEditedWorkExperienceDescription(e.target.value)}
-                  className="textareaget"
-                />
-                <input
-                  type="date"
-                  value={editedWorkExperienceStartDate}
-                  onChange={(e) => setEditedWorkExperienceStartDate(e.target.value)}
-                  className="inputget"
-                />
-                <input
-                  type="date"
-                  value={editedWorkExperienceFinishDate}
-                  onChange={(e) => setEditedWorkExperienceFinishDate(e.target.value)}
-                  className="inputget"
-                />
-                <button onClick={() => handleSaveWorkExperience(workExperience.id)} className="buttonget">
-                  Guardar
-                </button>
-                <button onClick={() => setEditingWorkExperienceId(null)} className="buttonget">
-                  Cancelar
-                </button>
+                {editingWorkExperienceId === workExperience.id ? (
+                  <>
+                    <input
+                      type="text"
+                      value={editedWorkExperienceName}
+                      onChange={(e) => setEditedWorkExperienceName(e.target.value)}
+                      className="inputget"
+                    />
+                    <textarea
+                      value={editedWorkExperienceDescription}
+                      onChange={(e) => setEditedWorkExperienceDescription(e.target.value)}
+                      className="textareaget"
+                    />
+                    <input
+                      type="date"
+                      value={editedWorkExperienceStartDate}
+                      onChange={(e) => setEditedWorkExperienceStartDate(e.target.value)}
+                      className="inputget"
+                    />
+                    <input
+                      type="date"
+                      value={editedWorkExperienceFinishDate}
+                      onChange={(e) => setEditedWorkExperienceFinishDate(e.target.value)}
+                      className="inputget"
+                    />
+                    <button onClick={() => handleSaveWorkExperience(workExperience.id)} className="buttonget">
+                      Guardar
+                    </button>
+                    <button onClick={() => setEditingWorkExperienceId(null)} className="buttonget">
+                      Cancelar
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={() => handleEditWorkExperience(workExperience.id)} className="buttonEditget">
+                      Editar
+                    </button>
+                    <button onClick={() => handleDeleteWorkExperience(workExperience.id)} className="buttonEliminarget">
+                      Eliminar
+                    </button>
+                  </>
+                )}
+                
               </>
             ) : (
-              <>
-                <button onClick={() => handleEditWorkExperience(workExperience.id)} className="buttonEditget">
-                  Editar
-                </button>
-                <button onClick={() => handleDeleteWorkExperience(workExperience.id)} className="buttonEliminarget">
-                  Eliminar
-                </button>
-              </>
+              <></>
             )}
+
           </div>
         ))
       )}

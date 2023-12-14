@@ -12,7 +12,6 @@ import AddWorkExperience from "./components/AddWorkExperience/AddWorkExperience"
 import AddSocialLink from "./components/AddSocialLink/AddSocialLink";
 import { PDFViewer } from "@react-pdf/renderer";
 import NotFound from "./components/NotFound/NotFound";
-import ProfilePDF from "./components/Plantillas/PlantillaUno";
 import NavbarCompany from "./components/NavbarCompany/NavbarCompany";
 // import PostEducation from "./pages/PostEducation/PostEducation";
 // import CreateVacancy from "./components/CreateVacancy/CreateVacancy";
@@ -118,7 +117,7 @@ const AppContent = () => {
               path="User/Profile/:id/AddWorkExperiences"
               element={<AddWorkExperience />}
             />
-            <Route path="User/Profile/:id/Home" element={<Home />} />
+         
             <Route
               path="User/Profile/:id/AddSocialLinks"
               element={<AddSocialLink />}
@@ -163,7 +162,7 @@ const AppContent = () => {
               element={<MyComments />}
             />
 
-            <Route path="User/Profile/:id/" element={<Home />} />
+            <Route path="User/Profile/:id/" element={<EditProfile />} />
           </Route>
           <Route path="/" element={<NavbarCompany />}>
             <Route path="Company/Profile/:id/Profile" element={<Profile />} />
@@ -198,6 +197,12 @@ const AppContent = () => {
               path="Company/Profile/:id"
               element={<CompanyProfile />}
             ></Route>
+
+            <Route
+              path="Company/Profile/:id/ShowMyVacancies/:id/Applicants/ShowProfileUser/:userId"
+              element={<ShowProfileUser />}
+            ></Route>
+
             <Route path="Company/Profile/:id/Home" element={<CompanyHome />} />
           </Route>
         </Routes>

@@ -157,7 +157,7 @@ const AddSkill = () => {
       <div className="containeradds">
         <div className="buttonContainer">
           <Link to={`/User/Profile/${currUser.id}/AddProjects`}>
-            <button className="buttonForm">BACK</button>
+            <button className="buttonFormNext">BACK</button>
           </Link>
         </div>
 
@@ -232,7 +232,7 @@ const AddSkill = () => {
 
         <div className="buttonContainer">
           <Link to={`/User/Profile/${currUser.id}/AddEducations`}>
-            <button className="buttonForm">
+            <button className="buttonFormNext">
               NEXT
             </button>
           </Link>
