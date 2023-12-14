@@ -73,6 +73,15 @@ formprincipal {
     height: 200px;
 }
 
+.profile-pictureUsers {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    border-color: #fff;
+    border-width: 10px;
+    object-fit: cover;
+}
+
 .profile-picture {
     width: 200px;
     height: 200px;

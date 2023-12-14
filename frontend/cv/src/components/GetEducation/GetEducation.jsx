@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './GetEducation.css';
 import { useUser } from '../AccountTypes/UserContext';
+import { useCompany } from '../AccountTypes/CompanyContext';
 
 const GetEducations = ({userId}) => {
   const { currUser } = useUser()
-
+  const { currCompany } = useCompany()
   const [educations, setEducations] = useState([]);
   const [editingEducationId, setEditingEducationId] = useState(null);
   const [editedEducationName, setEditedEducationName] = useState('');
@@ -121,7 +122,8 @@ const GetEducations = ({userId}) => {
             <p className="letraget">Location: {education.location}</p>
             <p className="letraget">Start date:: {education.start_date}</p>
             <p className="letraget">Finish date: {education.finish_date}</p>
-            {id.toString() === currUser.id.toString() ? (
+
+            {currCompany? id.toString() === "":id.toString() === currUser.id.toString()?  (
               <>
                 {editingEducationId === education.id ? (
                   <>

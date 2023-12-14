@@ -6,6 +6,9 @@ import { useCompany } from "../AccountTypes/CompanyContext";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import CompanyLogout from "../CompanyLogout/CompanyLogout";
+import { IoMdPerson } from "react-icons/io";
+import { BsBriefcaseFill } from "react-icons/bs";
+import { FaUsers } from "react-icons/fa";
 
 const NavbarCompany = () => {
     const { currCompany, setCurrCompany } = useCompany();
@@ -13,7 +16,6 @@ const NavbarCompany = () => {
     const location = useLocation();
     const companyIdFromURL = location.pathname.split("/")[3];
     const [isLoading, setIsLoading] = useState(true);
-    const [sidebarOpen, setSidebarOpen] = useState(true);
     useEffect(() => {
         const timeout = setTimeout(() => {
             setIsLoading(false);
@@ -50,10 +52,7 @@ const NavbarCompany = () => {
         return () => clearTimeout(timeout);
     }, [setCurrCompany]);
 
-    const handleSidebarToggle = () => {
-        setSidebarOpen(!sidebarOpen);
-        console.log(!sidebarOpen);
-    };
+    
 
     const handleBackToMenu = (e) => {
         e.preventDefault();
@@ -61,10 +60,7 @@ const NavbarCompany = () => {
     };
 
     return (
-        <div
-            className={`app-container ${sidebarOpen ? "sidebar-open" : "sidebar-closed"
-                }`}
-        >
+        <div>
             {isLoading ? (
                 <div className="text-center">
                     <div className="loader"></div>
@@ -73,28 +69,62 @@ const NavbarCompany = () => {
                 <>
                     {currCompany && currCompany.id.toString() === companyIdFromURL ? (
                         <>
-                            <SidebarCompany
-                                isOpen={sidebarOpen}
-                                toggleSidebar={handleSidebarToggle}
-                            />
-                            <div
-                                className={`content ${sidebarOpen ? "content-open" : "content-closed"
-                                    }`}
-                            >
+                
+                            <div>
                                 <Navbar
-                                    id="HomeNavbar"
-                                    bg="dark"
-                                    data-bs-theme="light"
-                                    className={`${sidebarOpen ? "sidebar-open" : "sidebar-closed"
-                                        }`}
-                                >
+                                    id="HomeNavbarCompany"
+                                    data-bs-theme="light">
                                     <Container>
                                         <Navbar.Brand>
-                                            <Link to={`/Company/Profile/${currCompany.id}/Home`}>
-                                                Home
+                                          <Link
+                                                to={`/Company/Profile/${currCompany.id}`}
+                                                className="emoji-link"
+                                            >
+                                                <span role="img" aria-label="Home">
+                                                    <IoMdPerson />
+                                                </span>
+                                                <br />
+                                                Profile
                                             </Link>
+                                             <Link
+                                                to={`Company/Profile/${currCompany.id}/ShowMoreUsers`}
+                                                className="emoji-link"
+                                            >
+                                                <span role="img" aria-label="Home">
+                                                    <FaUsers />
+                                                </span>
+                                                <br />
+                                                Users
+                                            </Link>
+                                            <Link
+                                                to={`/Company/Profile/${currCompany.id}/CreateJobVacancy`}
+                                                className="emoji-link"
+                                            >
+                                                <span role="img" aria-label="Home">
+                                                    <BsBriefcaseFill />
+                                                </span>
+                                                <br />
+                                                Add Vacancy
+                                            </Link>
+
+                                            <Link
+                                                to={`/Company/Profile/${currCompany.id}/ShowMyVacancies`}
+                                                className="emoji-link"
+                                            >
+                                                <span role="img" aria-label="Home">
+                                                    <BsBriefcaseFill />
+                                                </span>
+                                                <br />
+                                                Show my vacancies
+                                            </Link>
+
+            
+                                           
+                    
+                                            
                                         </Navbar.Brand>
 
+                                    </Container>
                                         <Navbar.Brand>
                                             {currCompany ? (
                                                 <CompanyLogout setCurrCompany={setCurrCompany} />
@@ -105,12 +135,11 @@ const NavbarCompany = () => {
 
                                         <Link to="/CompanyHome">
                                             <img
-                                                src="/image/cv_logo.png"
+                                                src="/image/Image-logo.png"
                                                 alt="Logo"
                                                 className="logoNavbar"
                                             ></img>
                                         </Link>
-                                    </Container>
                                 </Navbar>
 
                                 <br />

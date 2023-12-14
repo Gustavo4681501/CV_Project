@@ -1,6 +1,7 @@
 import Form from "react-bootstrap/Form";
 import { useRef, useState } from "react";
 import axios from 'axios'
+import "./Login.css"
 
 const Login = ({ setCurrUser, setShow }) => {
   const formRef = useRef();
@@ -75,7 +76,7 @@ const Login = ({ setCurrUser, setShow }) => {
             {errorMessage}
           </div>
         )}
-        <input type="submit" value="Login" className="buttonForm" />
+        <input type="submit" value="Login" className="LoginUser" />
         
         <div>
           Not registered yet,{" "}

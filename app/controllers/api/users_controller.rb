@@ -1,5 +1,5 @@
 class Api::UsersController < ApplicationController
-    before_action :set_user, only: [:show, :update, :destroy]
+    before_action :set_user, only: [:show, :update, :destroy, :avatar]
 
     def index
         @users = User.all
@@ -11,11 +11,24 @@ class Api::UsersController < ApplicationController
     end
 
     def avatar
-        @user = User.find(params[:id])
         avatar_info = @user.avatar.attached? ? url_for(@user.avatar) : nil
-
         render json: { avatar_url: avatar_info }
     end
+
+    def all_avatar
+        users_with_avatars = User.joins(avatar_attachment: :blob).distinct
+
+        avatar_info = users_with_avatars.map do |user|
+            {
+                user_id: user.id,
+                avatar_url: url_for(user.avatar)
+            }
+        end
+
+        render json: { avatars: avatar_info }
+    end
+
+
 
     def destroy_avatar
         @user = User.find(params[:id])
@@ -44,7 +57,6 @@ class Api::UsersController < ApplicationController
     end
 
     def update
-        # binding.pry
         if user_params[:avatar].present?
             @user.avatar.attach(user_params[:avatar])
             render json: { message: 'User avatar updated successfully', user: @user }

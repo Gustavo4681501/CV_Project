@@ -170,7 +170,7 @@ const AddSocialLink = () => {
       <div className="containeradds">
         <div className="buttonContainer">
           <Link to={`/User/Profile/${currUser.id}/AddWorkExperiences`}>
-            <button className="buttonForm">BACK</button>
+            <button className="buttonFormNext">BACK</button>
           </Link>
         </div>
         <Form onSubmit={handleSubmit} className="formContainer">
@@ -264,7 +264,7 @@ const AddSocialLink = () => {
 
         <div className="buttonContainer">
           <Link to={`/User/Profile/${currUser.id}/Resumes`}>
-            <button className="buttonForm">VIEW RESUMES</button>
+            <button className="buttonFormNext">VIEW RESUMES</button>
           </Link>
         </div>
       </div>

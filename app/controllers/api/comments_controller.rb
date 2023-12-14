@@ -5,8 +5,8 @@ class Api::CommentsController < ApplicationController
     def index
         comments = @user.comments.includes(:user, :company)
         render json: comments, include: {
-            user: { only: [:id, :name] },
-            company: { only: [:id, :name] }
+            user: {only: [:id, :name]},
+            company: {only: [:id, :name]}
         }
     end
 

@@ -1,29 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { useUser } from "../AccountTypes/UserContext";
+import { useCompany } from "../AccountTypes/CompanyContext";
 import "./EditProfile.css";
 import Profile from "../Profile/Profile";
 
-
 const EditProfile = ({ userId }) => {
   const { currUser } = useUser();
+  const { currCompany } = useCompany();
+  const [notification, setNotification] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  console.log("HOLA SOY EL userId EN EL EditProfile", userId)
+  const id = userId ? userId : currUser.id;
   const [userData, setUserData] = useState({
     name: "",
     last_name: "",
     phone_number: "",
     avatar: null,
     avatar_url: "",
-  });
-  const [notification, setNotification] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  }); 
 
-  const id = userId? userId : currUser.id ;
-  
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:3001/api/users/${id}`
-        );
+        const response = await fetch(`http://localhost:3001/api/users/${id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch user data");
         }
@@ -37,7 +38,7 @@ const EditProfile = ({ userId }) => {
           const avatarData = await avatarResponse.json();
           setUserData((prevUserData) => ({
             ...prevUserData,
-            avatar_url: avatarData.avatar_url || "", // si no hay ruta de avatar se asigna con dos comillas vacias
+            avatar_url: avatarData.avatar_url || "",
           }));
         }
       } catch (error) {
@@ -49,6 +50,8 @@ const EditProfile = ({ userId }) => {
     setIsLoading(true);
     fetchUserData();
   }, [currUser]);
+
+  
 
   const handleInputChange = (event) => {
     const { name, type } = event.target;
@@ -99,6 +102,7 @@ const EditProfile = ({ userId }) => {
         const updatedUser = await response.json();
         console.log("User information updated:", updatedUser);
         setNotification("User information updated successfully!");
+        setIsEditing(false);
       } else {
         throw new Error("Failed to update user information");
       }
@@ -108,7 +112,9 @@ const EditProfile = ({ userId }) => {
     window.location.reload();
   };
 
-
+  const handleEditUserInfo = () => {
+    setIsEditing(true);
+  };
 
   const handleDeleteAvatar = async () => {
     try {
@@ -122,7 +128,7 @@ const EditProfile = ({ userId }) => {
       if (response.ok) {
         setUserData((prevUserData) => ({
           ...prevUserData,
-          avatar_url: "", // Actualizar el avatar_url a vacío después de eliminar la imagen
+          avatar_url: "",
         }));
         setNotification("User avatar deleted successfully!");
       } else {
@@ -132,8 +138,7 @@ const EditProfile = ({ userId }) => {
       console.error("Error deleting user avatar:", error);
     }
   };
-
-
+  
   return (
     <>
       <div className="containerProfile">
@@ -143,44 +148,71 @@ const EditProfile = ({ userId }) => {
           </div>
           <div className="profile-form">
             <form className="formprincipal">
-              <label className="labelform">
-                Name:
-                <input
-                  className="inputform"
-                  type="text"
-                  name="name"
-                  value={userData.name}
-                  onChange={handleInputChange}
-                />
-              </label>
-              <label className="labelform">
-                Last Name:
-                <input
-                  className="inputform"
-                  type="text"
-                  name="last_name"
-                  value={userData.last_name}
-                  onChange={handleInputChange}
-                />
-              </label>
-              <label className="labelform">
-                Phone Number:
-                <input
-                  className="inputform"
-                  type="text"
-                  name="phone_number"
-                  value={userData.phone_number}
-                  onChange={handleInputChange}
-                />
-              </label>
+              {isEditing ? (
+                <>
+                  <label className="labelform">
+                    Name:
+                    <input
+                      className="inputform"
+                      type="text"
+                      name="name"
+                      value={userData.name}
+                      onChange={handleInputChange}
+                    />
+                  </label>
+                  <label className="labelform">
+                    Last Name:
+                    <input
+                      className="inputform"
+                      type="text"
+                      name="last_name"
+                      value={userData.last_name}
+                      onChange={handleInputChange}
+                    />
+                  </label>
+                  <label className="labelform">
+                    Phone Number:
+                    <input
+                      className="inputform"
+                      type="text"
+                      name="phone_number"
+                      value={userData.phone_number}
+                      onChange={handleInputChange}
+                    />
+                  </label>
+                  <br />
+                  <div className="profile-details">
+                    <button
+                      className="buttonProfilesave"
+                      type="button"
+                      onClick={handleSaveUserInfo}
+                    >
+                      Save Changes
+                    </button>
+                    <button
+                      className="buttonProfilecancel"
+                      type="button"
+                      onClick={() => setIsEditing(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <div className="text-white">
+                  <p>Name: {userData.name}</p>
+                  <p>Last Name: {userData.last_name}</p>
+                  <p>Phone Number: {userData.phone_number}</p>
+                  <div className="profile-details">
+                  </div>
+                </div>
+              )}
               <br />
-              {notification && <p className="notification">{notification}</p>}
               <div>
                 {isLoading ? (
                   <span className="loader-foto"></span>
                 ) : (
                   <>
-                    <h4 className="text-white">Profile Picture:</h4>
                     {userData.avatar_url ? (
                       <div>
                         <img
@@ -188,40 +220,6 @@ const EditProfile = ({ userId }) => {
                           src={userData.avatar_url}
                           alt="User Profile"
                         />
-                        <div>
-                          <br />
-                          {id.toString() === currUser.id.toString()? (
-                            <>
-                              <button
-                                className="buttonform"
-                                type="button"
-                                onClick={handleDeleteAvatar}
-                              >
-                                Delete Profile Picture
-                              </button>
-                              <label className="labelform">
-                                <input
-                                  className="inputform"
-                                  type="file"
-                                  name="photo"
-                                  onChange={handleInputChange}
-                                />
-                              </label>
-                              <br />
-                              <div className="profile-details">
-                                <button
-                                  className="buttonProfilesave"
-                                  type="button"
-                                  onClick={handleSaveUserInfo}
-                                >
-                                  Save User Information
-                                </button>
-                              </div>
-                            </>
-                          ) : (
-                            <></>
-                          )}
-                        </div>
                       </div>
                     ) : (
                       <svg
@@ -231,7 +229,58 @@ const EditProfile = ({ userId }) => {
                         fill="white"
                         className="bi bi-person-circle"
                         viewBox="0 0 16 16"
-                      ><path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" /> <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" /></svg>)}</>)}
+                      >
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                        <path
+                          fillRule="evenodd"
+                          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+                        />
+                      </svg>
+                    )}
+                  </>
+                )}
+                <h4 className="text-white">Profile Picture:</h4>
+                <div>
+                  <br />
+                  {currCompany ? id.toString() === "" : id.toString() === currUser.id.toString() ? (
+                    <>
+                      <button
+                        className="buttonProfileedit"
+                        type="button"
+                        onClick={handleEditUserInfo}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="buttonform"
+                        type="button"
+                        onClick={handleDeleteAvatar}
+                      >
+                        Delete Profile Picture
+                      </button>
+                      <label className="labelform">
+                        <input
+                          className="inputform"
+                          type="file"
+                          name="photo"
+                          onChange={handleInputChange}
+                        />
+                      </label>
+                      <br />
+                      <div className="profile-details">
+                        <button
+                          className="buttonProfilesave"
+                          type="button"
+                          onClick={handleSaveUserInfo}
+                        >
+                          Save User Information
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </div>
               </div>
             </form>
             <br />
@@ -243,6 +292,5 @@ const EditProfile = ({ userId }) => {
       </div>
     </>
   );
-};
-
+}
 export default EditProfile;

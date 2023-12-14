@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./GetSkills.css";
 import { useUser } from "../AccountTypes/UserContext";
+import { useCompany } from "../AccountTypes/CompanyContext";
 
 const GetSkills = ({ userId }) => {
   const { currUser } = useUser();
-
+  const { currCompany } =useCompany();
   const [skills, setSkills] = useState([]);
   const [editingSkillId, setEditingSkillId] = useState(null);
   const [editedSkillName, setEditedSkillName] = useState("");
@@ -32,7 +33,7 @@ const GetSkills = ({ userId }) => {
   }, []);
 
   const id = userId? userId : currUser.id ;
-
+console.log("HOLA SOY EL ID DEL GETSKILL",id)
   const userSkills = skills.filter(
     (skill) => skill.user_id.toString() === id.toString()
   );
@@ -107,7 +108,7 @@ const GetSkills = ({ userId }) => {
         userSkills.map((skill) => (
           <div key={skill.id} className="Itemget">
             <p className="letraget">Name: {skill.name}</p>
-            {id.toString() === currUser.id.toString() ? (
+            {currCompany? id.toString() === "":id.toString() === currUser.id.toString()? (
               <>
                 {editingSkillId === skill.id ? (
                   <>

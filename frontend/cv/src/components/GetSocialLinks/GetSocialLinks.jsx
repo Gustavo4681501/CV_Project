@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './GetSocialLinks.css';
 import { useUser } from '../AccountTypes/UserContext';
+import { useCompany } from '../AccountTypes/CompanyContext';
 
 const GetSocialLinks = ({ userId }) => {
 
   const { currUser } = useUser()
+
+  const { currCompany } = useCompany()
 
 
   const [socialLinks, setSocialLinks] = useState([]);
@@ -99,7 +102,7 @@ const GetSocialLinks = ({ userId }) => {
         userSocialLinks.map(link => (
           <div key={link.id} className="Itemget">
             <p className="letraget">Enlace: {link.url}</p>
-            {id.toString() === currUser.id.toString() ? (
+            {currCompany? id.toString() === "":id.toString() === currUser.id.toString()?  (
               <>
                 {editingLinkId === link.id ? (
                   <>

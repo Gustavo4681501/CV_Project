@@ -206,7 +206,7 @@ const AddWorkExperience = () => {
       <div className="containeradds">
         <div className="buttonContainer">
           <Link to={`/User/Profile/${currUser.id}/AddEducations`}>
-            <button className="buttonForm">BACK</button>
+            <button className="buttonFormNext">BACK</button>
           </Link>
         </div>
         <Form onSubmit={handleSubmit} className="formContainer">
@@ -381,7 +381,7 @@ const AddWorkExperience = () => {
 
         <div className="buttonContainer">
           <Link to={`/User/Profile/${currUser.id}/AddSocialLinks`}>
-            <button className="buttonForm">NEXT</button>
+            <button className="buttonFormNext">NEXT</button>
           </Link>
         </div>
       </div>

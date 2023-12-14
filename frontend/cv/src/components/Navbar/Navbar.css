@@ -1,60 +1,32 @@
 #HomeNavbar {
-
     top: 0;
-    width: 100%; 
+    width: 100%;
     transition: width 0.3s ease;
     background-color: #e3e4e5;
-
-}
-
-
-.navbar-open {
-    width: calc(40% - 290px);
-}
-
-.navbar-closed {
-    width: calc(40% - 290px);
-}
-
-.sidebar {
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    background-color: #fff;
-    transition: left 0.3s ease;
-    z-index: 999;
-}
-
-
-.content {
-    flex: 1;
-    padding-left: 60px;
-    padding-right: 60px;
-    padding-top: 20px;
-    width: 90%;
-    transition: margin-left 0.3s ease;
-    margin-left: 227px; /* Valor predeterminado cuando el Sidebar está abierto */
-}
-
-.content-open {
-    margin-left: calc(auto - 225px); /* Ajuste relativo al tamaño del Sidebar abierto */
-}
-
-.content-closed {
-    margin-left: 5%; /* Ajuste relativo al Sidebar cerrado */
 }
 
 .emoji-link {
-  display: inline-block;
-  text-align: center;
-  margin-right: 10px;
-  text-decoration: none;
-  color: black; /* Color del texto, ajusta según sea necesario */
+    display: inline-block;
+    text-align: center;
+    margin-right: 10px;
+    text-decoration: none;
+    color: black;
 }
 
 .emoji-link span {
-  font-size: 24px; /* Tamaño del emoji, ajusta según sea necesario */
-  margin-bottom: 5px; /* Espacio entre el emoji y el texto, ajusta según sea necesario */
+    font-size: 24px;
+
+    margin-bottom: 5px;
 }
 
+@media (max-width: 690px) {
+    .content{
+        width: 120%;
+    }
+}
+
+@media (max-width: 575px) {
+    .content{
+        width: 150%;
+    }
+}

@@ -52,15 +52,15 @@ function ShowVacancies() {
             <div  className="titulo-container">
                 <h1 className="titulo-texto">Here you can view the available vacancies and apply to them.</h1>
             </div>
-            <div className="bg-body-secondary d-flex justify-content-center">
+            <div className="vacancyContainer d-flex justify-content-center">
                 {isLoading ? ( 
                     <div className="loader"></div>
                 ) : (
                     <ul>
                         {vacancies.map((vacancy, index) => (
-                            <div className="d-flex justify-content-center m-4" key={index}>
+                            <div className="itemVacancy d-flex justify-content-center m-4" key={index}>
                                 <div
-                                    className="justify-content-center job-item text-center"
+                                    className="justify-content-center job-itemVacancy text-center"
                                     onClick={() => handleRedirectionToRequirements(vacancy.id)}
                                 >
                                     <h4>Company: <b>{vacancy.companyName}</b></h4> 

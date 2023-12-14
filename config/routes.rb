@@ -38,6 +38,12 @@ Rails.application.routes.draw do
       end
     end
 
+    # collection do
+    #   get :all_avatar
+    # end
+
+    get '/users/all_avatar', to: 'users#all_avatar'
+
     resources :users do
       resources :comments
       member do
