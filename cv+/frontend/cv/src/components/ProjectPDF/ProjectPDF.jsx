@@ -26,13 +26,13 @@ const ProjectsPDF = () => {
     return (
         <Document>
             <Page style={styles.page}>
-            <View style={styles.listContainer}>
-                {projects.map((project) => (
-                    <Text key={project.id} style={styles.listItem}>
-                    {`Name: ${project.name}\nDescription: ${project.description}\n\n`}
-                  </Text>
-                ))}
-            </View>
+                <View style={styles.listContainer}>
+                    {projects.map((project) => (
+                        <Text key={project.id} style={styles.listItem}>
+                            {`Name: ${project.name}\nDescription: ${project.description}\n\n`}
+                        </Text>
+                    ))}
+                </View>
             </Page>
         </Document>
     );
@@ -40,17 +40,17 @@ const ProjectsPDF = () => {
 
 const styles = StyleSheet.create({
     page: {
-      flexDirection: 'row',
-      backgroundColor: '#E4E4E4',
+        flexDirection: 'row',
+        backgroundColor: '#E4E4E4',
     },
     listContainer: {
-      flexDirection: 'column',
-      margin: 10,
+        flexDirection: 'column',
+        margin: 10,
     },
     listItem: {
-      marginBottom: 5,
+        marginBottom: 5,
     },
-  });
+});
 
 
 

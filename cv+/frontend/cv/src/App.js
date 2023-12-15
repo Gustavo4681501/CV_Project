@@ -6,6 +6,9 @@ function App() {
 
   return (
     <>
+    {/* UserProvider: //Context for managing the current user */}
+    {/* CompanyProvider: //Context for managing the current Company */}
+    {/* AppContent: //Component with routes */}
       <UserProvider>
         <CompanyProvider>
           <AppContent />

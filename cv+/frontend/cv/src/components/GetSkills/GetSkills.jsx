@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
-import "./GetSkills.css";
+import "../GetsCss/GetsCss.css";
 import { useUser } from "../AccountTypes/UserContext";
 import { useCompany } from "../AccountTypes/CompanyContext";
 
 const GetSkills = ({ userId }) => {
+  // Using custom hooks to get current user and company
   const { currUser } = useUser();
-  const { currCompany } =useCompany();
+  const { currCompany } = useCompany();
+
+  // States for storing data and managing the interface
   const [skills, setSkills] = useState([]);
   const [editingSkillId, setEditingSkillId] = useState(null);
   const [editedSkillName, setEditedSkillName] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
+  // Effect to fetch skills when the component mounts
   useEffect(() => {
     const fetchSkills = async () => {
       try {
@@ -20,10 +24,10 @@ const GetSkills = ({ userId }) => {
           const skillsData = await response.json();
           setSkills(skillsData);
         } else {
-          console.error("Error al obtener skills:", response.statusText);
+          console.error("Error fetching skills:", response.statusText);
         }
       } catch (error) {
-        console.error("Error de red:", error);
+        console.error("Network error:", error);
       } finally {
         setIsLoading(false);
       }
@@ -32,18 +36,22 @@ const GetSkills = ({ userId }) => {
     fetchSkills();
   }, []);
 
-  const id = userId? userId : currUser.id ;
-console.log("HOLA SOY EL ID DEL GETSKILL",id)
+  // Set user ID based on the passed prop or current user's ID
+  const id = userId ? userId : currUser.id;
+
+  // Filter skills belonging to the current user
   const userSkills = skills.filter(
     (skill) => skill.user_id.toString() === id.toString()
   );
 
+  // Handle editing of a skill
   const handleEditSkill = (skillId) => {
     const skillToEdit = userSkills.find((skill) => skill.id === skillId);
     setEditedSkillName(skillToEdit.name);
     setEditingSkillId(skillId);
   };
 
+  // Handle saving an edited skill
   const handleSaveSkill = async (skillId) => {
     try {
       const response = await fetch(
@@ -58,7 +66,7 @@ console.log("HOLA SOY EL ID DEL GETSKILL",id)
           }),
         }
       );
-
+      
       if (response.ok) {
         const updatedSkills = skills.map((skill) => {
           if (skill.id === skillId) {
@@ -80,6 +88,7 @@ console.log("HOLA SOY EL ID DEL GETSKILL",id)
     }
   };
 
+  // Handle deleting a skill
   const handleDeleteSkill = async (skillId) => {
     try {
       const response = await fetch(
@@ -102,13 +111,20 @@ console.log("HOLA SOY EL ID DEL GETSKILL",id)
 
   return (
     <div className="containergets">
+      {/* Show loader if isLoading is true */}
       {isLoading ? (
         <div className="loader"></div>
       ) : (
+        // Map through skills of the current user
         userSkills.map((skill) => (
           <div key={skill.id} className="Itemget">
+            {/* Display the skill name */}
             <p className="letraget">Name: {skill.name}</p>
-            {currCompany? id.toString() === "":id.toString() === currUser.id.toString()? (
+
+            {/* Show edit and delete buttons if user has permissions */}
+            {currCompany ? (
+              id.toString() === ""
+            ) : id.toString() === currUser.id.toString() ? (
               <>
                 {editingSkillId === skill.id ? (
                   <>
@@ -122,13 +138,13 @@ console.log("HOLA SOY EL ID DEL GETSKILL",id)
                       onClick={() => handleSaveSkill(skill.id)}
                       className="buttonget"
                     >
-                      Guardar
+                      Save
                     </button>
                     <button
                       onClick={() => setEditingSkillId(null)}
                       className="buttonget"
                     >
-                      Cancelar
+                      Cancel
                     </button>
                   </>
                 ) : (
@@ -137,13 +153,13 @@ console.log("HOLA SOY EL ID DEL GETSKILL",id)
                       onClick={() => handleEditSkill(skill.id)}
                       className="buttonEditget"
                     >
-                      Editar
+                      Edit
                     </button>
                     <button
                       onClick={() => handleDeleteSkill(skill.id)}
                       className="buttonEliminarget"
                     >
-                      Eliminar
+                      Delete
                     </button>
                   </>
                 )}

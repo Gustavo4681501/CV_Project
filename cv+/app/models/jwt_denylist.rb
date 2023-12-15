@@ -11,6 +11,12 @@
 #  index_jwt_denylist_on_jti  (jti)
 #
 class JwtDenylist < ApplicationRecord
+    # Devise JWT Revocation Strategies
     include Devise::JWT::RevocationStrategies::Denylist
+
+    # Custom table name
     self.table_name = 'jwt_denylist'
+
+    # Validation
+    validates :jti, :exp, presence: true
 end

@@ -4,7 +4,13 @@ import { useCompany } from "../AccountTypes/CompanyContext";
 import { useNavigate } from "react-router-dom";
 import "./ShowMyVacancies.css";
 
+/**
+ * Component to display a list of vacancies belonging to the current company.
+ * Allows editing, deleting, and redirection to requirements and applicants.
+ * @returns {JSX.Element} Component to display company vacancies.
+ */
 function ShowMyVacancies() {
+  // Component State
   const { currCompany } = useCompany();
   const [vacancies, setVacancies] = useState([]);
   const [editingVacancyId, setEditingVacancyId] = useState(null);
@@ -12,6 +18,7 @@ function ShowMyVacancies() {
   const [editedVacancyDescription, setEditedVacancyDescription] = useState("");
   const navigate = useNavigate();
 
+  // Fetch vacancies belonging to the current company
   useEffect(() => {
     fetch(`http://localhost:3001/api/available_vacancies`)
       .then((response) => {
@@ -34,6 +41,7 @@ function ShowMyVacancies() {
       });
   }, [currCompany]);
 
+   // Delete a vacancy by ID
   const handleDeleteVacancy = async (id) => {
     const isConfirmed = window.confirm("Are you sure you want to delete?");
 
@@ -61,6 +69,7 @@ function ShowMyVacancies() {
     }
   };
 
+  // Fetch a vacancy by ID for editing
   const handleEditVacancy = async (id) => {
     try {
       const response = await fetch(
@@ -78,6 +87,7 @@ function ShowMyVacancies() {
     }
   };
 
+  // Save edited vacancy details
   const handleSaveVacancy = async (id) => {
     try {
       const response = await fetch(
@@ -115,10 +125,12 @@ function ShowMyVacancies() {
     }
   };
 
+  // Redirect to requirements page for a specific vacancy
   const handleRedirectionToRequirements = (id) => {
     navigate(`${id}/Requirements`);
   };
 
+  // Redirect to applicants page for a specific vacancy
   const handleRedirectionToapplicants = (id) => {
     navigate(`${id}/Applicants`);
   };

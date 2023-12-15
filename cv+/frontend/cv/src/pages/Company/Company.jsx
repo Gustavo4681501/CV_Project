@@ -1,5 +1,4 @@
 import React from 'react'
-import { useState } from 'react';
 import CompanyComponent from '../../components/AccountTypes/CompanyComponent';
 import { useCompany } from '../../components/AccountTypes/CompanyContext';
 

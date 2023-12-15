@@ -2,17 +2,25 @@ import React, { useState, useEffect } from "react";
 import { useCompany } from "../AccountTypes/CompanyContext";
 import "./CompanyProfile.css";
 
+/**
+ * Component for managing and updating company profile information.
+ * @returns {JSX.Element} CompanyProfile component.
+ */
 const CompanyProfile = () => {
   const [companyData, setCompanyData] = useState({
     name: "",
     description: "",
     phone_number: "",
-    avatar_url: "", // Campo para almacenar la URL del avatar
+    avatar_url: "", // Field to store the avatar URL
   });
   const { currCompany } = useCompany();
   const [notification, setNotification] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  /**
+   * Fetches company data from the server upon component mounting or when currCompany changes.
+   * @params {Object} currCompany - Current company object.
+   */
   useEffect(() => {
     const fetchCompanyData = async () => {
       try {
@@ -32,7 +40,7 @@ const CompanyProfile = () => {
           const avatarData = await avatarResponse.json();
           setCompanyData((prevCompanyData) => ({
             ...prevCompanyData,
-            avatar_url: avatarData.avatar_url || "", // Si no hay ruta de avatar, se asignan comillas vacías
+            avatar_url: avatarData.avatar_url || "", // If there's no avatar URL, assign empty string
           }));
         }
       } catch (error) {
@@ -45,6 +53,10 @@ const CompanyProfile = () => {
     fetchCompanyData();
   }, [currCompany]);
 
+  /**
+   * Handles changes in the form inputs.
+   * @params {Object} event - Input change event.
+   */
   const handleInputChange = (event) => {
     const { name, type } = event.target;
 
@@ -72,6 +84,9 @@ const CompanyProfile = () => {
     }
   };
 
+  /**
+   * Updates company information on the server.
+   */
   const handleUpdateCompany = async () => {
     try {
       const formData = new FormData();
@@ -100,7 +115,9 @@ const CompanyProfile = () => {
     }
   };
 
-
+  /**
+   * Deletes the company's avatar on the server.
+   */
   const handleDeleteAvatar = async () => {
     try {
       const response = await fetch(
@@ -113,7 +130,7 @@ const CompanyProfile = () => {
       if (response.ok) {
         setCompanyData((prevCompanyData) => ({
           ...prevCompanyData,
-          avatar_url: "", // Actualizar el avatar_url a vacío después de eliminar la imagen
+          avatar_url: "", // Update avatar_url to empty after deleting the image
         }));
         setNotification("User avatar deleted successfully!");
       } else {
@@ -124,7 +141,6 @@ const CompanyProfile = () => {
     }
   };
 
-
   return (
     <>
       <div className="containerProfile">
@@ -134,6 +150,7 @@ const CompanyProfile = () => {
           </div>
           <div className="profile-form">
             <form className="formprincipal">
+              {/* Input field for company name */}
               <label className="labelform">
                 Name:
                 <input
@@ -144,6 +161,7 @@ const CompanyProfile = () => {
                   onChange={handleInputChange}
                 />
               </label>
+              {/* Input field for company phone number */}
               <label className="labelform">
                 Phone Number:
                 <input
@@ -154,6 +172,7 @@ const CompanyProfile = () => {
                   onChange={handleInputChange}
                 />
               </label>
+              {/* Textarea field for company description */}
               <div>
                 <label>
                   Description:
@@ -165,14 +184,17 @@ const CompanyProfile = () => {
                 </label>
               </div>
               <br />
+              {/* Display notification if available */}
               {notification && <p className="notification">{notification}</p>}
               <div>
+                {/* Display loader or profile picture */}
                 {isLoading ? (
                   <span className="loader-foto"></span>
                 ) : (
                   <>
                     {companyData.avatar_url ? (
                       <div>
+                        {/* Display company avatar */}
                         <img
                           className="profile-picture"
                           src={companyData.avatar_url}
@@ -180,6 +202,7 @@ const CompanyProfile = () => {
                         />
                         <div>
                           <br />
+                          {/* Button to delete profile picture */}
                           <button
                             className="buttonform"
                             type="button"
@@ -190,6 +213,7 @@ const CompanyProfile = () => {
                         </div>
                       </div>
                     ) : (
+                      /* Placeholder for avatar if not available */
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="200"
@@ -197,9 +221,16 @@ const CompanyProfile = () => {
                         fill="white"
                         className="bi bi-person-circle"
                         viewBox="0 0 16 16"
-                      ><path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" /> <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" /></svg>)}</>)}
+                      >
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                        <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                      </svg>
+                    )}
+                  </>
+                )}
               </div>
               <br />
+              {/* Input field to upload a new photo */}
               <label className="labelform">
                 <input
                   className="inputform"
@@ -209,6 +240,7 @@ const CompanyProfile = () => {
                 />
               </label>
               <br />
+              {/* Button to save updated company information */}
               <div className="profile-details">
                 <button
                   className="buttonform"

@@ -3,6 +3,11 @@ import { useCompany } from "../AccountTypes/CompanyContext";
 import Form from "react-bootstrap/Form";
 import CreateVacancy from "../CreateVacancy/CreateVacancy";
 import AddRequirement from "../AddRequirement/AddRequirement";
+
+/**
+ * Component responsible for creating a job vacancy form.
+ * @returns {JSX.Element} Job vacancy creation form component.
+ */
 function CreateJobVacancy() {
     const { currCompany } = useCompany();
     const [isPostSuccess, setIsPostSuccess] = useState(false);
@@ -12,6 +17,13 @@ function CreateJobVacancy() {
     const [requirementData, setRequirementData] = useState(initialRequirementData);
     const resetRequirementData = { ...requirementData, requirements: [''] };
     
+
+    /**
+     * Handles input changes for the form fields.
+     * @param {Event} e - The event object.
+     * @param {Function} setFormData - Function to set form data state.
+     * @param {Object} formData - Current form data state.
+     */
     const handleInputChange = (e, setFormData, formData) => {
         const { name, value } = e.target;
         setFormData({
@@ -43,7 +55,10 @@ function CreateJobVacancy() {
             throw error;
         }
     };
-
+    /**
+     * Sends POST request to the API endpoint to create job vacancy.
+     * @param {Event} e - The event object.
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -86,27 +101,31 @@ function CreateJobVacancy() {
     };
 
     return (
-        <div className="d-flex justify-content-center ">
-            <Form onSubmit={handleSubmit} className="formContainer">
-                <CreateVacancy
-                    formData={vacancyData}
-                    handleInputChange={(e) =>
-                        handleInputChange(e, setVacancyData, vacancyData)
-                    }
-                    isPostSuccess={isPostSuccess}
-                />
-                <AddRequirement
-                    formData={requirementData}
-                    handleInputChange={(e) =>
-                        handleInputChange(e, setRequirementData, requirementData)
-                    }
-                    isPostSuccess={isPostSuccess}
-                />
-                <button type="submit" className="buttonForm">
-                    Submit
-                </button>
-            </Form>
-        </div>
+        <div className="d-flex justify-content-center">
+        {/* Form container */}
+        <Form onSubmit={handleSubmit} className="formContainer">
+            {/* CreateVacancy component */}
+            <CreateVacancy
+                formData={vacancyData}
+                handleInputChange={(e) =>
+                    handleInputChange(e, setVacancyData, vacancyData)
+                }
+                isPostSuccess={isPostSuccess}
+            />
+            {/* AddRequirement component */}
+            <AddRequirement
+                formData={requirementData}
+                handleInputChange={(e) =>
+                    handleInputChange(e, setRequirementData, requirementData)
+                }
+                isPostSuccess={isPostSuccess}
+            />
+            {/* Submit button */}
+            <button type="submit" className="buttonForm">
+                Submit
+            </button>
+        </Form>
+    </div>
     );
 }
 

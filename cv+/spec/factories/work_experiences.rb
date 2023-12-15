@@ -19,13 +19,13 @@
 #
 #  fk_rails_...  (user_id => users.id)
 #
+# spec/factories/work_experiences.rb
 FactoryBot.define do
   factory :work_experience do
-    name { 'Ejemplo de experiencia laboral' }
-    description { 'Descripción de la experiencia laboral' }
-    start_date { Date.today - 1.year }
-    finish_date { Date.today }
-    user_id
+    name { 'Software Developer' }
+    description { 'Example descrpition' }
+    start_date { '2022-01-01' }
+    finish_date { '2026-01-01' }
     user
   end
 end

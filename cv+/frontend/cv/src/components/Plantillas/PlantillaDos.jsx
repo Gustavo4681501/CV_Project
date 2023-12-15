@@ -102,7 +102,6 @@ const PlantillaDos = () => {
               (work) => String(work.user_id) === String(userIdToken)
             );
 
-            console.log("FILTERRRRR:", userWorks);
 
             setUserWorks(userWorks);
           } else {
@@ -136,7 +135,6 @@ const PlantillaDos = () => {
               (education) => String(education.user_id) === String(userIdToken)
             );
 
-            console.log("EDUUUU FILTERRRR:", userEducations);
 
             setUserEducations(userEducations);
           } else {
@@ -173,7 +171,6 @@ const PlantillaDos = () => {
               (project) => String(project.user_id) === String(userIdToken)
             );
 
-            console.log("EDUUUU FILTERRRR:", userProjects);
 
             setUserProjects(userProjects);
           } else {
@@ -210,7 +207,7 @@ const PlantillaDos = () => {
               (skill) => String(skill.user_id) === String(userIdToken)
             );
 
-            console.log("EDUUUU FILTERRRR:", userSkills);
+
 
             setUserSkills(userSkills);
           } else {
@@ -246,7 +243,7 @@ const PlantillaDos = () => {
               (link) => String(link.user_id) === String(userIdToken)
             );
 
-            console.log("LINKSSSSS FILTERRRR:", userLinks);
+
 
             setUserLinks(userLinks);
           } else {
@@ -287,7 +284,7 @@ const PlantillaDos = () => {
               (user) => String(user.id) === String(userIdToken)
             );
 
-            console.log("FILTER USERSSSSsssssss AAAAAAAAAAAAAAAAA", userfilter);
+
 
           setUsers(userfilter);
           setIsPdfReady(true);
@@ -301,7 +298,7 @@ const PlantillaDos = () => {
     };
     fetchUsers();
   }, []);
-console.log("LOSSSS USERSSSSSSSSSSSSSSSSSSSSSS", users);
+
 
 
   return (

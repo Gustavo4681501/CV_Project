@@ -2,11 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useUser } from "../AccountTypes/UserContext";
 import "./MyComments.css";
 
+
+/**
+ * Component to display a user's comments.
+ * @returns {JSX.Element} Component displaying user's comments.
+ */
 const MyComments = () => {
     const [comments, setComments] = useState([]);
     const [loading, setLoading] = useState(true); 
     const { currUser } = useUser();
 
+
+    //fetch of comments associated with a user
     useEffect(() => {
         const fetchData = async () => {
             try {

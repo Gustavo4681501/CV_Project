@@ -16,10 +16,10 @@
 #
 #  fk_rails_...  (available_vacancy_id => available_vacancies.id)
 #
+# spec/factories/requirements.rb
 FactoryBot.define do
   factory :requirement do
-    requirement { "Requirement Description" }
-    available_vacancy_id
+    requirement { "Must know Ruby on Rails" }
     association :available_vacancy
   end
 end

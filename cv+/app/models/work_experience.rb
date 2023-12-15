@@ -21,4 +21,7 @@
 #
 class WorkExperience < ApplicationRecord
     belongs_to :user
+
+    # Validation
+    validates :name, :description, :start_date, :finish_date, presence: true
 end

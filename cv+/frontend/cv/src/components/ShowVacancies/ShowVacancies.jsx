@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ShowVacancies.css"; 
 
+
+/**
+ * Component to display available vacancies and allow users to view their requirements.
+ * @returns {JSX.Element} Component to view available vacancies.
+ */
 function ShowVacancies() {
     const [vacancies, setVacancies] = useState([]);
     const [isLoading, setIsLoading] = useState(true); // Estado para controlar la carga
@@ -35,7 +40,7 @@ function ShowVacancies() {
             } catch (error) {
                 console.error("Error de red:", error);
             } finally {
-                // Una vez finalizada la búsqueda, cambiar el estado isLoading a false
+                // Once the search is finished, change isLoading state to false
                 setIsLoading(false);
             }
         };
@@ -43,6 +48,7 @@ function ShowVacancies() {
         fetchVacancies();
     }, []);
 
+    // Redirect to requirements page for a specific vacancy
     const handleRedirectionToRequirements = (id) => {
         navigate(`${id}/Requirements`);
     };

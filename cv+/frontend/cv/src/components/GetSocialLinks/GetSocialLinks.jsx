@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import './GetSocialLinks.css';
+import "../GetsCss/GetsCss.css";
 import { useUser } from '../AccountTypes/UserContext';
 import { useCompany } from '../AccountTypes/CompanyContext';
 
+/**
+ * Component to display and manage user's social links.
+ * @param {object} props - Props object containing the user ID.
+ * @param {string} props.userId - ID of the user whose social links to display.
+ * @returns {JSX.Element} Component displaying and managing user's social links.
+ */
 const GetSocialLinks = ({ userId }) => {
 
   const { currUser } = useUser()
-
   const { currCompany } = useCompany()
-
-
   const [socialLinks, setSocialLinks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingLinkId, setEditingLinkId] = useState(null);
   const [editedLinkUrl, setEditedLinkUrl] = useState('');
 
+
+  // Fetch social links on component mount
   useEffect(() => {
     const fetchSocialLinks = async () => {
       try {
@@ -36,15 +41,18 @@ const GetSocialLinks = ({ userId }) => {
     fetchSocialLinks();
   }, []);
   
+  // Filter social links based on user ID
   const id = userId? userId : currUser.id ;
   const userSocialLinks = socialLinks.filter(link => link.user_id.toString() === id.toString());
 
+   // Edit social link
   const handleEditLink = id => {
     const linkToEdit = socialLinks.find(link => link.id === id);
     setEditingLinkId(id);
     setEditedLinkUrl(linkToEdit.url);
   };
 
+  // Save edited social link
   const handleSaveLink = async id => {
     try {
       const response = await fetch(`http://localhost:3001/api/social_links/${id}`, {
@@ -77,6 +85,8 @@ const GetSocialLinks = ({ userId }) => {
     }
   };
 
+
+  // Delete social link
   const handleDeleteLink = async id => {
     try {
       const response = await fetch(`http://localhost:3001/api/social_links/${id}`, {
@@ -122,10 +132,10 @@ const GetSocialLinks = ({ userId }) => {
                 ) : (
                   <>
                     <button onClick={() => handleEditLink(link.id)} className="buttonEditget">
-                      Editar
+                      Edit
                     </button>
                     <button onClick={() => handleDeleteLink(link.id)} className="buttonEliminarget">
-                      Eliminar
+                      Delete
                     </button>
                   </>
                 )}

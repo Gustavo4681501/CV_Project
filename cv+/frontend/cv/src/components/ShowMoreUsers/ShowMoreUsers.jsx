@@ -3,6 +3,12 @@ import { Link } from "react-router-dom";
 import "./ShowMoreUsers.css";
 import { useUser } from "../AccountTypes/UserContext";
 
+
+/**
+ * Component to display a list of users with their details.
+ * @param {string} userId - Optional ID of a specific user.
+ * @returns {JSX.Element} Component displaying a list of users.
+ */
 const ShowMoreUsers = ({ userId }) => {
     const [users, setUsers] = useState([]);
     const [avatarData, setAvatarData] = useState([]);
@@ -10,6 +16,8 @@ const ShowMoreUsers = ({ userId }) => {
     const id = userId ? userId : users;
     const { currUser } = useUser();
 
+
+    //get from users
     useEffect(() => {
         const fetchUsers = async () => {
             try {
@@ -29,9 +37,9 @@ const ShowMoreUsers = ({ userId }) => {
         fetchUsers();
     }, []);
 
+    //Fetch user Photo
     useEffect(() => {
         const fetchAvatar = async () => {
-            // // console.log("consoleeeeeeeeeeeee", ).
             try {
                 const response = await fetch(
                     `http://localhost:3001/api/users/all_avatar`
@@ -94,7 +102,7 @@ const ShowMoreUsers = ({ userId }) => {
                                                 />
                                             </svg>
                                         )}
-                                        <div class="profile-details">
+                                        <div className="profile-details">
                                             <h5>Name: {user.name} {user.last_name}</h5>
                                             <p>Email: {user.email}</p>
                                             <p>Teléfono: {user.phone_number}</p>

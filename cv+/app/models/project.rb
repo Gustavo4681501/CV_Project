@@ -19,5 +19,9 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Project < ApplicationRecord
+    # Associations
     belongs_to :user
+
+    # Validation
+    validates :name, :description, :url, presence: true
 end

@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-
-
+  # Devise routes for users
   devise_for :users, path: '', path_names: {
     sign_in: 'login',
     sign_out: 'logout',
@@ -11,6 +10,7 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
+  # Devise routes for companies
   devise_for :companies, path: 'companies', path_names: {
     sign_in: 'login',
     sign_out: 'logout',
@@ -21,8 +21,12 @@ Rails.application.routes.draw do
     registrations: 'companies/registrations'
   }
 
-
+  # API routes within the 'api' namespace
   namespace :api do
+    # Custom route to fetch all avatars for users
+    get '/users/all_avatar', to: 'users#all_avatar'
+
+    # Resource routes for various API endpoints
     resources :curriculums
     resources :educations
     resources :projects
@@ -31,6 +35,7 @@ Rails.application.routes.draw do
     resources :social_links
     resources :work_experiences
 
+    # Nested routes for companies
     resources :companies do
       member do
         get :avatar
@@ -38,12 +43,7 @@ Rails.application.routes.draw do
       end
     end
 
-    # collection do
-    #   get :all_avatar
-    # end
-
-    get '/users/all_avatar', to: 'users#all_avatar'
-
+    # Nested routes for users and their comments
     resources :users do
       resources :comments
       member do
@@ -51,7 +51,8 @@ Rails.application.routes.draw do
         delete :destroy_avatar
       end
     end
-
+    resources :comments, only:[:destroy]
+    # Nested routes for available vacancies
     resources :available_vacancies do
       resources :requirements
       member do

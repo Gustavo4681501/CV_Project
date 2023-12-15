@@ -16,5 +16,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Curriculum < ApplicationRecord
+    # Associations
     belongs_to :user
 end

@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import ShowMoreUsers from "../ShowMoreUsers/ShowMoreUsers";
-
+/**
+ * Component to display users who applied for a specific vacancy.
+ * @returns {JSX.Element} Component displaying users who applied for a vacancy.
+ */
 const ShowApplicants = () => {
     const [applicants, setApplicants] = useState([]);
     const [loading, setLoading] = useState(true);

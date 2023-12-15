@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
-import "./GetWorkExperience.css";
+import "../GetsCss/GetsCss.css";
 import { useUser } from '../AccountTypes/UserContext';
 import { useCompany } from "../AccountTypes/CompanyContext";
 
+/**
+ * Component to display and manage user's work experiences.
+ * @param {object} props - Props object containing the user ID.
+ * @param {string} props.userId - ID of the user whose work experiences to display.
+ * @returns {JSX.Element} Component displaying and managing user's work experiences.
+ */
 const GetWorkExperiences = ({ userId }) => {
-
   const { currUser } = useUser()
   const { currCompany } = useCompany()
   const [workExperiences, setWorkExperiences] = useState([]);
-
   const [editingWorkExperienceId, setEditingWorkExperienceId] = useState(null);
   const [editedWorkExperienceName, setEditedWorkExperienceName] = useState('');
   const [editedWorkExperienceDescription, setEditedWorkExperienceDescription] = useState('');
@@ -17,6 +20,7 @@ const GetWorkExperiences = ({ userId }) => {
   const [editedWorkExperienceFinishDate, setEditedWorkExperienceFinishDate] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
+  // Fetch work experiences on component mount
   useEffect(() => {
     const fetchWorkExperiences = async () => {
       try {
@@ -38,9 +42,12 @@ const GetWorkExperiences = ({ userId }) => {
     fetchWorkExperiences();
   }, []);
 
+  // Filter work experiences based on user ID
   const id = userId ? userId : currUser.id
   const userWorkExperiences = workExperiences.filter(work => work.user_id.toString() === id.toString());
 
+
+  // Edit work experience
   const handleEditWorkExperience = (id) => {
     const workExperienceToEdit = workExperiences.find(work => work.id === id);
     setEditingWorkExperienceId(id);
@@ -50,6 +57,8 @@ const GetWorkExperiences = ({ userId }) => {
     setEditedWorkExperienceFinishDate(workExperienceToEdit.finish_date);
   };
 
+
+  // Save edited work experience
   const handleSaveWorkExperience = async (id) => {
     try {
       const response = await fetch(`http://localhost:3001/api/work_experiences/${id}`, {
@@ -88,6 +97,8 @@ const GetWorkExperiences = ({ userId }) => {
     }
   };
 
+
+  // Delete work experience
   const handleDeleteWorkExperience = async (id) => {
     try {
       const response = await fetch(`http://localhost:3001/api/work_experiences/${id}`, {
@@ -154,10 +165,10 @@ const GetWorkExperiences = ({ userId }) => {
                 ) : (
                   <>
                     <button onClick={() => handleEditWorkExperience(workExperience.id)} className="buttonEditget">
-                      Editar
+                      Edit
                     </button>
                     <button onClick={() => handleDeleteWorkExperience(workExperience.id)} className="buttonEliminarget">
-                      Eliminar
+                      Delete
                     </button>
                   </>
                 )}

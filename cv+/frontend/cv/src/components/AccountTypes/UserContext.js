@@ -1,3 +1,4 @@
+//Context for managing the current user
 import React, { createContext, useState, useContext } from 'react';
 
 export const UserContext = createContext();

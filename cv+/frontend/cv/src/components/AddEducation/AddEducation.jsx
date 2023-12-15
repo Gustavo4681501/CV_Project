@@ -2,13 +2,18 @@ import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import { useUser } from "../AccountTypes/UserContext";
 import { useParams } from "react-router-dom";
-import "./AddEducation.css";
 import { Link } from "react-router-dom";
 import { IoLibrary } from "react-icons/io5";
 
-
+/**
+ * Functional component for adding and managing education information in a user's profile.
+ *
+ * @returns {JSX.Element} JSX representation of the AddEducation component.
+ */
 const AddEducation = () => {
   const { currUser } = useUser();
+
+  // State variables for managing education form data and existing educations
   const [formData, setFormData] = useState({
     name: "",
     institution_name: "",
@@ -19,9 +24,12 @@ const AddEducation = () => {
   });
 
   const [educations, setEducations] = useState([]);
+
+  // Extracts user id from URL parameters
   const { id } = useParams();
   const userId = parseInt(id, 10);
 
+  // State variables for managing education editing and loading indicator
   const [editingEducationId, setEditingEducationId] = useState(null);
   const [editedEducationName, setEditedEducationName] = useState("");
   const [editedEducationInstitution, setEditedEducationInstitution] =
@@ -32,6 +40,7 @@ const AddEducation = () => {
     useState("");
   const [isLoading, setIsLoading] = useState(true);
 
+  // Fetches user educations on component mount
   useEffect(() => {
     const fetchEducations = async () => {
       try {
@@ -41,10 +50,10 @@ const AddEducation = () => {
           const educationsData = await response.json();
           setEducations(educationsData);
         } else {
-          console.error("Error al obtener educaciones:", response.statusText);
+          console.error("Error fetching educations:", response.statusText);
         }
       } catch (error) {
-        console.error("Error de red:", error);
+        console.error("Network error:", error);
       } finally {
         setIsLoading(false);
       }
@@ -53,10 +62,17 @@ const AddEducation = () => {
     fetchEducations();
   }, []);
 
+  // Filters user-specific educations
   const userEducations = educations.filter(
     (education) => education.user_id === userId
   );
 
+  /**
+   * Handles the initiation of education editing.
+   *
+   * @param {number} educationId - The id of the education to edit.
+   * @returns {void}
+   */
   const handleEditEducation = (educationId) => {
     const educationToEdit = userEducations.find(
       (education) => education.id === educationId
@@ -71,6 +87,12 @@ const AddEducation = () => {
     setEditingEducationId(educationId);
   };
 
+  /**
+   * Handles saving the edited education.
+   *
+   * @param {number} educationId - The id of the education to save.
+   * @returns {void}
+   */
   const handleSaveEducation = async (educationId) => {
     try {
       const response = await fetch(
@@ -105,7 +127,7 @@ const AddEducation = () => {
           return education;
         });
 
-        // Obtener la nueva lista de educaciones después de guardar
+        // Fetches the updated list of educations after saving
         const updatedResponse = await fetch(
           "http://localhost:3001/api/educations"
         );
@@ -122,12 +144,19 @@ const AddEducation = () => {
     }
   };
 
+  /**
+   * Handles the deletion of an education.
+   *
+   * @param {number} educationId - The id of the education to delete.
+   * @returns {void}
+   */
   const handleDeleteEducation = async (educationId) => {
     const isConfirmed = window.confirm("Are you sure you want to delete?");
 
     if (!isConfirmed) {
       return;
     }
+
     try {
       const response = await fetch(
         `http://localhost:3001/api/educations/${educationId}`,
@@ -149,12 +178,19 @@ const AddEducation = () => {
     }
   };
 
+  // State variable for indicating post success
   const [isPostSuccess, setIsPostSuccess] = useState(false);
 
+  /**
+   * Handles input changes in the education form.
+   *
+   * @param {object} e - The event object representing the input change.
+   * @returns {void}
+   */
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    // Formatear la fecha en el formato "YYYY-MM-DD"
+    // Formats the date in the "YYYY-MM-DD" format
     if (name === "start_date" || name === "finish_date") {
       const formattedDate = new Date(value);
       const year = formattedDate.getFullYear();
@@ -174,12 +210,18 @@ const AddEducation = () => {
     }
   };
 
+  /**
+   * Handles form submission for adding a new education.
+   *
+   * @param {object} e - The event object representing the form submission.
+   * @returns {void}
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (new Date(formData.finish_date) < new Date(formData.start_date)) {
       alert(
-        "La fecha de finalización no puede ser anterior a la fecha de inicio"
+        "The finish date cannot be earlier than the start date"
       );
       return;
     }
@@ -194,12 +236,12 @@ const AddEducation = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Error al agregar la educación");
+        throw new Error("Error adding education");
       }
 
       setIsPostSuccess(true);
 
-      // Obtener la nueva lista de educaciones después de agregar
+      // Fetches the updated list of educations after adding
       const updatedResponse = await fetch(
         "http://localhost:3001/api/educations"
       );
@@ -216,9 +258,9 @@ const AddEducation = () => {
       });
 
       const data = await response.json();
-      console.log("Education añadido con éxito:", data);
+      console.log("Education added successfully:", data);
     } catch (error) {
-      console.error("Error al realizar la solicitud POST:", error);
+      console.error("Error making POST request:", error);
       setIsPostSuccess(false);
     }
   };

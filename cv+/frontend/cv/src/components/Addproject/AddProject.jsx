@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
-import "./Addproject.css";
 import { useUser } from "../AccountTypes/UserContext";
 import { useParams, Link } from "react-router-dom";
 import { FaFileAlt } from "react-icons/fa";
-import "../AddsCss/AddsCss.css"
+import "../AddsCss/AddsCss.css";
 
+/**
+ * Functional component for adding projects to a user's profile.
+ * Allows users to add, edit, and delete projects.
+ *
+ * @returns {JSX.Element} JSX representation of the AddProject component.
+ */
 const AddProject = () => {
+  // Extracts user id from URL parameters
   const { id } = useParams();
   const userId = parseInt(id, 10);
 
+  // State variables for managing projects and their editing
   const [projects, setProjects] = useState([]);
   const [editingProjectId, setEditingProjectId] = useState(null);
   const [editedProjectName, setEditedProjectName] = useState("");
@@ -17,6 +24,7 @@ const AddProject = () => {
   const [editedProjectUrl, setEditedProjectUrl] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
+  // Fetches projects for the user on component mount
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -26,10 +34,10 @@ const AddProject = () => {
           const projectsData = await response.json();
           setProjects(projectsData);
         } else {
-          console.error("Error al obtener proyectos:", response.statusText);
+          console.error("Error fetching projects:", response.statusText);
         }
       } catch (error) {
-        console.error("Error de red:", error);
+        console.error("Network error:", error);
       } finally {
         setIsLoading(false);
       }
@@ -38,16 +46,29 @@ const AddProject = () => {
     fetchProjects();
   }, []);
 
+  // Filters only projects based on the current user
   const userProjects = projects.filter((project) => project.user_id === userId);
 
+  /**
+   * Handles the initiation of project editing.
+   *
+   * @param {number} id - The id of the project to edit.
+   * @returns {void}
+   */
   const handleEditProject = (id) => {
     const projectToEdit = projects.find((project) => project.id === id);
     setEditingProjectId(id);
     setEditedProjectName(projectToEdit.name);
     setEditedProjectDescription(projectToEdit.description);
-    setEditedProjectUrl(projectToEdit.url)
+    setEditedProjectUrl(projectToEdit.url);
   };
 
+  /**
+   * Handles saving the edited project.
+   *
+   * @param {number} id - The id of the project to save.
+   * @returns {void}
+   */
   const handleSaveProject = async (id) => {
     try {
       const response = await fetch(`http://localhost:3001/api/projects/${id}`, {
@@ -58,7 +79,7 @@ const AddProject = () => {
         body: JSON.stringify({
           name: editedProjectName,
           description: editedProjectDescription,
-          url: editedProjectUrl
+          url: editedProjectUrl,
         }),
       });
 
@@ -69,13 +90,13 @@ const AddProject = () => {
               ...project,
               name: editedProjectName,
               description: editedProjectDescription,
-              url: editedProjectUrl
+              url: editedProjectUrl,
             };
           }
           return project;
         });
 
-        // Agregar el proyecto actualizado al estado
+        // Updates the state with the modified project
         setProjects(updatedProjects);
 
         setEditingProjectId(null);
@@ -87,7 +108,9 @@ const AddProject = () => {
     }
   };
 
+  // Retrieves current user information from context
   const { currUser } = useUser();
+  // Initial form data for adding a new project
   const initialFormData = {
     name: "",
     description: "",
@@ -95,11 +118,16 @@ const AddProject = () => {
     user_id: currUser.id,
   };
 
+  // State variables for form data and post success indication
   const [formData, setFormData] = useState(initialFormData);
   const [isPostSuccess, setIsPostSuccess] = useState(false);
 
-
-
+  /**
+   * Handles the deletion of a project.
+   *
+   * @param {number} id - The id of the project to delete.
+   * @returns {void}
+   */
   const handleDeleteProject = async (id) => {
     const isConfirmed = window.confirm("Are you sure you want to delete?");
 
@@ -123,6 +151,12 @@ const AddProject = () => {
     }
   };
 
+  /**
+   * Handles input changes in the form.
+   *
+   * @param {object} e - The event object representing the input change.
+   * @returns {void}
+   */
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -131,6 +165,12 @@ const AddProject = () => {
     });
   };
 
+  /**
+   * Handles form submission for adding a new project.
+   *
+   * @param {object} e - The event object representing the form submission.
+   * @returns {void}
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -144,21 +184,21 @@ const AddProject = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Error al crear el proyecto");
+        throw new Error("Error creating the project");
       }
 
       setIsPostSuccess(true);
 
       const newProject = await response.json();
-      console.log("Proyecto creado con éxito:", newProject);
+      console.log("Project created successfully:", newProject);
 
-      // Agregar el nuevo proyecto al estado
+      // Adds the new project to the state
       setProjects([...projects, newProject]);
 
-      // Restablecer el formulario después del envío exitoso
+      // Resets the form after successful submission
       setFormData(initialFormData);
     } catch (error) {
-      console.error("Error al realizar la solicitud POST:", error);
+      console.error("Error making POST request:", error);
       setIsPostSuccess(false);
     }
   };
@@ -251,13 +291,13 @@ const AddProject = () => {
                       onClick={() => handleSaveProject(project.id)}
                       className="buttonget"
                     >
-                      Guardar
+                      Save
                     </button>
                     <button
                       onClick={() => setEditingProjectId(null)}
                       className="buttonget"
                     >
-                      Cancelar
+                      Cancel
                     </button>
                   </>
                 ) : (
@@ -269,13 +309,13 @@ const AddProject = () => {
                       onClick={() => handleEditProject(project.id)}
                       className="buttonEditget"
                     >
-                      Editar
+                      Edit
                     </button>
                     <button
                       onClick={() => handleDeleteProject(project.id)}
                       className="buttonEliminarget"
                     >
-                      Eliminar
+                      Delete
                     </button>
                   </>
                 )}

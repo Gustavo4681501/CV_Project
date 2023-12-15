@@ -1,21 +1,35 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
-import "./AddSkill.css";
 import { useUser } from "../AccountTypes/UserContext";
 import { useParams } from 'react-router-dom';
-import GetSkills from "../GetSkills/GetSkills";
 import { Link } from 'react-router-dom';
 import { GiBrain } from "react-icons/gi";
 
-const AddSkill = () => {
-  const [skills, setSkills] = useState([]);
-  const { id } = useParams();
-  const userId = parseInt(id, 10);
 
+
+/**
+ * Functional component for managing user skills.
+ *
+ * @returns {JSX.Element} JSX representation of the AddSkill component.
+ */
+const AddSkill = () => {
+  // State variable for managing the list of skills
+  const [skills, setSkills] = useState([]);
+// Destructure the 'id' parameter from the URL using React Router's useParams hook
+const { id } = useParams();
+console.log("ESTEEEE ES EL IDDDDDDD", id);
+
+// Parse the 'id' into an integer using parseInt with base 10
+const userId = parseInt(id, 10);
+  
+  // State variables for managing editing state
   const [editingSkillId, setEditingSkillId] = useState(null);
   const [editedSkillName, setEditedSkillName] = useState('');
+  
+  // State variable for managing loading state
   const [isLoading, setIsLoading] = useState(true);
 
+  // Effect to fetch skills data when the component mounts
   useEffect(() => {
     const fetchSkills = async () => {
       try {
@@ -25,10 +39,10 @@ const AddSkill = () => {
           const skillsData = await response.json();
           setSkills(skillsData);
         } else {
-          console.error('Error al obtener skills:', response.statusText);
+          console.error('Error fetching skills:', response.statusText);
         }
       } catch (error) {
-        console.error('Error de red:', error);
+        console.error('Network error:', error);
       } finally {
         setIsLoading(false);
       }
@@ -37,14 +51,27 @@ const AddSkill = () => {
     fetchSkills();
   }, []);
 
+  // Filter skills based on the current user
   const userSkills = skills.filter(skill => skill.user_id === userId);
 
+  /**
+   * Handles the initiation of editing a skill.
+   *
+   * @param {number} skillId - The ID of the skill to edit.
+   * @returns {void}
+   */
   const handleEditSkill = (skillId) => {
     const skillToEdit = userSkills.find(skill => skill.id === skillId);
     setEditedSkillName(skillToEdit.name);
     setEditingSkillId(skillId);
   };
 
+  /**
+   * Handles the save operation for an edited skill.
+   *
+   * @param {number} skillId - The ID of the skill to save.
+   * @returns {void}
+   */
   const handleSaveSkill = async (skillId) => {
     try {
       const response = await fetch(`http://localhost:3001/api/skills/${skillId}`, {
@@ -78,11 +105,17 @@ const AddSkill = () => {
     }
   };
 
+  /**
+   * Handles the deletion of a skill.
+   *
+   * @param {number} skillId - The ID of the skill to delete.
+   * @returns {void}
+   */
   const handleDeleteSkill = async (skillId) => {
     const isConfirmed = window.confirm("Are you sure you want to delete?");
 
     if (!isConfirmed) {
-      return; // Cancelar la eliminación si el usuario no confirma
+      return; // Cancel deletion if the user does not confirm
     }
     try {
       const response = await fetch(`http://localhost:3001/api/skills/${skillId}`, {
@@ -100,15 +133,21 @@ const AddSkill = () => {
     }
   };
 
+  // Form data and state for POST operation
   const { currUser } = useUser();
   const initialFormData = {
     name: "",
     user_id: currUser.id,
   };
-
   const [formData, setFormData] = useState(initialFormData);
   const [isPostSuccess, setIsPostSuccess] = useState(false);
 
+  /**
+   * Handles input changes in the form.
+   *
+   * @param {object} e - The event object representing the input change.
+   * @returns {void}
+   */
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -117,6 +156,12 @@ const AddSkill = () => {
     });
   };
 
+  /**
+   * Handles the submission of the skill form.
+   *
+   * @param {object} e - The event object representing the form submission.
+   * @returns {void}
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -130,24 +175,26 @@ const AddSkill = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Error al agregar la skill");
+        throw new Error("Error adding skill");
       }
 
       setIsPostSuccess(true);
 
       const data = await response.json();
-      console.log("Skill agregado con éxito:", data);
+      console.log("Skill added successfully:", data);
 
-      
+      // Update skills list after successful addition
       setSkills([...skills, data]);
 
-      
+      // Reset form data after successful submission
       setFormData(initialFormData);
     } catch (error) {
-      console.error("Error al realizar la solicitud POST:", error);
+      console.error("Error making POST request:", error);
       setIsPostSuccess(false);
     }
   };
+
+  // JSX structure for the AddSkill component
 
   return (
     <>

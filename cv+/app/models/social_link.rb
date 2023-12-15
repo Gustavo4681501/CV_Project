@@ -17,6 +17,9 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class SocialLink < ApplicationRecord
+    # Associations
     belongs_to :user
+
+    # Validation
     validates :url, presence: true
 end

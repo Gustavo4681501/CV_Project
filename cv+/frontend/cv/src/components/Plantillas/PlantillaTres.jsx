@@ -98,7 +98,6 @@ const PlantillaDos = () => {
               (work) => String(work.user_id) === String(userIdToken)
             );
 
-            console.log("FILTERRRRR:", userWorks);
 
             setUserWorks(userWorks);
           } else {
@@ -131,8 +130,6 @@ const PlantillaDos = () => {
             const userEducations = educationsData.filter(
               (education) => String(education.user_id) === String(userIdToken)
             );
-
-            console.log("EDUUUU FILTERRRR:", userEducations);
 
             setUserEducations(userEducations);
           } else {
@@ -169,8 +166,6 @@ const PlantillaDos = () => {
               (project) => String(project.user_id) === String(userIdToken)
             );
 
-            console.log("EDUUUU FILTERRRR:", userProjects);
-
             setUserProjects(userProjects);
           } else {
             console.error(
@@ -206,7 +201,6 @@ const PlantillaDos = () => {
               (skill) => String(skill.user_id) === String(userIdToken)
             );
 
-            console.log("EDUUUU FILTERRRR:", userSkills);
 
             setUserSkills(userSkills);
           } else {
@@ -242,7 +236,7 @@ const PlantillaDos = () => {
               (link) => String(link.user_id) === String(userIdToken)
             );
 
-            console.log("LINKSSSSS FILTERRRR:", userLinks);
+
 
             setUserLinks(userLinks);
           } else {
@@ -284,7 +278,7 @@ const PlantillaDos = () => {
               (user) => String(user.id) === String(userIdToken)
             );
 
-            console.log("FILTER USERSSSSsssssss AAAAAAAAAAAAAAAAA", userfilter);
+    
 
           setUsers(userfilter);
           setIsPdfReady(true);
@@ -300,14 +294,6 @@ const PlantillaDos = () => {
     fetchUsers();
   }, []);
 
-
-console.log("LOSSSS USERSSSSSSSSSSSSSSSSSSSSSS", users);
-
-  console.log("SOY LA EDUCA", userEducations);
-  console.log("SOY EL WORK", userWorks);
-  console.log("SOY EL PROJECT", userProjects);
-  console.log("SOY SKILL", userSkills);
-  console.log("SOY LINKKK", userLinks);
   return (
     <>
   {isPdfReady ? (

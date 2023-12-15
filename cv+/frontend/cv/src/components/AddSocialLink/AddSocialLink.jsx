@@ -1,29 +1,42 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
-import "./AddSocialLink.css";
 import { useUser } from "../AccountTypes/UserContext";
 import { Link, useParams } from "react-router-dom";
 import { IoShareSocialSharp } from "react-icons/io5";
 
 
 
+/**
+ * Component for managing social links associated with a user's profile.
+ * @component
+ * @returns {JSX.Element} - Rendered component.
+ */
 const AddSocialLink = () => {
+  // State for form data and initial form values
   const { currUser } = useUser();
   const initialFormData = {
     url: "",
     user_id: currUser.id,
   };
+  const [formData, setFormData] = useState(initialFormData);
 
+  // State for URL parameters
   const { id } = useParams();
   const userId = parseInt(id, 10);
 
+  // State for social links, loading indicator, and edit-related states
   const [socialLinks, setSocialLinks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingLinkId, setEditingLinkId] = useState(null);
   const [editedLinkUrl, setEditedLinkUrl] = useState("");
-  const [formData, setFormData] = useState(initialFormData);
   const [isPostSuccess, setIsPostSuccess] = useState(false);
 
+  /**
+   * Effect hook to fetch social links when the component mounts.
+   * @function
+   * @async
+   * @returns {void}
+   */
   useEffect(() => {
     const fetchSocialLinks = async () => {
       try {
@@ -34,12 +47,12 @@ const AddSocialLink = () => {
           setSocialLinks(socialLinksData);
         } else {
           console.error(
-            "Error al obtener enlaces sociales:",
+            "Error fetching social links:",
             response.statusText
           );
         }
       } catch (error) {
-        console.error("Error de red:", error);
+        console.error("Network error:", error);
       } finally {
         setLoading(false);
       }
@@ -48,14 +61,28 @@ const AddSocialLink = () => {
     fetchSocialLinks();
   }, []);
 
+  // Filter social links based on user ID
   const userSocialLinks = socialLinks.filter((link) => link.user_id === userId);
 
+  /**
+   * Handles editing a social link by setting the editing states.
+   * @function
+   * @param {number} id - The ID of the social link to edit.
+   * @returns {void}
+   */
   const handleEditLink = (id) => {
     const linkToEdit = socialLinks.find((link) => link.id === id);
     setEditingLinkId(id);
     setEditedLinkUrl(linkToEdit.url);
   };
 
+  /**
+   * Handles saving an edited social link by making a PATCH request.
+   * @function
+   * @async
+   * @param {number} id - The ID of the social link to save.
+   * @returns {void}
+   */
   const handleSaveLink = async (id) => {
     try {
       const response = await fetch(
@@ -91,11 +118,18 @@ const AddSocialLink = () => {
     }
   };
 
+  /**
+   * Handles deleting a social link by making a DELETE request.
+   * @function
+   * @async
+   * @param {number} id - The ID of the social link to delete.
+   * @returns {void}
+   */
   const handleDeleteLink = async (id) => {
     const isConfirmed = window.confirm("Are you sure you want to delete?");
 
     if (!isConfirmed) {
-      return; 
+      return;
     }
     try {
       const response = await fetch(
@@ -116,6 +150,12 @@ const AddSocialLink = () => {
     }
   };
 
+  /**
+   * Handles input changes in the form.
+   * @function
+   * @param {Object} e - The event object.
+   * @returns {void}
+   */
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -124,6 +164,13 @@ const AddSocialLink = () => {
     });
   };
 
+  /**
+   * Handles form submission by making a POST request.
+   * @function
+   * @async
+   * @param {Object} e - The event object.
+   * @returns {void}
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -137,16 +184,16 @@ const AddSocialLink = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Error al crear el enlace social");
+        throw new Error("Failed to create social link");
       }
 
       setIsPostSuccess(true);
 
       const data = await response.json();
-      console.log("Enlace social agregado con éxito:", data);
+      console.log("Social link added successfully:", data);
 
-      // Después de un POST exitoso, realiza una solicitud GET adicional
-      // para obtener la lista actualizada de enlaces sociales.
+      // After a successful POST, make an additional GET request
+      // to get the updated list of social links.
       const updatedResponse = await fetch(
         "http://localhost:3001/api/social_links"
       );
@@ -155,10 +202,12 @@ const AddSocialLink = () => {
 
       setFormData(initialFormData);
     } catch (error) {
-      console.error("Error al realizar la solicitud POST:", error);
+      console.error("Error making POST request:", error);
       setIsPostSuccess(false);
     }
   };
+
+  // Render the component
 
   return (
     <>

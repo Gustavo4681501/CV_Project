@@ -37,14 +37,14 @@
 #  index_users_on_unlock_token          (unlock_token) UNIQUE
 #
 class User < ApplicationRecord
-        # Include default devise modules.
-
+        # Devise Configuration
         include Devise::JWT::RevocationStrategies::JTIMatcher
         devise :database_authenticatable, :registerable,
                 :recoverable, :rememberable, :trackable, :validatable,
                 :omniauthable, :jwt_authenticatable,
                 jwt_revocation_strategy: JwtDenylist
 
+        # Associations
         has_many :comments, as: :commentable, dependent: :destroy
         has_many :curriculums, dependent: :destroy
         has_many :educations, dependent: :destroy
@@ -54,8 +54,13 @@ class User < ApplicationRecord
         has_many :work_experiences, dependent: :destroy
         has_and_belongs_to_many :available_vacancies, dependent: :destroy
 
+        # Active Storage associations
+        has_one_attached :avatar
         has_many :attachments, as: :record, class_name: "ActiveStorage::Attachment", dependent: :destroy
         has_many :blobs, through: :attachments, class_name: "ActiveStorage::Blob"
 
-        validates :name,:email, :last_name, :encrypted_password, :jti, :created_at, :updated_at, :jti, :sign_in_count, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip, :last_sign_in_at, :last_sign_in_ip, :failed_attempts, :sign_in_count, presence: true
+        # Validation
+        validates :name,:email, :last_name, :encrypted_password, :jti, :created_at, :updated_at,
+        :jti, :sign_in_count, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip,
+        :last_sign_in_at, :last_sign_in_ip, :failed_attempts, :sign_in_count, presence: true
 end

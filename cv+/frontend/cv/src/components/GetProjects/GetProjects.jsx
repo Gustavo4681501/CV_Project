@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useCompany } from "../AccountTypes/CompanyContext";
-import "./GetProjects.css";
 import "../GetsCss/GetsCss.css";
 import { useUser } from "../AccountTypes/UserContext";
 
+/**
+ * Component to display and manage user projects.
+ * @param {object} props - Props object containing the user ID.
+ * @param {string} props.userId - ID of the user whose projects to display.
+ * @returns {JSX.Element} Component displaying and managing user projects.
+ */
 const GetProjects = ({ userId }) => {
 
   const { currCompany } = useCompany();
@@ -14,6 +19,7 @@ const GetProjects = ({ userId }) => {
   const [editedProjectDescription, setEditedProjectDescription] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
+   // Fetch projects on component mount
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -35,11 +41,13 @@ const GetProjects = ({ userId }) => {
     fetchProjects();
   }, []);
 
+  // Filter projects based on user ID
   const id = userId ? userId : currUser.id;
   const userProjects = projects.filter(
     (project) => project.user_id.toString() === id.toString()
   );
 
+  // Edit project details
   const handleEditProject = (id) => {
     const projectToEdit = projects.find((project) => project.id === id);
     setEditingProjectId(id);
@@ -47,6 +55,7 @@ const GetProjects = ({ userId }) => {
     setEditedProjectDescription(projectToEdit.description);
   };
 
+  // Save edited project details
   const handleSaveProject = async (id) => {
     try {
       const response = await fetch(`http://localhost:3001/api/projects/${id}`, {
@@ -81,6 +90,7 @@ const GetProjects = ({ userId }) => {
     }
   };
 
+  // Delete project
   const handleDeleteProject = async (id) => {
     try {
       const response = await fetch(`http://localhost:3001/api/projects/${id}`, {
@@ -145,13 +155,13 @@ const GetProjects = ({ userId }) => {
                       onClick={() => handleEditProject(project.id)}
                       className="buttonEditget"
                     >
-                      Editar
+                      Edit
                     </button>
                     <button
                       onClick={() => handleDeleteProject(project.id)}
                       className="buttonEliminarget"
                     >
-                      Eliminar
+                      Delete
                     </button>
                   </>
                 )}

@@ -1,30 +1,51 @@
 import { useNavigate } from "react-router-dom";
-import "./Logout.css"
+import "./Logout.css";
 
+/**
+ * Logout component to handle user logout.
+ *
+ * @param {function} setCurrUser - Function to set current user information.
+ * @returns {JSX.Element} Logout button.
+ */
 const Logout = ({ setCurrUser }) => {
     const navigate = useNavigate();
+
+    /**
+     * Function to perform logout action.
+     *
+     * @param {function} setCurrUser - Function to set current user information.
+     * @returns {void}
+     */
     const logout = async (setCurrUser) => {
         try {
             const response = await fetch("http://localhost:3001/logout", {
                 method: "delete",
                 headers: {
                     "content-type": "application/json",
-                    "authorization": localStorage.getItem("token")
+                    authorization: localStorage.getItem("token"),
                 },
-            })
-            const data = await response.json()
-            if (!response.ok) throw data.error
-            localStorage.removeItem("token")
-            setCurrUser(null)
+            });
+            const data = await response.json();
+            if (!response.ok) throw data.error;
+            localStorage.removeItem("token");
+            setCurrUser(null);
         } catch (error) {
-            console.log("error", error)
+            console.log("error", error);
         }
-    }
-    const handleClick = e => {
-        e.preventDefault()
-        logout(setCurrUser)
-        navigate('/');
-    }
+    };
+
+    /**
+     * Function to handle click event for logout.
+     *
+     * @param {Event} e - Click event.
+     * @returns {void}
+     */
+    const handleClick = (e) => {
+        e.preventDefault();
+        logout(setCurrUser);
+        navigate("/");
+    };
+
     return (
         <button class="buttonLogout" value='Logout' onClick={handleClick}>
 
@@ -32,10 +53,7 @@ const Logout = ({ setCurrUser }) => {
 
             <div class="text">Logout</div>
         </button>
+    );
+};
 
-
-
-    )
-    // <input type="button" value='Logout' className="buttonLogout" onClick={handleClick}/>
-}
-export default Logout
+export default Logout;

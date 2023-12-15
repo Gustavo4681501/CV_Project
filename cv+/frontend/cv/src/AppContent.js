@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavbarComponent from "./components/Navbar/Navbar";
 import UserAccount from "./pages/User/User";
-import AboutUs from "./pages/About_us/About_us";
 import Principal from "./pages/Principal/Principal";
 import Login from "./components/Login/Login";
 import Company from "./pages/Company/Company";
@@ -13,18 +12,12 @@ import AddSocialLink from "./components/AddSocialLink/AddSocialLink";
 import { PDFViewer } from "@react-pdf/renderer";
 import NotFound from "./components/NotFound/NotFound";
 import NavbarCompany from "./components/NavbarCompany/NavbarCompany";
-// import PostEducation from "./pages/PostEducation/PostEducation";
-// import CreateVacancy from "./components/CreateVacancy/CreateVacancy";
-import Home from "./pages/Home/Home";
 import CompanyHome from "./components/CompanyProfile/CompanyProfile";
-// import AddRequirement from "./components/AddRequirement/AddRequirement";
 import ShowVacancies from "./components/ShowVacancies/ShowVacancies";
 import CreateJobVacancy from "./components/CreateJobVacancy/CreateJobVacancy";
 import PlantillaUno from "./components/Plantillas/PlantillaUno";
 import ShowVacancyRequirements from "./components/ShowVacancyRequirements/ShowVacancyRequirements";
 import AddEducation from "./components/AddEducation/AddEducation";
-// import { useCompany } from "./components/AccountTypes/CompanyContext";
-// import { useUser } from "./components/AccountTypes/UserContext";
 import ShowMyVacancies from "./components/ShowMyVacancies/ShowMyVacancies";
 import PlantillaDos from "./components/Plantillas/PlantillaDos";
 import PlantillaTres from "./components/Plantillas/PlantillaTres";
@@ -37,32 +30,11 @@ import ShowApplicants from "./components/ShowApplicants/ShowApplicants";
 import MyComments from "./components/MyComments/MyComments";
 import Back from "./components/Back/Back";
 
+
 const AppContent = () => {
-  // const { currUser } = useUser();
-  // const { currCompany } = useCompany();
 
   return (
     <div>
-      {/* {currUser ? (
-        <div>
-          <p>LOGGED USER</p>
-          <p>Name: {currUser.name}</p>
-          <p>Email: {currUser.email}</p>
-        </div>
-      ) : (
-        <p>No user logged in</p>
-      )}
-
-      {currCompany ? (
-        <div>
-          <p>LOGGED COMPANY</p>
-          <p>Name: {currCompany.name}</p>
-          <p>Email: {currCompany.email}</p>
-        </div>
-      ) : (
-        <p>No compan logged in</p>
-      )} */}
-
       <Router>
         <Routes>
           <Route path="/Company" element={<Company />} />
@@ -112,12 +84,12 @@ const AppContent = () => {
               path="User/Profile/:id/PostEducation"
               element={<AddProject />}
             />
-            <Route path="/Abotus" element={<AboutUs />} />
+  
             <Route
               path="User/Profile/:id/AddWorkExperiences"
               element={<AddWorkExperience />}
             />
-         
+
             <Route
               path="User/Profile/:id/AddSocialLinks"
               element={<AddSocialLink />}

@@ -22,7 +22,9 @@
 #
 
 class Education < ApplicationRecord
+    # Associations
     belongs_to :user
 
+    # Validations
     validates :name, :institution_name, :start_date, :finish_date, :location, presence: true
 end

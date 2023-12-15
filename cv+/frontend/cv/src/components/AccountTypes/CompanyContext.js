@@ -1,5 +1,5 @@
+//Context for managing the current company
 import React, { createContext, useContext, useState } from 'react';
-
 export const CompanyContext = createContext();
 
 export const CompanyProvider = ({ children }) => {

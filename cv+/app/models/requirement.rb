@@ -17,6 +17,9 @@
 #  fk_rails_...  (available_vacancy_id => available_vacancies.id)
 #
 class Requirement < ApplicationRecord
+    # Associations
     belongs_to :available_vacancy
 
+    # Validation
+    validates :requirement, :available_vacancy_id, presence: true
 end

@@ -4,6 +4,10 @@ import "./ShowVacancyRequirements.css";
 import { useCompany } from "../AccountTypes/CompanyContext";
 import { useUser } from "../AccountTypes/UserContext";
 
+/**
+ * Component to display vacancy requirements, allowing editing and applying for the vacancy.
+ * @returns {JSX.Element} Component to show vacancy requirements.
+ */
 function ShowVacancyRequirements() {
     const [requirements, setRequirements] = useState([]);
     const [editedRequirement, setEditedRequirement] = useState("");
@@ -15,6 +19,7 @@ function ShowVacancyRequirements() {
     const [applied, setApplied] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
+    // Fetch vacancy requirements based on the vacancy ID
     useEffect(() => {
         const fetchRequirements = async () => {
             try {
@@ -38,6 +43,7 @@ function ShowVacancyRequirements() {
         fetchRequirements();
     }, [vacancyId]);
 
+    // Function to delete a requirement for the vacancy
     const handleDeleteRequirement = async (requirementId) => {
         try {
             const response = await fetch(
@@ -60,6 +66,7 @@ function ShowVacancyRequirements() {
         }
     };
 
+    // Function to update a requirement for the vacancy
     const handleUpdateRequirement = async (requirementId) => {
         try {
             const requestBody = {
@@ -97,6 +104,7 @@ function ShowVacancyRequirements() {
         }
     };
 
+    // Set the edited requirement when editing
     useEffect(() => {
         if (editingId !== null) {
             const selectedRequirement = requirements.find(
@@ -108,6 +116,8 @@ function ShowVacancyRequirements() {
         }
     }, [editingId, requirements]);
 
+
+    // Function to add a new requirement for the vacancy
     const handleAddRequirement = async () => {
         try {
             const requestBody = {
@@ -141,6 +151,7 @@ function ShowVacancyRequirements() {
         }
     };
 
+    // Check the application status for the user for the specific vacancy
     useEffect(() => {
         const fetchApplicationStatus = async () => {
             try {
@@ -166,6 +177,7 @@ function ShowVacancyRequirements() {
         fetchApplicationStatus();
     }, [vacancyId.id]);
     
+     // Function to handle applying for from the vacancy
     const handleApply = async () => {
         try {
             const requestBody = {
@@ -193,7 +205,7 @@ function ShowVacancyRequirements() {
             console.error("Error applying for the vacancy:", error);
         }
     };
-    
+    // Function to handle unaapplying for from the vacancy
     const handleUnapply = async () => {
         try {
             const response = await fetch(

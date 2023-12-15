@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import { useUser } from "../AccountTypes/UserContext";
-import "./AddWorkExperiences.css";
 import { Link, useParams } from "react-router-dom";
 import { GrUserWorker } from "react-icons/gr";
 
 
-
+/**
+ * Component for managing user's work experiences.
+ * @component
+ * @returns {JSX.Element} - Rendered component.
+ */
 const AddWorkExperience = () => {
+  // State for form data and initial form values
   const { currUser } = useUser();
   const initialFormData = {
     name: "",
@@ -16,7 +20,10 @@ const AddWorkExperience = () => {
     finish_date: "",
     user_id: currUser.id,
   };
+  const [formData, setFormData] = useState(initialFormData);
+  const [isPostSuccess, setIsPostSuccess] = useState(false);
 
+  // State for work experiences, loading indicator, and edit-related states
   const [workExperiences, setWorkExperiences] = useState([]);
   const { id } = useParams();
   const userId = parseInt(id, 10);
@@ -30,6 +37,12 @@ const AddWorkExperience = () => {
     useState("");
   const [isLoading, setIsLoading] = useState(true);
 
+  /**
+   * Effect hook to fetch work experiences when the component mounts.
+   * @function
+   * @async
+   * @returns {void}
+   */
   useEffect(() => {
     const fetchWorkExperiences = async () => {
       try {
@@ -42,12 +55,12 @@ const AddWorkExperience = () => {
           setWorkExperiences(data);
         } else {
           console.error(
-            "Error al obtener experiencias laborales:",
+            "Error fetching work experiences:",
             response.statusText
           );
         }
       } catch (error) {
-        console.error("Error de red:", error);
+        console.error("Network error:", error);
       } finally {
         setIsLoading(false);
       }
@@ -56,10 +69,17 @@ const AddWorkExperience = () => {
     fetchWorkExperiences();
   }, []);
 
+  // Filter work experiences based on user ID
   const userWorkExperiences = workExperiences.filter(
     (work) => work.user_id === userId
   );
 
+  /**
+   * Handles editing a work experience by setting the editing states.
+   * @function
+   * @param {number} id - The ID of the work experience to edit.
+   * @returns {void}
+   */
   const handleEditWorkExperience = (id) => {
     const workExperienceToEdit = workExperiences.find((work) => work.id === id);
     setEditingWorkExperienceId(id);
@@ -69,6 +89,13 @@ const AddWorkExperience = () => {
     setEditedWorkExperienceFinishDate(workExperienceToEdit.finish_date);
   };
 
+  /**
+   * Handles saving an edited work experience by making a PATCH request.
+   * @function
+   * @async
+   * @param {number} id - The ID of the work experience to save.
+   * @returns {void}
+   */
   const handleSaveWorkExperience = async (id) => {
     try {
       const response = await fetch(
@@ -103,6 +130,13 @@ const AddWorkExperience = () => {
     }
   };
 
+  /**
+   * Handles deleting a work experience by making a DELETE request.
+   * @function
+   * @async
+   * @param {number} id - The ID of the work experience to delete.
+   * @returns {void}
+   */
   const handleDeleteWorkExperience = async (id) => {
     const isConfirmed = window.confirm("Are you sure you want to delete?");
 
@@ -130,9 +164,12 @@ const AddWorkExperience = () => {
     }
   };
 
-  const [formData, setFormData] = useState(initialFormData);
-  const [isPostSuccess, setIsPostSuccess] = useState(false);
-
+  /**
+   * Handles input changes in the form.
+   * @function
+   * @param {Object} e - The event object.
+   * @returns {void}
+   */
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
@@ -155,10 +192,17 @@ const AddWorkExperience = () => {
     }
   };
 
+  /**
+   * Handles form submission by making a POST request.
+   * @function
+   * @async
+   * @param {Object} e - The event object.
+   * @returns {void}
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (new Date(formData.finish_date) < new Date(formData.start_date)) {
-      alert('La fecha de finalización no puede ser anterior a la fecha de inicio');
+      alert('Finish date cannot be earlier than start date');
       return;
     }
     try {
@@ -174,15 +218,15 @@ const AddWorkExperience = () => {
       );
 
       if (!response.ok) {
-        throw new Error("Error al crear la experiencia laboral");
+        throw new Error("Failed to create work experience");
       }
 
       setIsPostSuccess(true);
 
       const data = await response.json();
-      console.log("Experiencia laboral creada con éxito:", data);
+      console.log("Work experience created successfully:", data);
 
-      // Obtener la nueva lista de experiencias laborales después de agregar
+      // Get the new list of work experiences after adding
       const updatedResponse = await fetch(
         "http://localhost:3001/api/work_experiences"
       );
@@ -191,11 +235,12 @@ const AddWorkExperience = () => {
 
       setFormData(initialFormData);
     } catch (error) {
-      console.error("Error al realizar la solicitud POST:", error);
+      console.error("Error making POST request:", error);
       setIsPostSuccess(false);
     }
   };
 
+  // Render the component
   return (
     <>
       <div className="titulo-container">

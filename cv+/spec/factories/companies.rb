@@ -34,13 +34,20 @@
 #  index_companies_on_reset_password_token  (reset_password_token) UNIQUE
 #  index_companies_on_unlock_token          (unlock_token) UNIQUE
 #
+# spec/factories/companies.rb
 FactoryBot.define do
   factory :company do
-
-    name { "Company Name" }
-    description { "Company description" }
-    email {"Company email"}
-    phone_number { "Company phone" }
-
+    sequence(:name) { |n| "Company #{n}" }
+    sequence(:email) { |n| "company#{n}@example.com" }
+    password { 'password123' }
+    password_confirmation { 'password123' }
+    sequence(:jti) { |n| "jti#{n}" }
+    sign_in_count { 1 }
+    current_sign_in_at { Time.now }
+    last_sign_in_at { Time.now }
+    current_sign_in_ip { '127.0.0.1' }
+    last_sign_in_ip { '127.0.0.1' }
+    failed_attempts { 0 }
+    # Add other attributes as needed
   end
 end

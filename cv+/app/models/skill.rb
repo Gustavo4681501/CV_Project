@@ -17,5 +17,9 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Skill < ApplicationRecord
+    # Associations
     belongs_to :user
+
+    # Validation
+    validates :name, presence: true
 end
