@@ -1,6 +1,6 @@
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import "./Navbar.css";
+import "./Navbar.css"; 
 import { useUser } from "../AccountTypes/UserContext";
 import Logout from "../Logout/Logout";
 import { useEffect, useState } from "react";
@@ -12,117 +12,77 @@ import { IoMdPerson } from "react-icons/io";
 import { MdAssignmentAdd } from "react-icons/md";
 import { MdCreateNewFolder } from "react-icons/md";
 
-/**
- * NavbarComponent - A React component for rendering the application's navigation bar.
- * It displays user-related information and provides navigation functionality.
- *
- * @component
- * @example
- * return <NavbarComponent />;
- */
 const NavbarComponent = () => {
-    // Custom hook for accessing user-related information
     const { currUser, setCurrUser } = useUser();
-    
-    // Hook for programmatic navigation
     const navigate = useNavigate();
-  
-    // Hook for accessing the current location
-    const location = useLocation();
-  
-    // Extracting user ID from the URL
-    const userIdFromURL = location.pathname.split("/")[3];
-  
-    // State to manage loading status
-    const [isLoading, setIsLoading] = useState(true);
-  
-    /**
-     * useEffect hook to fetch and set the current user's information.
-     * It runs once on component mount.
-     * 
-     * @sideeffect
-     * @memberof NavbarComponent
-     */
-    useEffect(() => {
-      // Timeout to handle loading state in case of delayed response
-      const timeout = setTimeout(() => {
-        setIsLoading(false);
-      }, 60000);
-  
-      /**
-       * Function to fetch the current user's information from the server.
-       * It also decodes the JWT token stored in localStorage to get the user ID.
-       * 
-       * @async
-       * @function
-       * @memberof NavbarComponent
-       * @inner
-       */
-      const fetchCurrentUser = async () => {
-        try {
-          const token = localStorage.getItem("token");
-          if (token) {
-            const decoded = jwtDecode(token);
-            const userId = decoded.sub;
-            const response = await fetch(
-              `http://localhost:3001/api/users/${userId}`
-            );
-            if (response.ok) {
-              const data = await response.json();
-              setCurrUser(data);
-              setIsLoading(false);
-              clearTimeout(timeout);
-            } else {
-              setIsLoading(false);
-            }
-          } else {
-            setIsLoading(false);
-          }
-        } catch (error) {
-          console.error("Error:", error);
-          setIsLoading(false);
-        }
-      };
-  
-      // Fetch the current user's information
-      fetchCurrentUser();
-  
-      // Cleanup function to clear the timeout
-      return () => clearTimeout(timeout);
-    }, [setCurrUser]);
-  
-    /**
-     * Function to handle navigation back to the main menu.
-     *
-     * @function
-     * @param {Object} e - The event object.
-     * @memberof NavbarComponent
-     * @inner
-     */
-    const handleBackToMenu = (e) => {
-      e.preventDefault();
-      // Navigate back to the main menu
-      navigate("/");
-    };
-  
-    // Return JSX for the component
 
+    const location = useLocation();
+    const userIdFromURL = location.pathname.split("/")[3];
+    const [isLoading, setIsLoading] = useState(true);
+    
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setIsLoading(false);
+        }, 60000);
+
+        const fetchCurrentUser = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                if (token) {
+                    const decoded = jwtDecode(token);
+                    const userId = decoded.sub;
+                    const response = await fetch(
+                        `http://localhost:3001/api/users/${userId}`
+                    );
+                    if (response.ok) {
+                        const data = await response.json();
+                        setCurrUser(data);
+                        setIsLoading(false);
+                        clearTimeout(timeout);
+                    } else {
+                        setIsLoading(false);
+                    }
+                } else {
+                    setIsLoading(false);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                setIsLoading(false);
+            }
+        };
+
+        fetchCurrentUser();
+
+        return () => clearTimeout(timeout);
+    }, [setCurrUser]);
+
+    const handleBackToMenu = (e) => {
+        e.preventDefault();
+        navigate("/");
+    };
+
+    
 
     return (
-        <div className="content container-fluid">
+        <div className="content">
             {isLoading ? (
-                <div className="text-center mt-5">
-                    <div className="loader"></div>
+                <div>
+                    <center>
+                        <div className="loader"></div>
+                    </center>
                 </div>
             ) : (
                 <>
-                    {currUser && currUser.id.toString() === userIdFromURL ? (
+                    {currUser && currUser.id && currUser.id.toString() === userIdFromURL ? (
                         <>
-                            <Navbar id="HomeNavbar" data-bs-theme="light" expand="lg">
-                                <Container fluid>
-                                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                                    <Navbar.Collapse id="basic-navbar-nav">
-                                        <Nav className="mr-auto">
+                
+                            <div>
+                                <Navbar
+                                    id="HomeNavbar"
+                                    data-bs-theme="light">
+                                    <Container>
+                                        <Navbar.Brand>
                                             <Link
                                                 to={`User/Profile/${currUser.id}/Profile`}
                                                 className="emoji-link"
@@ -153,6 +113,7 @@ const NavbarComponent = () => {
                                                 <br />
                                                 Users
                                             </Link>
+
                                             <Link
                                                 to={`User/Profile/${currUser.id}/MyComments`}
                                                 className="emoji-link"
@@ -173,7 +134,7 @@ const NavbarComponent = () => {
                                                 <br />
                                                 Add information
                                             </Link>
-                                            <Link
+                                             <Link
                                                 to={`User/Profile/${currUser.id}/Resumes`}
                                                 className="emoji-link"
                                             >
@@ -183,35 +144,32 @@ const NavbarComponent = () => {
                                                 <br />
                                                 Create resume
                                             </Link>
-                                        </Nav>
-                                    </Navbar.Collapse>
-                                        <Nav>
-                                            
-                                            <Link to={`User/Profile/${currUser.id}/Profile`}>
-                                                <img
-                                                    src="/image/Image-logo.png"
-                                                    alt="Logo"
-                                                    className="logoNavbar"
-                                                ></img>
-                                            </Link>
-                                        </Nav>
-                                        <Nav>
-                                            <Navbar.Brand>
-                                                {currUser ? <Logout setCurrUser={setCurrUser} /> : <></>}
-                                            </Navbar.Brand>
-                                        </Nav>
-                                </Container>
-                            </Navbar>
-                            <div className="mt-3">
-                                <Outlet />
+                                        </Navbar.Brand>
+                                    </Container>
+                                    <Navbar.Brand>
+                                        {currUser ? <Logout setCurrUser={setCurrUser} /> : <></>}
+                                    </Navbar.Brand>
+
+                                    <Nav className="me-auto"></Nav>
+                                    <Link to={`User/Profile/${currUser.id}/Profile`}>
+                                        <img
+                                            src="/image/Image-logo.png"
+                                            alt="Logo"
+                                            className="logoNavbar"
+                                        ></img>
+                                    </Link>
+                                </Navbar>
+
+                                <br />
+                                <div className="">
+                                    <Outlet />
+                                </div>
                             </div>
                         </>
                     ) : (
-                        <div className="text-center mt-5">
-                            <h1>Restricted access, please log in</h1>
-                            <button onClick={handleBackToMenu} className="btn btn-primary mt-3">
-                                Back to menu
-                            </button>
+                        <div className="text-center">
+                            <h1>Oh no restricted access, Please log in</h1>
+                            <button onClick={handleBackToMenu}>Back to menú</button>
                         </div>
                     )}
                 </>

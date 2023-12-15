@@ -1,25 +1,9 @@
 import Form from "react-bootstrap/Form";
-import { useRef } from "react";
-
-/**
- * CompanySignup component for company registration.
- *
- * @param {function} setCurrCompany - Function to set current company information.
- * @param {function} setShow - Function to set show status.
- * @returns {JSX.Element} Company signup form.
- */
+import { useRef } from "react"
 const CompanySignup = ({ setCurrCompany, setShow }) => {
-    const formRef = useRef();
-
-    /**
-     * Function to perform company signup.
-     *
-     * @param {Object} companyInfo - Company information (email, password).
-     * @param {function} setCurrCompany - Function to set current company information.
-     * @returns {void}
-     */
-    const companySignup = async (companyInfo, setCurrCompany) => {
-        const url = "http://localhost:3001/companies/signup";
+    const formRef = useRef()
+    const CompanySignup = async (ComapanyInfo, setCurrCompany) => {
+        const url = "http://localhost:3001/companies/signup"
         try {
             const response = await fetch(url, {
                 method: 'post',
@@ -27,54 +11,41 @@ const CompanySignup = ({ setCurrCompany, setShow }) => {
                     "content-type": 'application/json',
                     "accept": "application/json"
                 },
-                body: JSON.stringify(companyInfo)
-            });
-            const data = await response.json();
-            if (!response.ok) throw data.error;
-            localStorage.setItem('token', response.headers.get("Authorization"));
-            setCurrCompany(data);
+                body: JSON.stringify(ComapanyInfo)
+            })
+            const data = await response.json()
+            if (!response.ok) throw data.error
+            localStorage.setItem('token', response.headers.get("Authorization"))
+            setCurrCompany(data)
         } catch (error) {
-            console.log("error", error);
+            console.log("error", error)
         }
-    };
-
-    /**
-     * Function to handle form submission.
-     *
-     * @param {Event} e - Form submission event.
-     * @returns {void}
-     */
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const formData = new FormData(formRef.current);
-        const data = Object.fromEntries(formData);
-        const companyInfo = {
+    }
+    const handleSubmit = e => {
+        e.preventDefault()
+        const formData = new FormData(formRef.current)
+        const data = Object.fromEntries(formData)
+        const ComapanyInfo = {
             "company": { email: data.email, password: data.password }
-        };
-        companySignup(companyInfo, setCurrCompany);
-        e.target.reset();
-    };
-
-    /**
-     * Function to handle click event for switching to login.
-     *
-     * @param {Event} e - Click event.
-     * @returns {void}
-     */
-    const handleClick = (e) => {
-        e.preventDefault();
-        setShow(true);
-    };
-
+        }
+        CompanySignup(ComapanyInfo, setCurrCompany)
+        e.target.reset()
+    }
+    const handleClick = e => {
+        e.preventDefault()
+        setShow(true)
+    }
     return (
         <div className="d-flex justify-content-center">
             <Form ref={formRef} onSubmit={handleSubmit} className="formContainer">
                 <center>
-                    {/* SVG icon for company signup */}
-                    {/* Replace the SVG path below with your desired company signup icon */}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" className="bi bi-buildings-fill" viewBox="0 0 16 16">
-                        {/* SVG path for company signup icon */}
-                        <path d="M15 ... (SVG path data)" />
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        width="80"
+                        height="80"
+                        fill="currentColor"
+                        className="bi bi-buildings-fill"
+                        viewBox="0 0 16 16">
+                        <path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5V.5ZM2 11h1v1H2v-1Zm2 0h1v1H4v-1Zm-1 2v1H2v-1h1Zm1 0h1v1H4v-1Zm9-10v1h-1V3h1ZM8 5h1v1H8V5Zm1 2v1H8V7h1ZM8 9h1v1H8V9Zm2 0h1v1h-1V9Zm-1 2v1H8v-1h1Zm1 0h1v1h-1v-1Zm3-2v1h-1V9h1Zm-1 2h1v1h-1v-1Zm-2-4h1v1h-1V7Zm3 0v1h-1V7h1Zm-2-2v1h-1V5h1Zm1 0h1v1h-1V5Z" />
                     </svg>
                 </center>
                 <Form.Label className="title">Email:</Form.Label>
@@ -84,13 +55,10 @@ const CompanySignup = ({ setCurrCompany, setShow }) => {
                 <Form.Control type="password" name='password' placeholder="password" />
                 <br />
                 <input type='submit' value="Submit" className="buttonForm" />
-                <div>
-                    Already registered, <a href="#login" onClick={handleClick}>Login</a> here.
-                </div>
+                <div>Already registered, <a href="#login" onClick={handleClick} >Login</a> here.</div>
             </Form>
             <br />
         </div>
-    );
-};
-
-export default CompanySignup;
+    )
+}
+export default CompanySignup

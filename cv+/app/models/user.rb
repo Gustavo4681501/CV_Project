@@ -59,8 +59,4 @@ class User < ApplicationRecord
         has_many :attachments, as: :record, class_name: "ActiveStorage::Attachment", dependent: :destroy
         has_many :blobs, through: :attachments, class_name: "ActiveStorage::Blob"
 
-        # Validation
-        validates :name,:email, :last_name, :encrypted_password, :jti, :created_at, :updated_at,
-        :jti, :sign_in_count, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip,
-        :last_sign_in_at, :last_sign_in_ip, :failed_attempts, :sign_in_count, presence: true
 end
